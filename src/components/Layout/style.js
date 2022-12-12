@@ -6,7 +6,6 @@ export const Container = styled.div`
   /* mobile viewport bug fix */
   min-height: -webkit-fill-available;
   margin: 0 auto;
-  border: 1px solid red;
 
   @supports (-webkit-touch-callout: none) {
     height: -webkit-fill-available;

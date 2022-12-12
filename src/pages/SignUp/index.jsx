@@ -1,7 +1,5 @@
 import React from 'react';
 
-function SignUp() {
+export function Signup() {
   return <div>index</div>;
 }
-
-export { SignUp };
