@@ -16,6 +16,7 @@
     "no-var": "error",
     "eqeqeq": "error",
     "require-await": "error",
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "import/prefer-default-export": "off"
   }
 }
