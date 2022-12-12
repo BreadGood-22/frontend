@@ -5,10 +5,6 @@ import './font.css';
 const GlobalStyles = createGlobalStyle`
   ${reset}
 
-  :root {
-       --vh: 100%;
-  }
-
   .sr-only {
     position: absolute;
     width: 1px;
