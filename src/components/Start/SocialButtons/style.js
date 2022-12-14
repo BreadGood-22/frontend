@@ -5,8 +5,8 @@ import FacebookIcon from '../../../assets/icons/icon-facebook.svg';
 
 export const CommonStyle = styled.button`
   position: relative;
-
-  width: 322px;
+  width: 100%;
+  max-width: 322px;
   height: 44px;
   border-radius: 44px;
   font-size: 14px;
