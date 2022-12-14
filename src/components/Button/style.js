@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ReactComponent as Image } from '../../assets/icon-image.svg';
+import { ReactComponent as Image } from '../../assets/icons/icon-image.svg';
 
 export const Button = styled.button`
   color: ${({ theme }) => theme.palette.white};
