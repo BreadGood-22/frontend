@@ -1,13 +1,13 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import ChatIcon from '../../assets/icon-chat.png';
-import ChatIconActive from '../../assets/icon-chat-fill.png';
-import PostIcon from '../../assets/icon-post.png';
-import PostIconActive from '../../assets/icon-post-fill.png';
-import HomeIcon from '../../assets/icon-home.png';
-import HomeIconActive from '../../assets/icon-home-fill.png';
-import ProfileIcon from '../../assets/icon-profile.png';
-import ProfileIconActive from '../../assets/icon-profile-fill.png';
+import ChatIcon from '../../assets/icons/icon-chat.png';
+import ChatIconActive from '../../assets/icons/icon-chat-fill.png';
+import PostIcon from '../../assets/icons/icon-post.png';
+import PostIconActive from '../../assets/icons/icon-post-fill.png';
+import HomeIcon from '../../assets/icons/icon-home.png';
+import HomeIconActive from '../../assets/icons/icon-home-fill.png';
+import ProfileIcon from '../../assets/icons/icon-profile.png';
+import ProfileIconActive from '../../assets/icons/icon-profile-fill.png';
 
 export const Nav = styled.nav`
   position: fixed;
