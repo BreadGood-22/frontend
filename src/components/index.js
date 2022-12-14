@@ -11,5 +11,5 @@ export {
   HeaderFollowers,
 } from './Header/index';
 export { Navbar } from './Navbar/index';
-export { Start } from './Start/index';
+export { KaKaoLogin, GoogleLogin, FacebookLogin } from './Start/SocialButtons/style';
 export { Signup } from './Signup/index';
