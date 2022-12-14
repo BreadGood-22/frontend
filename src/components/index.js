@@ -9,4 +9,7 @@ export {
   HeaderUpload,
   HeaderSave,
   HeaderFollowers,
-} from './Header/index';
+}
+from './Header/index';
+export { Navbar } from './Navbar/index';
+
