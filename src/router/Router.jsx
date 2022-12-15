@@ -12,7 +12,7 @@ import {
   StartPage,
 } from '../pages';
 
-function Router() {
+export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
@@ -35,5 +35,3 @@ function Router() {
     </BrowserRouter>
   );
 }
-
-export default Router;
