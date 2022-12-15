@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.section`
   width: 100%;
   height: 100%;
   background-color: ${({ theme }) => theme.palette.beige};
@@ -16,7 +16,7 @@ export const Logo = styled.img`
   height: 150px;
 `;
 
-export const LoginButtons = styled.section`
+export const LoginButtons = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
