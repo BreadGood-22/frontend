@@ -1,6 +1,6 @@
-export { MediumImgButton, SmallImgButton, LargeButton, MediumButton, SmallButton, XSmallButton } from './Button/index';
-export { Layout } from './Layout/index';
-export { Label, EmailInput, PasswordInput, NameInput, IDInput, IntroduceInput } from './ActiveInputs/style';
+export { MediumImgButton, SmallImgButton, LargeButton, MediumButton, SmallButton, XSmallButton } from './common/Button';
+export { Layout } from './common/Layout';
+export { Label, EmailInput, PasswordInput, NameInput, IDInput, IntroduceInput } from './common/ActiveInputs/style';
 export {
   HeaderBasic,
   HeaderSearch,
@@ -9,7 +9,9 @@ export {
   HeaderUpload,
   HeaderSave,
   HeaderFollowers,
-} from './Header/index';
-export { Navbar } from './Navbar/index';
-export { KaKaoLogin, GoogleLogin, FacebookLogin } from './Start/SocialButtons/style';
-export { Signup } from './Signup/index';
+} from './common/Header';
+export { Navbar } from './common/Navbar';
+export { LoginButtons } from './start/LoginButtons';
+export { LoginForm } from './login/LoginForm';
+export { SignupForm } from './signup/SignupForm';
+export { ProfileForm } from './profileSetting/ProfileForm';
