@@ -10,8 +10,12 @@ export const Button = styled.button`
 export const LargeButton = styled(Button)`
   width: 100%;
   padding: 13px 0;
-  background-color: ${({ isActive, theme }) => (isActive ? `${theme.palette.brown}` : `${theme.palette.beige}`)};
   border-radius: 44px;
+  background-color: ${({ theme }) => theme.palette.brown};
+  &:disabled {
+    cursor: default;
+    background-color: ${({ theme }) => theme.palette.beige};
+  }
 `;
 
 export const MediumButton = styled(Button)`
@@ -28,8 +32,12 @@ export const SmallButton = styled(Button)`
   width: 90px;
   max-width: 90px;
   padding: 7px 0;
-  background-color: ${({ isActive, theme }) => (isActive ? `${theme.palette.brown}` : `${theme.palette.beige}`)};
   border-radius: 32px;
+  background-color: ${({ theme }) => theme.palette.brown};
+  &:disabled {
+    cursor: default;
+    background-color: ${({ theme }) => theme.palette.beige};
+  }
 `;
 
 export const XSmallButton = styled.button`

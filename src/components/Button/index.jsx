@@ -17,8 +17,8 @@ export function SmallImgButton({ color, size }) {
 }
 
 // 버튼 텍스트: 로그인, 다음 2가지이므로 props.content로 받기
-export function LargeButton({ content, isActive }) {
-  return <S.LargeButton isActive={isActive}>{content}</S.LargeButton>;
+export function LargeButton({ content, disabled }) {
+  return <S.LargeButton disabled={disabled}>{content}</S.LargeButton>;
 }
 
 export function MediumButton({ isFollowed }) {
@@ -26,8 +26,8 @@ export function MediumButton({ isFollowed }) {
 }
 
 // 버튼 텍스트: 저장, 업로드 2가지이므로 props.content로 받기
-export function SmallButton({ content, isActive }) {
-  return <S.SmallButton isActive={isActive}>{content}</S.SmallButton>;
+export function SmallButton({ content, disabled }) {
+  return <S.SmallButton disabled={disabled}>{content}</S.SmallButton>;
 }
 
 export function XSmallButton({ isFollowed }) {
