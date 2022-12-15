@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-export const Wrapper = styled.section`
+export const Container = styled.section`
   width: calc(100% - 68px);
   text-align: center;
   margin: 0 auto;
@@ -14,8 +14,14 @@ export const H2 = styled.h2`
   margin: 30px 0 40px;
 `;
 
-export const EmailWrapper = styled.div`
-  margin-bottom: 16px;
+export const Form = styled.form`
+  & input:nth-child(2) {
+    margin-bottom: 16px;
+  }
+
+  & input:nth-child(4) {
+    margin-bottom: 30px;
+  }
 `;
 
 export const WarningText = styled.strong`
@@ -28,14 +34,11 @@ export const WarningText = styled.strong`
   margin-top: 6px;
 `;
 
-export const ButtonWrapper = styled.div`
-  margin: 30px 0 20px;
-`;
-
 export const SignupLink = styled(Link)`
   color: ${({ theme }) => theme.palette.darkGray};
   display: inline-block;
   font-weight: 400;
   font-size: 12px;
   line-height: 15px;
+  margin-top: 20px;
 `;
