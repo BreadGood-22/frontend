@@ -1,8 +1,8 @@
-export { Signup } from './Signup/index';
-export { Chat } from './Chat/index';
-export { Home } from './Home/index';
-export { Profile } from './Profile/index';
-export { PostUpload } from './PostUpload/index';
-export { Login } from './Login/index';
-export { ProfileSetting } from './ProfileSetting/index';
-export { Start } from './Start/index';
+export { SignupPage } from './SignupPage';
+export { ChatPage } from './ChatPage';
+export { HomePage } from './HomePage';
+export { ProfilePage } from './ProfilePage';
+export { PostUploadPage } from './PostUploadPage';
+export { LoginPage } from './LoginPage';
+export { ProfileSettingPage } from './ProfileSettingPage';
+export { StartPage } from './StartPage';
