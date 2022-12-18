@@ -10,6 +10,7 @@ import {
   ProfileSettingPage,
   LoginPage,
   StartPage,
+  ErrorPage,
 } from '../pages';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
@@ -34,6 +35,8 @@ export default function Router() {
             <Route path='login' element={<LoginPage />} />
             <Route path='profile/setting' element={<ProfileSettingPage />} />
           </Route>
+
+          <Route path='*' element={<ErrorPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

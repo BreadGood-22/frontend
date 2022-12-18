@@ -6,3 +6,4 @@ export { PostUploadPage } from './PostUploadPage';
 export { LoginPage } from './LoginPage';
 export { ProfileSettingPage } from './ProfileSettingPage';
 export { StartPage } from './StartPage';
+export { ErrorPage } from './ErrorPage';
