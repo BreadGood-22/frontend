@@ -12,6 +12,7 @@ export const LargeButton = styled(Button)`
   padding: 13px 0;
   border-radius: 44px;
   background-color: ${({ theme }) => theme.palette.brown};
+  margin-top: 30px;
   &:disabled {
     cursor: default;
     background-color: ${({ theme }) => theme.palette.beige};
