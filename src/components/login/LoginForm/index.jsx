@@ -11,7 +11,7 @@ export function LoginForm() {
         <Label>비밀번호</Label>
         <PasswordInput />
         <S.WarningText isVisible={false}></S.WarningText>
-        <LargeButton content='로그인' disabled={true}></LargeButton>
+        <LargeButton disabled={true}>로그인</LargeButton>
       </S.Form>
       <S.SignupLink to='/signup'>이메일로 회원가입</S.SignupLink>
     </>
