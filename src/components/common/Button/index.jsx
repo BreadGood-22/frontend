@@ -2,17 +2,19 @@ import * as S from './style';
 
 export function MediumImgButton() {
   return (
-    <S.MediumImgButton>
+    <>
+      <S.MediumImgButton />
       <S.MediumImgButtonInput />
-    </S.MediumImgButton>
+    </>
   );
 }
 
 export function SmallImgButton({ color }) {
   return (
-    <S.SmallImgButton color={color}>
+    <>
+      <S.SmallImgButton color={color} />
       <S.SmallImgButtonInput />
-    </S.SmallImgButton>
+    </>
   );
 }
 
