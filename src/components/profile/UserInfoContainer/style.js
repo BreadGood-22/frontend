@@ -11,10 +11,14 @@ export const Container = styled.section`
   align-items: center;
   padding: 30px 0 26px;
   position: relative;
+  background-color: ${({ theme }) => theme.palette.white};
+  margin-bottom: 6px;
+  border-bottom: 0.5px solid ${({ theme }) => theme.palette.lightGray};
 `;
 
 export const ProfileImage = styled.img.attrs({
   src: ProfileImg,
+  alt: '프로필 이미지',
 })`
   width: 110px;
   height: 110px;
