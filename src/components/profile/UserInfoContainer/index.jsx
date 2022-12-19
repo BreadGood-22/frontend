@@ -19,19 +19,19 @@ export function UserInfoContainer() {
       <S.AccountName>{accountName}</S.AccountName>
       <S.AccountId>@{accountID}</S.AccountId>
       <S.Intro>{intro}</S.Intro>
-      <S.StyledLink to=''>
+      <S.StyledLink to='breadgood/follower'>
         <S.Count>0</S.Count>
         <S.FollowType>followers</S.FollowType>
       </S.StyledLink>
-      <S.StyledLink to=''>
+      <S.StyledLink to='breadgood/following'>
         <S.Count>128</S.Count>
         <S.FollowType>followings</S.FollowType>
       </S.StyledLink>
       {isMyProfile ? (
         <div>
           {/* path 수정하기 */}
-          <S.ProfileEditButton to=''>프로필 수정</S.ProfileEditButton>
-          <S.RegisterButton to=''>상품 등록</S.RegisterButton>
+          <S.ProfileEditButton to='breadgood/edit'>프로필 수정</S.ProfileEditButton>
+          <S.RegisterButton to='/product'>상품 등록</S.RegisterButton>
         </div>
       ) : (
         <div>
