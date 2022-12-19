@@ -6,7 +6,7 @@ import { ReactComponent as PostListIconOff } from '../../../assets/icons/icon-po
 import { ReactComponent as PostGalleryIconOn } from '../../../assets/icons/icon-post-gallery-on.svg';
 import { ReactComponent as PostGalleryIconOff } from '../../../assets/icons/icon-post-gallery-off.svg';
 
-import { PostList } from '../PostList';
+import { PostList } from '../../common/PostList';
 import { PostGallery } from '../PostGallery';
 
 export function PostsContainer() {
