@@ -1,19 +1,15 @@
-import styled from "styled-components";
-import {Link} from "react-router-dom";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Form = styled.form`
   & input:nth-child(2) {
     margin-bottom: 16px;
   }
-
-  & input:nth-child(4) {
-    margin-bottom: 30px;
-  }
 `;
 
 export const WarningText = styled.strong`
-  display: ${({isVisible}) => (isVisible ? "block" : "none")};
-  color: ${({theme}) => theme.palette.brown};
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+  color: ${({ theme }) => theme.palette.brown};
   font-size: 12px;
   font-weight: 400;
   line-height: 14px;
@@ -22,7 +18,7 @@ export const WarningText = styled.strong`
 `;
 
 export const SignupLink = styled(Link)`
-  color: ${({theme}) => theme.palette.darkGray};
+  color: ${({ theme }) => theme.palette.darkGray};
   display: inline-block;
   font-weight: 400;
   font-size: 12px;
