@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { ReactComponent as Image } from '../../../assets/icons/icon-image.svg';
+import MDImage from '../../../assets/icons/icon-upload-middle.svg';
+import SMImageLG from '../../../assets/icons/icon-upload-small-lg.svg';
+import SMImageBR from '../../../assets/icons/icon-upload-small-brown.svg';
 
 export const Button = styled.button`
   color: ${({ theme }) => theme.palette.white};
@@ -51,24 +53,53 @@ export const XSmallButton = styled.button`
   border-radius: 26px;
 `;
 
-export const MediumImgButton = styled.button`
+export const MediumImgButton = styled.label.attrs({
+  for: 'medium-img-button',
+})`
+  display: inline-block;
   width: 50px;
   height: 50px;
-  background-color: ${({ theme }) => theme.palette.brown};
+  background-image: url(${MDImage});
+  background-repeat: no-repeat;
   border-radius: 50%;
+  border: none;
+  cursor: pointer;
 `;
 
-export const SmallImgButton = styled.button`
+export const MediumImgButtonInput = styled.input.attrs({
+  id: 'medium-img-button',
+  type: 'file',
+  accept: '.png, .jpg, .jpeg, .gif',
+})`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: polygon(0 0, 0 0, 0, 0);
+`;
+
+export const SmallImgButton = styled.label.attrs({
+  for: 'small-img-button',
+})`
+  display: inline-block;
   width: 36px;
   height: 36px;
-  background-color: ${({ color, theme }) =>
-    color === 'lightGray' ? `${theme.palette.lightGray}` : `${theme.palette.brown}`};
+  background-image: ${({ color }) => (color === 'brown' ? `url(${SMImageBR})` : `url(${SMImageLG})`)};
   border-radius: 50%;
+  border: none;
+  cursor: pointer;
 `;
 
-export const ImageIcon = styled(Image)`
-  margin: auto;
-  display: block;
-  width: ${({ size }) => (size === 'medium' ? `21px` : `17px`)};
-  height: ${({ size }) => (size === 'medium' ? `21px` : `17px`)};
+export const SmallImgButtonInput = styled.input.attrs({
+  id: 'small-img-button',
+  type: 'file',
+  accept: '.png, .jpg, .jpeg, .gif',
+})`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: polygon(0 0, 0 0, 0, 0);
 `;

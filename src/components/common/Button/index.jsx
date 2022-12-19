@@ -1,17 +1,17 @@
 import * as S from './style';
 
-export function MediumImgButton({ size }) {
+export function MediumImgButton() {
   return (
     <S.MediumImgButton>
-      <S.ImageIcon size={size} />
+      <S.MediumImgButtonInput />
     </S.MediumImgButton>
   );
 }
 
-export function SmallImgButton({ color, size }) {
+export function SmallImgButton({ color }) {
   return (
     <S.SmallImgButton color={color}>
-      <S.ImageIcon size={size} />
+      <S.SmallImgButtonInput />
     </S.SmallImgButton>
   );
 }
