@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import axios from '../../../api/apiController';
 import { EmailInput, PasswordInput, LargeButton, Label } from '../../index';
 import * as S from './style';
 
@@ -9,25 +10,39 @@ export function SignupForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isValid },
+    setError,
   } = useForm({
     mode: 'onBlur',
   });
 
-  // const handleSubmit = () => {
-  //   navigate('/profile/setting');
-  // };
+  const handleEmailValidation = async () => {
+    const { email, password } = watch();
+    const { data } = await axios.post('/user/emailvalid', {
+      user: {
+        email,
+      },
+    });
+
+    if (data.message === '사용 가능한 이메일 입니다.') {
+      navigate('/profile/setting', {
+        state: {
+          email,
+          password,
+        },
+      });
+    } else {
+      setError('email', { message: `*${data.message}` }, { shouldFocus: true });
+    }
+  };
 
   return (
-    <S.Form onSubmit={handleSubmit}>
+    <S.Form onSubmit={handleSubmit(handleEmailValidation)}>
       <Label htmlFor='email'>이메일</Label>
       <EmailInput
         id='email'
         placeholder='이메일 주소를 입력해 주세요.'
-        // {...register('email', {
-        //   required: true,
-        //   pattern: /[a-zA-Z0-9-_.]+[@][a-zA-Z0-9]+\.[a-zA-Z]+/,
-        // })}
         {...register('email', {
           required: true,
           pattern: {
