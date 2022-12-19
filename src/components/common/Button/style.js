@@ -54,7 +54,7 @@ export const XSmallButton = styled.button`
 `;
 
 export const MediumImgButton = styled.label.attrs({
-  for: 'medium-img-button',
+  htmlFor: 'medium-img-button',
 })`
   display: inline-block;
   width: 50px;
@@ -80,7 +80,7 @@ export const MediumImgButtonInput = styled.input.attrs({
 `;
 
 export const SmallImgButton = styled.label.attrs({
-  for: 'small-img-button',
+  htmlFor: 'small-img-button',
 })`
   display: inline-block;
   width: 36px;
