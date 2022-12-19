@@ -1,5 +1,11 @@
 import React from 'react';
+import { HeaderUpload, PostUploadForm } from '../../components';
 
 export function PostUploadPage() {
-  return <div>PostUpload</div>;
+  return (
+    <>
+      <HeaderUpload />
+      <PostUploadForm />
+    </>
+  );
 }
