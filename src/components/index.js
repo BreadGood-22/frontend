@@ -17,3 +17,4 @@ export { SignupForm } from './signup/SignupForm';
 export { ProfileForm } from './profileSetting/ProfileForm';
 export { UserInfoContainer } from './profile/UserInfoContainer';
 export { ProductsContainer } from './profile/ProductsContainer';
+export { PostsContainer } from './profile/PostsContainer';

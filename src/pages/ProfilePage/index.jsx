@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserInfoContainer, ProductsContainer } from '../../components';
+import { UserInfoContainer, ProductsContainer, PostsContainer } from '../../components';
 import * as S from './style';
 
 export function ProfilePage() {
@@ -7,6 +7,7 @@ export function ProfilePage() {
     <S.Container>
       <UserInfoContainer />
       <ProductsContainer />
+      <PostsContainer />
     </S.Container>
   );
 }
