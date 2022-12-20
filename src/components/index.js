@@ -21,3 +21,4 @@ export { ProductsContainer } from './profile/ProductsContainer';
 export { PostsContainer } from './profile/PostsContainer';
 export { PostList } from './common/PostList';
 export { PostGallery } from './profile/PostGallery';
+export { HeaderBasicModal } from './common/Modal';

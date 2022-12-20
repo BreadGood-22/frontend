@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom';
 import * as S from './style';
 import { SmallButton } from '../Button/index';
 
-export function HeaderBasic() {
+export function HeaderBasic({ setIsVisibleModal }) {
   return (
     <S.HeaderContainer>
       <Link to={-1}>
         <S.PreviousIcon />
       </Link>
-      <S.SettingIcon />
+      <S.SettingIcon onClick={() => setIsVisibleModal(true)} />
     </S.HeaderContainer>
   );
 }
