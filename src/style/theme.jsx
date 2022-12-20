@@ -9,7 +9,7 @@ const palette = {
   darkGray: '#767676',
   mediumGray: '#C4C4C4',
   lightGray: '#DBDBDB',
-  searchbarGray: '#F2F2F2',
+  whitishGray: '#F2F2F2',
   kakao: '#F2C94C',
   facebook: '#2D9CDB',
 };

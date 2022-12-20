@@ -1,10 +1,13 @@
+import { Link } from 'react-router-dom';
 import * as S from './style';
 import { SmallButton } from '../Button/index';
 
 export function HeaderBasic() {
   return (
     <S.HeaderContainer>
-      <S.PreviousIcon />
+      <Link to={-1}>
+        <S.PreviousIcon />
+      </Link>
       <S.SettingIcon />
     </S.HeaderContainer>
   );

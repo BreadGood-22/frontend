@@ -18,6 +18,7 @@ export const Nav = styled.nav`
   max-width: 390px;
   height: 60px;
   padding: 0 6px;
+  background-color: ${({ theme }) => theme.palette.white};
 `;
 
 export const MenuList = styled.ul`

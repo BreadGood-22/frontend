@@ -50,7 +50,7 @@ export const HeaderInput = styled.input.attrs({
   padding: 8px 16px 7px;
   border-radius: 32px;
   border: none;
-  background-color: ${({ theme }) => theme.palette.searchbarGray};
+  background-color: ${({ theme }) => theme.palette.whitishGray};
   color: ${({ theme }) => theme.palette.black};
   ::placeholder {
     color: ${({ theme }) => theme.palette.mediumGray};
