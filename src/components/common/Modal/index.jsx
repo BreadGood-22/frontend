@@ -65,3 +65,39 @@ export function MyPostModal({ setIsVisibleModal, postId }) {
     </>
   );
 }
+
+export function MyCommentModal({ setIsVisibleModal }) {
+  const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  return (
+    <>
+      <ModalLayout setIsVisibleModal={setIsVisibleModal}>
+        <li onClick={() => setIsVisibleAlert(true)}>삭제</li>
+      </ModalLayout>
+      {isVisibleAlert && (
+        <AlertModalLayout alertMessage='댓글을 삭제할까요?' setIsVisibleAlert={setIsVisibleAlert}>
+          <li onClick={() => setIsVisibleModal(false)}>취소</li>
+          <li>삭제</li>
+        </AlertModalLayout>
+      )}
+    </>
+  );
+}
+
+export function OthersPostCommentModal({ setIsVisibleModal }) {
+  const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  return (
+    <>
+      <ModalLayout setIsVisibleModal={setIsVisibleModal}>
+        <li onClick={() => setIsVisibleAlert(true)}>신고하기</li>
+      </ModalLayout>
+      {isVisibleAlert && (
+        <AlertModalLayout alertMessage='이 사용자를 신고하시겠어요?' setIsVisibleAlert={setIsVisibleAlert}>
+          <li onClick={() => setIsVisibleModal(false)}>취소</li>
+          <li>신고하기</li>
+        </AlertModalLayout>
+      )}
+    </>
+  );
+}
