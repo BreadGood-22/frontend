@@ -32,9 +32,7 @@ export function PostsContainer() {
     {
       tabComponent: (
         <S.TabItem key='tab-0'>
-          <S.TabButton onClick={() => setActiveIndex(0)}>
-            {activeIndex === 0 ? <PostListIconOn /> : <PostListIconOff />}
-          </S.TabButton>
+          <S.ListButton onClick={() => setActiveIndex(0)} activeIndex={activeIndex}></S.ListButton>
         </S.TabItem>
       ),
       tabContent: <PostList posts={posts} />,
@@ -42,9 +40,7 @@ export function PostsContainer() {
     {
       tabComponent: (
         <S.TabItem key='tab-1'>
-          <S.TabButton onClick={() => setActiveIndex(1)}>
-            {activeIndex === 1 ? <PostGalleryIconOn /> : <PostGalleryIconOff />}
-          </S.TabButton>
+          <S.GalleryButton onClick={() => setActiveIndex(1)} activeIndex={activeIndex}></S.GalleryButton>
         </S.TabItem>
       ),
       tabContent: <PostGallery posts={posts} />,
