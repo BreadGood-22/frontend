@@ -28,7 +28,7 @@ export default function Router() {
             <Route element={<Navbar />}>
               <Route index element={<HomePage />} />
               <Route path='chat' element={<ChatPage />} />
-              <Route path='profile' element={<ProfilePage />} />
+              <Route path='profile/:accountname' element={<ProfilePage />} />
             </Route>
             <Route path='product' element={<AddProductPage />} />
             <Route path='post/upload' element={<PostUploadPage />} />
