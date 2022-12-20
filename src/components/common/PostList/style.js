@@ -73,25 +73,6 @@ export const LikeComment = styled.div`
   margin-bottom: 16px;
 `;
 
-export const LikeButton = styled.button`
-  display: flex;
-  align-items: center;
-  margin-right: 18px;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 12px;
-  color: ${({ theme }) => theme.palette.darkGray};
-
-  &::before {
-    display: block;
-    content: '';
-    width: 20px;
-    height: 20px;
-    background: ${({ isHeart }) => (isHeart ? `url(${HeartIconOn})` : `url(${HeartIconOff})`)};
-    margin-right: 6px;
-  }
-`;
-
 export const StyledLink = styled(Link)`
   display: flex;
   align-items: center;

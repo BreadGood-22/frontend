@@ -1,5 +1,6 @@
 import React from 'react';
 import * as S from './style';
+import { LikeButton } from '../LikeButton';
 
 export function PostList({ posts }) {
   return (
@@ -21,10 +22,7 @@ export function PostList({ posts }) {
             <S.Content>{data.content}</S.Content>
             {data.image && <S.Img src={data.image} />}
             <S.LikeComment>
-              <S.LikeButton isHeart={data.hearted}>
-                <span className='sr-only'>좋아요버튼</span>
-                <span>{data.heartCount}</span>
-              </S.LikeButton>
+              <LikeButton hearted={data.hearted} heartCount={data.heartCount} postId={data.id} />
               <S.StyledLink to={`/post/${data.id}`}>
                 <span className='sr-only'>댓글 남기기</span>
                 <span>{data.commentCount}</span>
