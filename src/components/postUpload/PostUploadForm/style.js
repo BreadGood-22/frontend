@@ -39,7 +39,6 @@ export const ContentInput = styled.textarea.attrs({
   color: ${({ theme }) => theme.palette.black};
 
   &::placeholder {
-    font-family: 'Spoqa Han Sans Neo', sans-serif;
     font-weight: 400;
     font-size: 14px;
     line-height: 18px;
