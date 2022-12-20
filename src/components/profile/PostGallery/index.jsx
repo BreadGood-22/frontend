@@ -6,13 +6,16 @@ export function PostGallery({ posts }) {
   return (
     <S.Container>
       <S.GalleryList>
-        {posts.map((data) => (
-          <S.GalleryItem key={data.id}>
-            <Link to=''>
-              <S.Img src={data.image} />
-            </Link>
-          </S.GalleryItem>
-        ))}
+        {posts.map(
+          (data) =>
+            data.image && (
+              <S.GalleryItem key={data.id}>
+                <Link to=''>
+                  <S.Img src={data.image} />
+                </Link>
+              </S.GalleryItem>
+            ),
+        )}
       </S.GalleryList>
     </S.Container>
   );

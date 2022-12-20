@@ -19,7 +19,7 @@ export function PostList({ posts }) {
           <S.PostInfo>
             <h4 className='sr-only'>게시글 정보</h4>
             <S.Content>{data.content}</S.Content>
-            <S.Img src={data.image} />
+            {data.image && <S.Img src={data.image} />}
             <S.LikeComment>
               <S.LikeButton isHeart={data.hearted}>
                 <span className='sr-only'>좋아요버튼</span>

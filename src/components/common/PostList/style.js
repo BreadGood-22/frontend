@@ -56,6 +56,7 @@ export const Content = styled.p`
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
+  margin-bottom: 16px;
 `;
 
 export const Img = styled.img`
@@ -63,12 +64,13 @@ export const Img = styled.img`
   height: 228px;
   object-fit: cover;
   border-radius: 10px;
-  margin: 16px 0;
+  margin-bottom: 16px;
   border: 0.5px solid ${({ theme }) => theme.palette.lightGray};
 `;
 
 export const LikeComment = styled.div`
   display: flex;
+  margin-bottom: 16px;
 `;
 
 export const LikeButton = styled.button`
