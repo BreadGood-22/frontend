@@ -32,18 +32,18 @@ export function UserInfoContainer() {
       <S.AccountName>{username}</S.AccountName>
       <S.AccountId>@{_accountname}</S.AccountId>
       <S.Intro>{intro}</S.Intro>
-      <S.StyledLink to='breadgood/follower'>
+      <S.StyledLink to='follower'>
         <S.Count>{followerCount}</S.Count>
         <S.FollowType>followers</S.FollowType>
       </S.StyledLink>
-      <S.StyledLink to='breadgood/following'>
+      <S.StyledLink to='following'>
         <S.Count>{followingCount}</S.Count>
         <S.FollowType>followings</S.FollowType>
       </S.StyledLink>
       {localAccountName === _accountname ? (
         <div>
           {/* path 수정하기 */}
-          <S.ProfileEditButton to='breadgood/edit'>프로필 수정</S.ProfileEditButton>
+          <S.ProfileEditButton to='edit'>프로필 수정</S.ProfileEditButton>
           <S.RegisterButton to='/product'>상품 등록</S.RegisterButton>
         </div>
       ) : (

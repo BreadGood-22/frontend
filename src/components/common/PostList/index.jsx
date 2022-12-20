@@ -25,7 +25,7 @@ export function PostList({ posts }) {
                 <span className='sr-only'>좋아요버튼</span>
                 <span>{data.heartCount}</span>
               </S.LikeButton>
-              <S.StyledLink to=''>
+              <S.StyledLink to={`/post/${data.id}`}>
                 <span className='sr-only'>댓글 남기기</span>
                 <span>{data.commentCount}</span>
               </S.StyledLink>

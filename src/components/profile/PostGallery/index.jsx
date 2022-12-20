@@ -10,7 +10,7 @@ export function PostGallery({ posts }) {
           (data) =>
             data.image && (
               <S.GalleryItem key={data.id}>
-                <Link to=''>
+                <Link to={`/post/${data.id}`}>
                   <S.Img src={data.image} />
                 </Link>
               </S.GalleryItem>
