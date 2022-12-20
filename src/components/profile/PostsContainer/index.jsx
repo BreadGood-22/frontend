@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './style';
 import { axiosPrivate } from '../../../api/apiController';
-import { PostList, PostGallery } from '../../../components';
+import { PostList, PostGallery, MyPostModal } from '../../../components';
 
 export function PostsContainer() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [posts, setPosts] = useState([]);
+  const [isVisibleModal, setIsVisibleModal] = useState(false);
   const { accountname } = useParams();
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export function PostsContainer() {
           <S.ListButton onClick={() => setActiveIndex(0)} activeIndex={activeIndex}></S.ListButton>
         </S.TabItem>
       ),
-      tabContent: <PostList posts={posts} />,
+      tabContent: <PostList posts={posts} setIsVisibleModal={setIsVisibleModal} />,
     },
     {
       tabComponent: (
@@ -50,6 +51,7 @@ export function PostsContainer() {
           {tabs[activeIndex].tabContent}
         </S.Container>
       )}
+      {isVisibleModal && <MyPostModal setIsVisibleModal={setIsVisibleModal} />}
     </>
   );
 }

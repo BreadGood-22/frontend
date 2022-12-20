@@ -44,3 +44,24 @@ export function HeaderBasicModal({ setIsVisibleModal, accountname }) {
     </>
   );
 }
+
+export function MyPostModal({ setIsVisibleModal, postId }) {
+  const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  return (
+    <>
+      <ModalLayout setIsVisibleModal={setIsVisibleModal}>
+        <li onClick={() => setIsVisibleAlert(true)}>삭제</li>
+        <li>
+          <Link to={`post/${postId}/edit`}>수정</Link>
+        </li>
+      </ModalLayout>
+      {isVisibleAlert && (
+        <AlertModalLayout alertMessage='게시글을 삭제할까요?' setIsVisibleAlert={setIsVisibleAlert}>
+          <li onClick={() => setIsVisibleModal(false)}>취소</li>
+          <li>삭제</li>
+        </AlertModalLayout>
+      )}
+    </>
+  );
+}
