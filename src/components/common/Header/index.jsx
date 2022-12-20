@@ -45,7 +45,7 @@ export function HeaderUpload() {
   return (
     <S.HeaderContainer>
       <S.PreviousIcon />
-      <SmallButton content='업로드' disabled={false} />
+      <SmallButton disabled={false}>업로드</SmallButton>
     </S.HeaderContainer>
   );
 }
@@ -54,7 +54,7 @@ export function HeaderSave() {
   return (
     <S.HeaderContainer>
       <S.PreviousIcon />
-      <SmallButton content='저장' disabled={false} />
+      <SmallButton disabled={false}>저장</SmallButton>
     </S.HeaderContainer>
   );
 }

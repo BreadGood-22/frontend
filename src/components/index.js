@@ -15,6 +15,8 @@ export { LoginButtons } from './start/LoginButtons';
 export { LoginForm } from './login/LoginForm';
 export { SignupForm } from './signup/SignupForm';
 export { ProfileForm } from './profileSetting/ProfileForm';
+export { PostUploadForm } from './postUpload/PostUploadForm';
 export { UserInfoContainer } from './profile/UserInfoContainer';
 export { ProductsContainer } from './profile/ProductsContainer';
 export { PostsContainer } from './profile/PostsContainer';
+
