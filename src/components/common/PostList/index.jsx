@@ -1,10 +1,11 @@
 import React from 'react';
 import * as S from './style';
+import { LikeButton } from '../LikeButton';
 
-export function PostList({ post }) {
+export function PostList({ posts }) {
   return (
     <S.Container>
-      {post.map((data) => (
+      {posts.map((data) => (
         <S.Post key={data.id}>
           <h3 className='sr-only'>게시글</h3>
 
@@ -19,13 +20,10 @@ export function PostList({ post }) {
           <S.PostInfo>
             <h4 className='sr-only'>게시글 정보</h4>
             <S.Content>{data.content}</S.Content>
-            <S.Img src={data.image} />
+            {data.image && <S.Img src={data.image} />}
             <S.LikeComment>
-              <S.LikeButton isHeart={data.hearted}>
-                <span className='sr-only'>좋아요버튼</span>
-                <span>{data.heartCount}</span>
-              </S.LikeButton>
-              <S.StyledLink to=''>
+              <LikeButton hearted={data.hearted} heartCount={data.heartCount} postId={data.id} />
+              <S.StyledLink to={`/post/${data.id}`}>
                 <span className='sr-only'>댓글 남기기</span>
                 <span>{data.commentCount}</span>
               </S.StyledLink>

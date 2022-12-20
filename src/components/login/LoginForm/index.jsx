@@ -35,6 +35,7 @@ export function LoginForm() {
     }
 
     localStorage.setItem('token', JSON.stringify(data.user?.token));
+    localStorage.setItem('accountname', JSON.stringify(data.user?.accountname));
     navigate('/', { replace: true });
 
     setEmail('');

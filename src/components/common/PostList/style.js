@@ -56,6 +56,7 @@ export const Content = styled.p`
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
+  margin-bottom: 16px;
 `;
 
 export const Img = styled.img`
@@ -63,31 +64,13 @@ export const Img = styled.img`
   height: 228px;
   object-fit: cover;
   border-radius: 10px;
-  margin: 16px 0;
+  margin-bottom: 16px;
   border: 0.5px solid ${({ theme }) => theme.palette.lightGray};
 `;
 
 export const LikeComment = styled.div`
   display: flex;
-`;
-
-export const LikeButton = styled.button`
-  display: flex;
-  align-items: center;
-  margin-right: 18px;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 12px;
-  color: ${({ theme }) => theme.palette.darkGray};
-
-  &::before {
-    display: block;
-    content: '';
-    width: 20px;
-    height: 20px;
-    background: ${({ isHeart }) => (isHeart ? `url(${HeartIconOn})` : `url(${HeartIconOff})`)};
-    margin-right: 6px;
-  }
+  margin-bottom: 16px;
 `;
 
 export const StyledLink = styled(Link)`

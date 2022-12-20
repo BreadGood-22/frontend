@@ -2,17 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
 
-export function PostGallery({ post }) {
+export function PostGallery({ posts }) {
   return (
     <S.Container>
       <S.GalleryList>
-        {post.map((data) => (
-          <S.GalleryItem key={data.id}>
-            <Link to=''>
-              <S.Img src={data.image} />
-            </Link>
-          </S.GalleryItem>
-        ))}
+        {posts.map(
+          (data) =>
+            data.image && (
+              <S.GalleryItem key={data.id}>
+                <Link to={`/post/${data.id}`}>
+                  <S.Img src={data.image} />
+                </Link>
+              </S.GalleryItem>
+            ),
+        )}
       </S.GalleryList>
     </S.Container>
   );

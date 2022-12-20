@@ -22,12 +22,14 @@ export const ProductList = styled.ul`
   overflow: auto hidden;
 `;
 
-export const ProductItem = styled.li``;
+export const ProductItem = styled.li`
+  width: 140px;
+`;
 
 export const ProductImage = styled.img.attrs({
   alt: '',
 })`
-  width: 140px;
+  width: inherit;
   height: 90px;
   object-fit: cover;
   border: 0.5px solid ${({ theme }) => theme.palette.lightGray};
@@ -36,9 +38,11 @@ export const ProductImage = styled.img.attrs({
 `;
 
 export const ProductName = styled.strong`
+  display: inline-block;
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
+  margin-bottom: 4px;
 `;
 
 export const ProductPrice = styled.p`

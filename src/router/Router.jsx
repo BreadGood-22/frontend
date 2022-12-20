@@ -15,6 +15,7 @@ import {
   FollowerPage,
   AddProductPage,
   ProfileEditPage,
+  PostPage,
 } from '../pages';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
@@ -28,10 +29,11 @@ export default function Router() {
             <Route element={<Navbar />}>
               <Route index element={<HomePage />} />
               <Route path='chat' element={<ChatPage />} />
-              <Route path='profile' element={<ProfilePage />} />
+              <Route path='profile/:accountname' element={<ProfilePage />} />
             </Route>
             <Route path='product' element={<AddProductPage />} />
             <Route path='post/upload' element={<PostUploadPage />} />
+            <Route path='post/:postId' element={<PostPage />} />
             <Route path='profile/:accountname/edit' element={<ProfileEditPage />} />
             <Route path='profile/:accountname/following' element={<FollowingPage />} />
             <Route path='profile/:accountname/follower' element={<FollowerPage />} />

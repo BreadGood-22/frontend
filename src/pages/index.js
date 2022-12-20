@@ -11,3 +11,4 @@ export { FollowingPage } from './FollowingPage';
 export { FollowerPage } from './FollowerPage';
 export { AddProductPage } from './AddProductPage';
 export { ProfileEditPage } from './ProfileEditPage';
+export { PostPage } from './PostPage';
