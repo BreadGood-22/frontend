@@ -7,11 +7,13 @@ export const HeaderContainer = styled.header`
   height: 48px;
   position: sticky;
   top: 0;
+  z-index: 1;
   padding: 0 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: ${({ theme }) => theme.palette.white};
+  border-bottom: 0.5px solid ${({ theme }) => theme.palette.lightGray};
 `;
 
 export const PreviousIcon = styled.img.attrs({

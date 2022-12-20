@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   max-width: 390px;
   width: 100%;
-  padding: 16px 16px 70px;
+  padding: 16px;
 `;
 
 export const GalleryList = styled.ul`

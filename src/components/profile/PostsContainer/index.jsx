@@ -2,14 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './style';
 import { axiosPrivate } from '../../../api/apiController';
-
-import { ReactComponent as PostListIconOn } from '../../../assets/icons/icon-post-list-on.svg';
-import { ReactComponent as PostListIconOff } from '../../../assets/icons/icon-post-list-off.svg';
-import { ReactComponent as PostGalleryIconOn } from '../../../assets/icons/icon-post-gallery-on.svg';
-import { ReactComponent as PostGalleryIconOff } from '../../../assets/icons/icon-post-gallery-off.svg';
-
-import { PostList } from '../../common/PostList';
-import { PostGallery } from '../PostGallery';
+import { PostList, PostGallery } from '../../../components';
 
 export function PostsContainer() {
   const [activeIndex, setActiveIndex] = useState(0);

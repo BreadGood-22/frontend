@@ -19,4 +19,5 @@ export { PostUploadForm } from './postUpload/PostUploadForm';
 export { UserInfoContainer } from './profile/UserInfoContainer';
 export { ProductsContainer } from './profile/ProductsContainer';
 export { PostsContainer } from './profile/PostsContainer';
-
+export { PostList } from './common/PostList';
+export { PostGallery } from './profile/PostGallery';
