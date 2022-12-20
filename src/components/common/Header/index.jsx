@@ -44,7 +44,9 @@ export function HeaderChat() {
 export function HeaderUpload() {
   return (
     <S.HeaderContainer>
-      <S.PreviousIcon />
+      <Link to={-1}>
+        <S.PreviousIcon />
+      </Link>
       <SmallButton disabled={false}>업로드</SmallButton>
     </S.HeaderContainer>
   );
