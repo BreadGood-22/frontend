@@ -1,10 +1,10 @@
 import React from 'react';
 import * as S from './style';
 
-export function PostList({ post }) {
+export function PostList({ posts }) {
   return (
     <S.Container>
-      {post.map((data) => (
+      {posts.map((data) => (
         <S.Post key={data.id}>
           <h3 className='sr-only'>게시글</h3>
 
