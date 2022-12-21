@@ -1,11 +1,12 @@
 import * as S from './style';
 
-export function Photo({ imgFile, setImgFile }) {
+export function Photo({ imgFile, setImgFile, setImgUrl }) {
   const url = imgFile;
 
-  const handleFileDelete = () => {
+  const handleFileDelete = (e) => {
     URL.revokeObjectURL(imgFile);
     setImgFile('');
+    setImgUrl(e.target.parentNode.remove());
   };
 
   return (

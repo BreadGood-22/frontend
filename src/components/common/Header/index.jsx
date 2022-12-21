@@ -41,13 +41,15 @@ export function HeaderChat() {
   );
 }
 
-export function HeaderUpload({ isDisabled }) {
+export function HeaderUpload({ isDisabled, handlePostUpload }) {
   return (
     <S.HeaderContainer>
       <Link to={-1}>
         <S.PreviousIcon />
       </Link>
-      <SmallButton disabled={isDisabled}>업로드</SmallButton>
+      <SmallButton disabled={isDisabled} handlePostUpload={handlePostUpload}>
+        업로드
+      </SmallButton>
     </S.HeaderContainer>
   );
 }
