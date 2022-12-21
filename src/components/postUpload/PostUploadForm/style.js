@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Profile from '../../../assets/images/basic-profile-img.png';
 
 export const Container = styled.section`
   height: calc(100% - 48px);
@@ -8,12 +7,12 @@ export const Container = styled.section`
 `;
 
 export const ProfileImg = styled.img.attrs({
-  src: Profile,
   alt: '프로필 이미지',
 })`
   width: 42px;
   height: 42px;
   margin-top: 20px;
+  object-fit: cover;
 `;
 
 export const PostWrite = styled.article`
@@ -39,7 +38,6 @@ export const ContentInput = styled.textarea.attrs({
   color: ${({ theme }) => theme.palette.black};
 
   &::placeholder {
-    font-family: 'Spoqa Han Sans Neo', sans-serif;
     font-weight: 400;
     font-size: 14px;
     line-height: 18px;
