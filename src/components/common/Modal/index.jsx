@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as S from './style';
 
 export function ModalLayout({ children, setIsVisibleModal }) {
@@ -25,7 +25,14 @@ export function AlertModalLayout({ alertMessage, children }) {
 }
 
 export function HeaderBasicModal({ setIsVisibleModal, accountname }) {
+  const navigate = useNavigate();
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('accountname');
+    navigate('/login', { replace: true });
+  };
 
   return (
     <>
@@ -38,7 +45,7 @@ export function HeaderBasicModal({ setIsVisibleModal, accountname }) {
       {isVisibleAlert && (
         <AlertModalLayout alertMessage='로그아웃하시겠어요?' setIsVisibleAlert={setIsVisibleAlert}>
           <li onClick={() => setIsVisibleModal(false)}>취소</li>
-          <li>로그아웃</li>
+          <li onClick={handleLogout}>로그아웃</li>
         </AlertModalLayout>
       )}
     </>
