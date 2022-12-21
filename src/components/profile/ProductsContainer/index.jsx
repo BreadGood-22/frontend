@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { axiosPrivate } from '../../../api/apiController';
+import { MyProductModal } from '../../../components';
 import * as S from './style';
 
 export function ProductsContainer() {
   const [products, setProducts] = useState([]);
+  const [isVisibleModal, setIsVisibleModal] = useState(false);
   const { accountname } = useParams();
 
   useEffect(() => {
@@ -26,7 +28,7 @@ export function ProductsContainer() {
           <S.Title>판매 중인 상품</S.Title>
           <S.ProductList>
             {products.map((item) => (
-              <S.ProductItem key={item.id}>
+              <S.ProductItem key={item.id} onClick={() => setIsVisibleModal(true)}>
                 <S.ProductImage src={item.itemImage} />
                 <S.ProductName>{item.itemName}</S.ProductName>
                 <S.ProductPrice>
@@ -37,6 +39,7 @@ export function ProductsContainer() {
           </S.ProductList>
         </S.Container>
       )}
+      {isVisibleModal && <MyProductModal setIsVisibleModal={setIsVisibleModal} />}
     </>
   );
 }

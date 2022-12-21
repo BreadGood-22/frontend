@@ -66,6 +66,30 @@ export function MyPostModal({ setIsVisibleModal, postId }) {
   );
 }
 
+export function MyProductModal({ setIsVisibleModal }) {
+  const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  return (
+    <>
+      <ModalLayout setIsVisibleModal={setIsVisibleModal}>
+        <li onClick={() => setIsVisibleAlert(true)}>삭제</li>
+        <li>
+          <Link to={`product/`}>수정</Link>
+        </li>
+        <li>
+          <Link>웹사이트에서 상품보기</Link>
+        </li>
+      </ModalLayout>
+      {isVisibleAlert && (
+        <AlertModalLayout alertMessage='상품을 삭제할까요?' setIsVisibleAlert={setIsVisibleAlert}>
+          <li onClick={() => setIsVisibleModal(false)}>취소</li>
+          <li>삭제</li>
+        </AlertModalLayout>
+      )}
+    </>
+  );
+}
+
 export function MyCommentModal({ setIsVisibleModal }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
 
