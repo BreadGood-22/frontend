@@ -11,6 +11,7 @@ export function ProductsContainer() {
     productId: '',
     link: '',
   });
+
   const { accountname } = useParams();
 
   const getProducts = async () => {

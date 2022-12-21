@@ -25,9 +25,10 @@ export function AlertModalLayout({ alertMessage, children }) {
   );
 }
 
-export function HeaderBasicModal({ setIsVisibleModal, accountname }) {
+export function HeaderBasicModal({ setIsVisibleModal }) {
   const navigate = useNavigate();
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+  const accountname = JSON.parse(localStorage.getItem('accountname'));
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -39,7 +40,7 @@ export function HeaderBasicModal({ setIsVisibleModal, accountname }) {
     <>
       <ModalLayout setIsVisibleModal={setIsVisibleModal}>
         <li>
-          <Link to={`profile/${accountname}/edit`}>설정 및 개인 정보</Link>
+          <Link to={`/profile/${accountname}`}>설정 및 개인 정보</Link>
         </li>
         <li onClick={() => setIsVisibleAlert(true)}>로그아웃</li>
       </ModalLayout>
@@ -73,7 +74,7 @@ export function MyPostModal({ setIsVisibleModal, getUserPost, postId }) {
         <li onClick={() => setIsVisibleAlert(true)}>삭제</li>
         <li>
           {/* Link 시 state 값으로 해당 post 넘기기 */}
-          <Link to={`post/${postId}/edit`}>수정</Link>
+          <Link to={`/post/${postId}/edit`}>수정</Link>
         </li>
       </ModalLayout>
       {isVisibleAlert && (
@@ -106,7 +107,7 @@ export function MyProductModal({ setIsVisibleModal, getProducts, product }) {
       <ModalLayout setIsVisibleModal={setIsVisibleModal}>
         <li onClick={() => setIsVisibleAlert(true)}>삭제</li>
         <li>
-          <Link to={`/product/${productId}`}>수정</Link>
+          <Link to={`/product/${productId}/edit`}>수정</Link>
         </li>
         <li>
           <a href={`${link}`} target='_blank' rel='noreferrer'>
