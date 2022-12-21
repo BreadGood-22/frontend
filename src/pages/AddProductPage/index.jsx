@@ -1,5 +1,10 @@
-import React from 'react';
+import { HeaderSave, AddProductForm } from '../../components';
 
 export function AddProductPage() {
-  return <div>AddProductPage</div>;
+  return (
+    <>
+      <HeaderSave />
+      <AddProductForm />
+    </>
+  );
 }

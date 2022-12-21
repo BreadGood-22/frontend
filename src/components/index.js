@@ -1,6 +1,14 @@
 export { MediumImgButton, SmallImgButton, LargeButton, MediumButton, SmallButton, XSmallButton } from './common/Button';
 export { Layout } from './common/Layout';
-export { Label, EmailInput, PasswordInput, NameInput, IDInput, IntroduceInput } from './common/ActiveInputs/style';
+export {
+  Label,
+  EmailInput,
+  PasswordInput,
+  NameInput,
+  IDInput,
+  IntroduceInput,
+  ActiveTextInput,
+} from './common/ActiveInputs/style';
 export {
   HeaderBasic,
   HeaderSearch,
@@ -22,3 +30,4 @@ export { PostsContainer } from './profile/PostsContainer';
 export { PostList } from './common/PostList';
 export { PostGallery } from './profile/PostGallery';
 export { HeaderBasicModal, MyPostModal, MyProductModal, MyCommentModal, OthersPostCommentModal } from './common/Modal';
+export { AddProductForm } from './addProduct/addProductForm';
