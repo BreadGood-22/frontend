@@ -7,18 +7,19 @@ import { PostList, PostGallery, MyPostModal } from '../../../components';
 export function PostsContainer() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [posts, setPosts] = useState([]);
+  const [postId, setPostId] = useState('');
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const { accountname } = useParams();
 
+  const getUserPost = async () => {
+    const {
+      data: { post },
+    } = await axiosPrivate(`/post/${accountname}/userpost`);
+
+    setPosts(post);
+  };
+
   useEffect(() => {
-    const getUserPost = async () => {
-      const {
-        data: { post },
-      } = await axiosPrivate(`/post/${accountname}/userpost`);
-
-      setPosts(post);
-    };
-
     getUserPost();
   }, []);
 
@@ -29,7 +30,7 @@ export function PostsContainer() {
           <S.ListButton onClick={() => setActiveIndex(0)} activeIndex={activeIndex}></S.ListButton>
         </S.TabItem>
       ),
-      tabContent: <PostList posts={posts} setIsVisibleModal={setIsVisibleModal} />,
+      tabContent: <PostList posts={posts} setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} />,
     },
     {
       tabComponent: (
@@ -51,7 +52,9 @@ export function PostsContainer() {
           {tabs[activeIndex].tabContent}
         </S.Container>
       )}
-      {isVisibleModal && <MyPostModal setIsVisibleModal={setIsVisibleModal} />}
+      {isVisibleModal && (
+        <MyPostModal setIsVisibleModal={setIsVisibleModal} getUserPost={getUserPost} postId={postId} />
+      )}
     </>
   );
 }

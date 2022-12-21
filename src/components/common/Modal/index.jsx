@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { axiosPrivate } from '../../../api/apiController';
 import * as S from './style';
 
 export function ModalLayout({ children, setIsVisibleModal }) {
@@ -52,21 +53,33 @@ export function HeaderBasicModal({ setIsVisibleModal, accountname }) {
   );
 }
 
-export function MyPostModal({ setIsVisibleModal, postId }) {
+export function MyPostModal({ setIsVisibleModal, getUserPost, postId }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  const handleDelete = async () => {
+    const {
+      data: { message, status },
+    } = await axiosPrivate.delete(`/post/${postId}`);
+
+    if (message === '삭제되었습니다.' && status === '200') {
+      getUserPost();
+      setIsVisibleModal(false);
+    }
+  };
 
   return (
     <>
       <ModalLayout setIsVisibleModal={setIsVisibleModal}>
         <li onClick={() => setIsVisibleAlert(true)}>삭제</li>
         <li>
+          {/* Link 시 state 값으로 해당 post 넘기기 */}
           <Link to={`post/${postId}/edit`}>수정</Link>
         </li>
       </ModalLayout>
       {isVisibleAlert && (
         <AlertModalLayout alertMessage='게시글을 삭제할까요?' setIsVisibleAlert={setIsVisibleAlert}>
           <li onClick={() => setIsVisibleModal(false)}>취소</li>
-          <li>삭제</li>
+          <li onClick={handleDelete}>삭제</li>
         </AlertModalLayout>
       )}
     </>
