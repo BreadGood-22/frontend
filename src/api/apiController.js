@@ -10,6 +10,14 @@ export default axios.create({
   },
 });
 
+// 이미지 데이터 다룰 시 사용하는 axios 인스턴스 생성
+export const axiosImg = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'Content-type': 'multipart/form-data',
+  },
+});
+
 // 토큰을 담아 통신하는 axios 인스턴스 생성
 export const axiosPrivate = axios.create({
   baseURL: BASE_URL,
