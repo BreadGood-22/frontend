@@ -2,7 +2,12 @@ import React from 'react';
 import * as S from './style';
 import { LikeButton } from '../LikeButton';
 
-export function PostList({ posts, setIsVisibleModal }) {
+export function PostList({ posts, setIsVisibleModal, setPostId }) {
+  const handleMoreBtn = (postId) => {
+    setIsVisibleModal(true);
+    setPostId(postId);
+  };
+
   return (
     <S.Container>
       {posts.map((data) => (
@@ -30,7 +35,7 @@ export function PostList({ posts, setIsVisibleModal }) {
             </S.LikeComment>
             <S.Date>{new Intl.DateTimeFormat('ko', { dateStyle: 'long' }).format(new Date(data.updatedAt))}</S.Date>
           </S.PostInfo>
-          <S.MoreButton onClick={() => setIsVisibleModal(true)}>
+          <S.MoreButton onClick={() => handleMoreBtn(data.id)}>
             <span className='sr-only'>더보기 버튼</span>
           </S.MoreButton>
         </S.Post>
