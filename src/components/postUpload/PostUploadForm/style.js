@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Profile from '../../../assets/images/basic-profile-img.png';
 
 export const Container = styled.section`
   height: calc(100% - 48px);
@@ -13,6 +12,7 @@ export const ProfileImg = styled.img.attrs({
   width: 42px;
   height: 42px;
   margin-top: 20px;
+  object-fit: cover;
 `;
 
 export const PostWrite = styled.article`
