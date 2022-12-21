@@ -24,6 +24,7 @@ export const ProductList = styled.ul`
 
 export const ProductItem = styled.li`
   width: 140px;
+  cursor: pointer;
 `;
 
 export const ProductImage = styled.img.attrs({
