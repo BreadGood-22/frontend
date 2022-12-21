@@ -86,8 +86,9 @@ export function MyPostModal({ setIsVisibleModal, getUserPost, postId }) {
   );
 }
 
-export function MyProductModal({ setIsVisibleModal, getProducts, productId }) {
+export function MyProductModal({ setIsVisibleModal, getProducts, product }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+  const { productId, link } = product;
 
   const handleDelete = async () => {
     const {
@@ -108,7 +109,9 @@ export function MyProductModal({ setIsVisibleModal, getProducts, productId }) {
           <Link to={`/product/${productId}`}>수정</Link>
         </li>
         <li>
-          <Link>웹사이트에서 상품보기</Link>
+          <a href={`${link}`} target='_blank' rel='noreferrer'>
+            웹사이트에서 상품보기
+          </a>
         </li>
       </ModalLayout>
       {isVisibleAlert && (

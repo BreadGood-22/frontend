@@ -7,7 +7,10 @@ import * as S from './style';
 export function ProductsContainer() {
   const [products, setProducts] = useState([]);
   const [isVisibleModal, setIsVisibleModal] = useState(false);
-  const [productId, setProductId] = useState('');
+  const [product, setProduct] = useState({
+    productId: '',
+    link: '',
+  });
   const { accountname } = useParams();
 
   const getProducts = async () => {
@@ -20,7 +23,9 @@ export function ProductsContainer() {
 
   const handleClick = (productId) => {
     setIsVisibleModal(true);
-    setProductId(productId);
+    const [{ link }] = products.filter((item) => item.id === productId);
+
+    setProduct((prev) => ({ ...prev, productId, link }));
   };
 
   useEffect(() => {
@@ -46,7 +51,7 @@ export function ProductsContainer() {
         </S.Container>
       )}
       {isVisibleModal && (
-        <MyProductModal setIsVisibleModal={setIsVisibleModal} getProducts={getProducts} productId={productId} />
+        <MyProductModal setIsVisibleModal={setIsVisibleModal} getProducts={getProducts} product={product} />
       )}
     </>
   );
