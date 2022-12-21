@@ -1,4 +1,13 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+export const slideUp = keyframes`
+ from{
+   transform: translate(-50%, 50px)
+ }
+ to{
+   transform: translateX(-50%)
+ }
+ `;
 
 export const ModalContainer = styled.section`
   position: fixed;
@@ -25,6 +34,7 @@ export const ModalLists = styled.ul`
   border-radius: 10px 10px 0 0;
   z-index: 200;
   background-color: ${({ theme }) => theme.palette.white};
+  animation: ${slideUp} 0.4s ease-out;
 
   &::before {
     content: '';
