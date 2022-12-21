@@ -86,15 +86,26 @@ export function MyPostModal({ setIsVisibleModal, getUserPost, postId }) {
   );
 }
 
-export function MyProductModal({ setIsVisibleModal }) {
+export function MyProductModal({ setIsVisibleModal, getProducts, productId }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  const handleDelete = async () => {
+    const {
+      data: { message, status },
+    } = await axiosPrivate.delete(`/product/${productId}`);
+
+    if (message === '삭제되었습니다.' && status === '200') {
+      getProducts();
+      setIsVisibleModal(false);
+    }
+  };
 
   return (
     <>
       <ModalLayout setIsVisibleModal={setIsVisibleModal}>
         <li onClick={() => setIsVisibleAlert(true)}>삭제</li>
         <li>
-          <Link to={`product/`}>수정</Link>
+          <Link to={`/product/${productId}`}>수정</Link>
         </li>
         <li>
           <Link>웹사이트에서 상품보기</Link>
@@ -103,7 +114,7 @@ export function MyProductModal({ setIsVisibleModal }) {
       {isVisibleAlert && (
         <AlertModalLayout alertMessage='상품을 삭제할까요?' setIsVisibleAlert={setIsVisibleAlert}>
           <li onClick={() => setIsVisibleModal(false)}>취소</li>
-          <li>삭제</li>
+          <li onClick={handleDelete}>삭제</li>
         </AlertModalLayout>
       )}
     </>
