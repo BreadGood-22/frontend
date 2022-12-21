@@ -8,7 +8,6 @@ export const Container = styled.section`
 `;
 
 export const ProfileImg = styled.img.attrs({
-  src: Profile,
   alt: '프로필 이미지',
 })`
   width: 42px;

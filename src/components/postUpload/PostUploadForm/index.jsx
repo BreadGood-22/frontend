@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios, { axiosPrivate, axiosImg } from '../../../api/apiController';
+import { axiosPrivate, axiosImg } from '../../../api/apiController';
 import * as S from './style';
 import { PhotoUploadList } from '../PhotoUploadList';
 import { MediumImgButton } from '../../common/Button';
@@ -10,9 +10,26 @@ export function PostUploadForm() {
   const [text, setText] = useState('');
   const [imgFile, setImgFile] = useState('');
   const [imgUrl, setImgUrl] = useState([]);
+  const [profile, setProfile] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const textRef = useRef();
   const navigate = useNavigate();
+
+  // profile image 불러오기
+  useEffect(() => {
+    const renderProfile = async () => {
+      const accountname = JSON.parse(localStorage.getItem('accountname'));
+      const {
+        data: { profile },
+      } = await axiosPrivate.get(`/profile/${accountname}`);
+
+      setProfile(profile);
+    };
+
+    renderProfile();
+  }, []);
+
+  const { image } = profile;
 
   // 텍스트 input창의 높이 조절 및 텍스트 value 저장
   const handleTextArea = (e) => {
@@ -58,7 +75,7 @@ export function PostUploadForm() {
       <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} />
       <S.Container>
         <h2 className='sr-only'>게시글 작성</h2>
-        <S.ProfileImg />
+        <S.ProfileImg src={image} />
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
