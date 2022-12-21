@@ -9,16 +9,16 @@ import { HeaderUpload } from '../../common/Header';
 export function PostUploadForm() {
   const [text, setText] = useState('');
   const [imgFile, setImgFile] = useState('');
-  const [imgUrl, setImgUrl] = useState([]);
+  const [imgUrl, setImgUrl] = useState('');
   const [profile, setProfile] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const textRef = useRef();
   const navigate = useNavigate();
+  const accountname = JSON.parse(localStorage.getItem('accountname'));
 
   // profile image 불러오기
   useEffect(() => {
     const renderProfile = async () => {
-      const accountname = JSON.parse(localStorage.getItem('accountname'));
       const {
         data: { profile },
       } = await axiosPrivate.get(`/profile/${accountname}`);
@@ -59,7 +59,7 @@ export function PostUploadForm() {
       },
     });
 
-    navigate('/profile');
+    navigate(`/profile/${accountname}`);
   };
 
   useEffect(() => {
