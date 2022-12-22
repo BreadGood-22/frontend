@@ -1,5 +1,9 @@
-import React from 'react';
+import { AddProductForm } from '../../components';
 
 export function AddProductPage() {
-  return <div>AddProductPage</div>;
+  return (
+    <>
+      <AddProductForm />
+    </>
+  );
 }

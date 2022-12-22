@@ -54,11 +54,11 @@ export function HeaderUpload({ isDisabled, handlePostUpload }) {
   );
 }
 
-export function HeaderSave() {
+export function HeaderSave({ disabled }) {
   return (
     <S.HeaderContainer>
       <S.PreviousIcon />
-      <SmallButton disabled={false}>저장</SmallButton>
+      <SmallButton disabled={disabled}>저장</SmallButton>
     </S.HeaderContainer>
   );
 }
