@@ -79,15 +79,22 @@ export const MediumImgButtonInput = styled.input.attrs({
   clip-path: polygon(0 0, 0 0, 0, 0);
 `;
 
-export const SmallImgButton = styled.label.attrs({
+export const SmallImgButtonLabel = styled.label.attrs({
   htmlFor: 'small-img-button',
 })`
   display: inline-block;
-  width: 36px;
-  height: 36px;
-  background-image: ${({ color }) => (color === 'brown' ? `url(${SMImageBR})` : `url(${SMImageLG})`)};
-  border-radius: 50%;
-  border: none;
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background-image: ${({ color }) => (color === 'brown' ? `url(${SMImageBR})` : `url(${SMImageLG})`)};
+  }
   cursor: pointer;
 `;
 

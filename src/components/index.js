@@ -1,4 +1,5 @@
 export { MediumImgButton, SmallImgButton, LargeButton, MediumButton, SmallButton, XSmallButton } from './common/Button';
+export { SmallImgButtonLabel, SmallImgButtonInput } from './common/Button/style';
 export { Layout } from './common/Layout';
 export {
   Label,

@@ -12,7 +12,7 @@ export function MediumImgButton() {
 export function SmallImgButton({ color }) {
   return (
     <>
-      <S.SmallImgButton color={color} />
+      <S.SmallImgButtonLabel color={color} />
       <S.SmallImgButtonInput />
     </>
   );
