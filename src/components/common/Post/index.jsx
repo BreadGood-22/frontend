@@ -4,7 +4,6 @@ import { LikeButton } from '../LikeButton';
 
 export function Post({ data1, setIsVisibleModal, setPostId }) {
   const handleMoreBtn = (postId) => {
-    console.log(postId);
     setIsVisibleModal(true);
     setPostId(postId);
   };
