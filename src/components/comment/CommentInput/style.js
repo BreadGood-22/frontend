@@ -6,7 +6,7 @@ export const Container = styled.section`
   position: fixed;
   bottom: 0;
   border-top: 1px solid ${({ theme }) => theme.palette.lightGray};
-  padding: 13px 0 12px;
+  padding: 13px 16px 12px;
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -29,6 +29,9 @@ export const Input = styled.input.attrs({
   border: none;
   outline: none;
   flex-grow: 1;
+  &::placeholder {
+    color: ${({ theme }) => theme.palette.mediumGray};
+  }
 `;
 
 export const Button = styled.button`
@@ -36,6 +39,6 @@ export const Button = styled.button`
   color: ${({ theme }) => theme.palette.brown};
   &:disabled {
     cursor: default;
-    color: ${({ theme }) => theme.palette.beige};
+    color: ${({ theme }) => theme.palette.mediumGray};
   }
 `;
