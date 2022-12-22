@@ -25,3 +25,4 @@ export { PostGallery } from './profile/PostGallery';
 export { HeaderBasicModal, MyPostModal, MyProductModal, MyCommentModal, OthersPostCommentModal } from './common/Modal';
 export { Post } from './common/Post';
 export { Comment } from './comment/Comment';
+export { CommentInput } from './comment/CommentInput';

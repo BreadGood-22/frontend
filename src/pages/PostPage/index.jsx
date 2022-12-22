@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HeaderBasic, HeaderBasicModal, MyPostModal, Post, Comment } from '../../components';
+import { HeaderBasic, HeaderBasicModal, MyPostModal, Post, Comment, CommentInput } from '../../components';
 import * as S from './style';
 
 export function PostPage() {
@@ -24,23 +24,6 @@ export function PostPage() {
         followingCount: 1,
       },
     },
-    {
-      id: '62c83d6a23b7e292a5907634',
-      content: '맛있어보여요',
-      createdAt: '2022-07-08T14:21:30.263Z',
-      author: {
-        _id: '62c780a623b7e292a59069ed',
-        username: '알리바배비훈훈',
-        accountname: 'hoondol123',
-        intro: '좋은 것만 드려요',
-        image: 'http://146.56.183.55:5050/Ellipse.png',
-        isfollow: false,
-        following: [],
-        follower: ['62c780ad23b7e292a59069f2', '62c780af23b7e292a59069f7'],
-        followerCount: 2,
-        followingCount: 0,
-      },
-    },
   ];
 
   return (
@@ -52,7 +35,7 @@ export function PostPage() {
       <S.CommentList>
         {!!data.length && data.map((comment) => <Comment key={comment.id} comment={comment} />)}
       </S.CommentList>
-
+      <CommentInput />
       {isVisibleModal && <HeaderBasicModal setIsVisibleModal={setIsVisibleModal} />}
       {isVisibleModal && <MyPostModal setIsVisibleModal={setIsVisibleModal} />}
     </>
