@@ -1,11 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import * as S from './style';
 import { MediumImgButton } from '../../common/Button';
 import { HeaderUpload } from '../../common/Header';
 import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
+import { axiosPrivate } from '../../../api/apiController';
 
 export function PostEditForm() {
   const [isDisabled, setIsDisabled] = useState(true);
+  const [postContent, setPostContent] = useState('');
+  const location = useLocation();
+  const postId = location.pathname.split('/')[2];
+
+  // 게시글 정보 가져오기
+  useEffect(() => {
+    const getPostContent = async () => {
+      const {
+        data: { post },
+      } = await axiosPrivate.get(`/post/${postId}`);
+
+      setPostContent(post);
+    };
+
+    getPostContent();
+  }, []);
 
   return (
     <>
