@@ -31,4 +31,7 @@ export { PostsContainer } from './profile/PostsContainer';
 export { PostList } from './common/PostList';
 export { PostGallery } from './profile/PostGallery';
 export { HeaderBasicModal, MyPostModal, MyProductModal, MyCommentModal, OthersPostCommentModal } from './common/Modal';
+export { Post } from './common/Post';
+export { Comment } from './comment/Comment';
+export { CommentInput } from './comment/CommentInput';
 export { AddProductForm } from './addProduct/addProductForm';
