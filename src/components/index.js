@@ -23,3 +23,4 @@ export { PostsContainer } from './profile/PostsContainer';
 export { PostList } from './common/PostList';
 export { PostGallery } from './profile/PostGallery';
 export { HeaderBasicModal, MyPostModal, MyProductModal, MyCommentModal, OthersPostCommentModal } from './common/Modal';
+export { Post } from './common/Post';
