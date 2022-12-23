@@ -5,6 +5,7 @@ import * as S from './style';
 export function AddProductForm() {
   const {
     register,
+    setValue,
     formState: { isValid },
   } = useForm({
     mode: 'onChange',
@@ -29,7 +30,7 @@ export function AddProductForm() {
         <S.PriceInput
           {...register('price', {
             required: true,
-            pattern: /[0-9]/,
+            onChange: (e) => setValue('price', e.target.value.replace(/[^0-9]/g, '')),
           })}
         />
         <S.TextLabel htmlFor='storeLink'>판매링크</S.TextLabel>
