@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as S from './style';
+import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
 import { MediumImgButton } from '../../common/Button';
 import { HeaderUpload } from '../../common/Header';
-import { axiosPrivate } from '../../../api/apiController';
+import { axiosPrivate, axiosImg } from '../../../api/apiController';
 
 export function PostEditForm() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [profile, setProfile] = useState('');
-  const [prevPostText, setPrevPostText] = useState('');
-  const [prevImg, setPrevImg] = useState('');
   const [text, setText] = useState('');
   const [imgFile, setImgFile] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -27,8 +26,9 @@ export function PostEditForm() {
       },
     } = await axiosPrivate.get(`/post/${postId}`);
 
-    setPrevPostText(content);
-    setPrevImg(image);
+    setText(content);
+    setImgFile(image);
+    setImgUrl(image);
   };
 
   // 프로필 이미지 가져오기
@@ -51,6 +51,18 @@ export function PostEditForm() {
     textRef.current.style.height = 'auto';
     textRef.current.style.height = `${textRef.current.scrollHeight}px`;
     setText(e.target.value);
+  };
+
+  // 이미지 업로드
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+
+    formData.append('image', file);
+    const { data } = await axiosImg.post('/image/uploadfile', formData);
+
+    setImgUrl(`http://146.56.183.55:5050/${data.filename}`);
+    setImgFile(URL.createObjectURL(file));
   };
 
   // 포스트 수정 업로드
@@ -83,11 +95,12 @@ export function PostEditForm() {
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
-            <S.ContentInput onInput={handleTextArea} ref={textRef} defaultValue={prevPostText} />
-            <S.ImgUploadButton>
+            <S.ContentInput onInput={handleTextArea} ref={textRef} defaultValue={text} />
+            <S.ImgUploadButton onChange={handleFileUpload}>
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
             </S.ImgUploadButton>
+            {imgFile && <PhotoUploadList imgFile={imgFile} setImgFile={setImgFile} setImgUrl={setImgUrl} />}
           </S.Form>
         </S.PostWrite>
       </S.Container>
