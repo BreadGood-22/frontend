@@ -28,7 +28,6 @@ export function PostEditForm() {
 
     setText(content);
     setImgFile(image);
-    setImgUrl(image);
   };
 
   // 프로필 이미지 가져오기
@@ -70,7 +69,7 @@ export function PostEditForm() {
     const res = await axiosPrivate.put(`/post/${postId}`, {
       post: {
         content: text,
-        image: imgUrl,
+        image: imgFile,
       },
     });
 
