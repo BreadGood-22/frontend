@@ -18,9 +18,9 @@ export function AddProductForm() {
         <S.H3>이미지 등록</S.H3>
         <S.ImageLabel />
         <S.ImageInput />
-        <S.TextLabel htmlFor='productName'>상품명</S.TextLabel>
-        <S.ProductNameInput
-          {...register('productName', {
+        <S.TextLabel htmlFor='itemName'>상품명</S.TextLabel>
+        <S.ItemNameInput
+          {...register('itemName', {
             required: true,
             minLength: 2,
             maxLength: 15,
@@ -34,9 +34,9 @@ export function AddProductForm() {
             onBlur: (e) => setValue('price', new Intl.NumberFormat().format(e.target.value)),
           })}
         />
-        <S.TextLabel htmlFor='storeLink'>판매링크</S.TextLabel>
-        <S.URLInput
-          {...register('storeLink', {
+        <S.TextLabel htmlFor='link'>판매링크</S.TextLabel>
+        <S.LinkInput
+          {...register('link', {
             required: true,
             // eslint-disable-next-line
             pattern: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,

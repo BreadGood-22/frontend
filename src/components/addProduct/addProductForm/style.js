@@ -9,7 +9,7 @@ export const Form = styled.form`
     margin-top: 18px;
   }
 
-  & label[for='productName'] {
+  & label[for='itemName'] {
     margin-top: 30px;
   }
 
@@ -40,8 +40,8 @@ export const TextLabel = styled(Label)`
   font-weight: 400;
 `;
 
-export const ProductNameInput = styled(ActiveTextInput).attrs({
-  id: 'productName',
+export const ItemNameInput = styled(ActiveTextInput).attrs({
+  id: 'itemName',
   placeholder: '2~15자 이내여야 합니다.',
 })``;
 
@@ -50,8 +50,8 @@ export const PriceInput = styled(ActiveTextInput).attrs({
   placeholder: '숫자만 입력 가능합니다.',
 })``;
 
-export const URLInput = styled(ActiveTextInput).attrs({
+export const LinkInput = styled(ActiveTextInput).attrs({
   type: 'url',
-  id: 'storeLink',
+  id: 'link',
   placeholder: 'URL을 입력해 주세요.',
 })``;
