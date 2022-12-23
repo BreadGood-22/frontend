@@ -2,33 +2,10 @@ import React from 'react';
 import * as S from './style';
 import { LikeButton } from '../LikeButton';
 
-export function Post({ data1, setIsVisibleModal, setPostId }) {
+export function Post({ data, setIsVisibleModal, setPostId }) {
   const handleMoreBtn = (postId) => {
     setIsVisibleModal(true);
     setPostId(postId);
-  };
-
-  const data = {
-    id: '63a2a64423b7e292a59735ac',
-    content: 'test2',
-    createdAt: '2022-12-21T06:23:00.399Z',
-    updatedAt: '2022-12-22T00:51:34.996Z',
-    hearted: false,
-    heartCount: 0,
-    comments: ['63a3aa1623b7e292a597452a'],
-    commentCount: 1,
-    author: {
-      _id: '639eaaaf23b7e292a596b91d',
-      username: 'breadgood',
-      accountname: 'breadgood',
-      intro: '빵굿빵굿',
-      image: 'http://146.56.183.55:5050/1671604441884.png',
-      isfollow: false,
-      following: ['61ef2a93368570e1514706dc'],
-      follower: [],
-      followerCount: 0,
-      followingCount: 1,
-    },
   };
 
   return (

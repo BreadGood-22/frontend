@@ -12,6 +12,7 @@ export const Container = styled.section`
   font-size: 14px;
   line-height: 18px;
   gap: 18px;
+  background-color: ${({ theme }) => theme.palette.white};
 `;
 
 export const ProfileImage = styled.img.attrs({
