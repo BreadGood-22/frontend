@@ -10,8 +10,8 @@ export function PostEditForm() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [profile, setProfile] = useState('');
   const [text, setText] = useState('');
-  const [imgFile, setImgFile] = useState('');
   const [imgPrev, setImgPrev] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
   const location = useLocation();
   const textRef = useRef();
   const navigate = useNavigate();
@@ -27,7 +27,8 @@ export function PostEditForm() {
     } = await axiosPrivate.get(`/post/${postId}`);
 
     setText(content);
-    setImgFile(image);
+    setImgUrl(image);
+    setImgPrev(image);
   };
 
   // 프로필 이미지 가져오기
@@ -60,8 +61,8 @@ export function PostEditForm() {
     formData.append('image', file);
     const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-    setImgPrev(`http://146.56.183.55:5050/${data.filename}`);
-    setImgFile(URL.createObjectURL(file));
+    setImgUrl(`http://146.56.183.55:5050/${data.filename}`);
+    setImgPrev(URL.createObjectURL(file));
   };
 
   // 포스트 수정 업로드
@@ -69,7 +70,7 @@ export function PostEditForm() {
     const res = await axiosPrivate.put(`/post/${postId}`, {
       post: {
         content: text,
-        image: imgFile,
+        image: imgUrl,
       },
     });
 
@@ -78,12 +79,12 @@ export function PostEditForm() {
 
   // 업로드 버튼 컨트롤
   useEffect(() => {
-    if (text || imgFile) {
+    if (text || imgPrev) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
     }
-  }, [text, imgFile]);
+  }, [text, imgPrev]);
 
   return (
     <>
@@ -99,7 +100,7 @@ export function PostEditForm() {
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
             </S.ImgUploadButton>
-            {imgFile && <PhotoUploadList imgFile={imgFile} setImgFile={setImgFile} setImgPrev={setImgPrev} />}
+            {imgPrev && <PhotoUploadList imgPrev={imgPrev} setImgPrev={setImgPrev} setImgUrl={setImgUrl} />}
           </S.Form>
         </S.PostWrite>
       </S.Container>

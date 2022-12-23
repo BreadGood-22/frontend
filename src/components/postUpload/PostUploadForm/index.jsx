@@ -8,8 +8,8 @@ import { HeaderUpload } from '../../common/Header';
 
 export function PostUploadForm() {
   const [text, setText] = useState('');
-  const [imgFile, setImgFile] = useState('');
   const [imgPrev, setImgPrev] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
   const [profile, setProfile] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const textRef = useRef();
@@ -46,8 +46,8 @@ export function PostUploadForm() {
     formData.append('image', file);
     const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-    setImgPrev(`http://146.56.183.55:5050/${data.filename}`);
-    setImgFile(URL.createObjectURL(file));
+    setImgUrl(`http://146.56.183.55:5050/${data.filename}`);
+    setImgPrev(URL.createObjectURL(file));
   };
 
   // 포스트 업로드
@@ -55,7 +55,7 @@ export function PostUploadForm() {
     const res = await axiosPrivate.post('/post', {
       post: {
         content: text,
-        image: imgFile,
+        image: imgUrl,
       },
     });
 
@@ -63,12 +63,12 @@ export function PostUploadForm() {
   };
 
   useEffect(() => {
-    if (text || imgFile) {
+    if (text || imgPrev) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
     }
-  }, [text, imgFile]);
+  }, [text, imgPrev]);
 
   return (
     <>
@@ -84,7 +84,7 @@ export function PostUploadForm() {
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
             </S.ImgUploadButton>
-            {imgFile && <PhotoUploadList imgFile={imgFile} setImgFile={setImgFile} setImgPrev={setImgPrev} />}
+            {imgPrev && <PhotoUploadList imgPrev={imgPrev} setImgPrev={setImgPrev} setImgUrl={setImgUrl} />}
           </S.Form>
         </S.PostWrite>
       </S.Container>
