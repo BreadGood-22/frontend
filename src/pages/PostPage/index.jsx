@@ -6,31 +6,35 @@ export function PostPage() {
   const [postId, setPostId] = useState('');
   const [isVisibleModal, setIsVisibleModal] = useState(false);
 
-  const data = [
-    {
-      id: '62cac9a923b7e292a5908397',
-      content: '브레드핏',
-      createdAt: '2022-07-10T12:44:25.298Z',
-      author: {
-        _id: '62c6dc4023b7e292a59065ce',
-        username: 'Sam',
-        accountname: 'party4me',
-        intro: 'get it',
-        image: 'http://146.56.183.55:5050/1657711001305.jpg',
-        isfollow: false,
-        following: ['61ef37bd368570e1514709d5'],
-        follower: [],
-        followerCount: 0,
-        followingCount: 1,
-      },
+  const data = {
+    id: '63a5380d23b7e292a5976f4a',
+    content: '테스트',
+    image: 'http://146.56.183.55:5050/1671772168118.png',
+    createdAt: '2022-12-23T05:09:33.614Z',
+    updatedAt: '2022-12-23T05:09:33.614Z',
+    hearted: false,
+    heartCount: 0,
+    comments: [],
+    commentCount: 0,
+    author: {
+      _id: '639eaaaf23b7e292a596b91d',
+      username: 'breadgood',
+      accountname: 'breadgood',
+      intro: '빵굿빵굿',
+      image: 'http://146.56.183.55:5050/1671604441884.png',
+      isfollow: false,
+      following: ['61ef2a93368570e1514706dc'],
+      follower: [],
+      followerCount: 0,
+      followingCount: 1,
     },
-  ];
+  };
 
   return (
     <>
       <HeaderBasic setIsVisibleModal={setIsVisibleModal} />
       <S.Container>
-        <Post setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} />
+        <Post setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} data={data} />
       </S.Container>
       <S.CommentList>
         {!!data.length && data.map((comment) => <Comment key={comment.id} comment={comment} />)}
