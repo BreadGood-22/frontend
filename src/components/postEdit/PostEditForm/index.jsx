@@ -11,7 +11,7 @@ export function PostEditForm() {
   const [profile, setProfile] = useState('');
   const [text, setText] = useState('');
   const [imgFile, setImgFile] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
+  const [imgPrev, setImgPrev] = useState('');
   const location = useLocation();
   const textRef = useRef();
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ export function PostEditForm() {
     formData.append('image', file);
     const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-    setImgUrl(`http://146.56.183.55:5050/${data.filename}`);
+    setImgPrev(`http://146.56.183.55:5050/${data.filename}`);
     setImgFile(URL.createObjectURL(file));
   };
 
@@ -99,7 +99,7 @@ export function PostEditForm() {
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
             </S.ImgUploadButton>
-            {imgFile && <PhotoUploadList imgFile={imgFile} setImgFile={setImgFile} setImgUrl={setImgUrl} />}
+            {imgFile && <PhotoUploadList imgFile={imgFile} setImgFile={setImgFile} setImgPrev={setImgPrev} />}
           </S.Form>
         </S.PostWrite>
       </S.Container>

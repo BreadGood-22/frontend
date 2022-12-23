@@ -9,7 +9,7 @@ import { HeaderUpload } from '../../common/Header';
 export function PostUploadForm() {
   const [text, setText] = useState('');
   const [imgFile, setImgFile] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
+  const [imgPrev, setImgPrev] = useState('');
   const [profile, setProfile] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const textRef = useRef();
@@ -46,7 +46,7 @@ export function PostUploadForm() {
     formData.append('image', file);
     const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-    setImgUrl(`http://146.56.183.55:5050/${data.filename}`);
+    setImgPrev(`http://146.56.183.55:5050/${data.filename}`);
     setImgFile(URL.createObjectURL(file));
   };
 
@@ -55,7 +55,7 @@ export function PostUploadForm() {
     const res = await axiosPrivate.post('/post', {
       post: {
         content: text,
-        image: imgUrl,
+        image: imgFile,
       },
     });
 
@@ -84,7 +84,7 @@ export function PostUploadForm() {
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
             </S.ImgUploadButton>
-            {imgFile && <PhotoUploadList imgFile={imgFile} setImgFile={setImgFile} setImgUrl={setImgUrl} />}
+            {imgFile && <PhotoUploadList imgFile={imgFile} setImgFile={setImgFile} setImgPrev={setImgPrev} />}
           </S.Form>
         </S.PostWrite>
       </S.Container>
