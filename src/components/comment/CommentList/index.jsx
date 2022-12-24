@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as S from './style';
 import { Comment, OthersPostCommentModal, MyCommentModal } from '../../../components';
 
-export function CommentList({ height, postId, getComments, comments }) {
+export function CommentList({ height, postId, getComments, comments, post, setPost }) {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [isMyComment, setIsMyComment] = useState(false);
   const [commentId, setCommentId] = useState('');
@@ -27,6 +27,8 @@ export function CommentList({ height, postId, getComments, comments }) {
             getComments={getComments}
             commentId={commentId}
             postId={postId}
+            post={post}
+            setPost={setPost}
           />
         ) : (
           <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} />

@@ -133,8 +133,20 @@ export function MyProductModal({ setIsVisibleModal, getProducts, product }) {
   );
 }
 
-export function MyCommentModal({ setIsVisibleModal }) {
+export function MyCommentModal({ setIsVisibleModal, getComments, commentId, postId, post, setPost }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  const handleDelete = async () => {
+    const {
+      data: { message, status },
+    } = await axiosPrivate.delete(`/post/${postId}/comments/${commentId}`);
+
+    if (message === '댓글이 삭제되었습니다.' && status === '200') {
+      getComments();
+      setIsVisibleModal(false);
+      setPost((prev) => ({ ...prev, commentCount: post.commentCount - 1 }));
+    }
+  };
 
   return (
     <>
@@ -144,7 +156,7 @@ export function MyCommentModal({ setIsVisibleModal }) {
       {isVisibleAlert && (
         <AlertModalLayout alertMessage='댓글을 삭제할까요?' setIsVisibleAlert={setIsVisibleAlert}>
           <li onClick={() => setIsVisibleModal(false)}>취소</li>
-          <li>삭제</li>
+          <li onClick={handleDelete}>삭제</li>
         </AlertModalLayout>
       )}
     </>

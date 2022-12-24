@@ -46,7 +46,14 @@ export function PostPage() {
         <h2 className='sr-only'>게시글 페이지</h2>
         <HeaderBasic setIsVisibleModal={setIsVisibleModal} />
         <PostContainer postId={postId} setPostId={setPostId} post={post} getUserPost={getUserPost} />
-        <CommentList height={height} postId={postId} getComments={getComments} comments={comments} />
+        <CommentList
+          height={height}
+          postId={postId}
+          getComments={getComments}
+          comments={comments}
+          post={post}
+          setPost={setPost}
+        />
       </section>
       <CommentInput getComments={getComments} post={post} setPost={setPost} postId={postId} />
       {isVisibleModal && <HeaderBasicModal setIsVisibleModal={setIsVisibleModal} />}
