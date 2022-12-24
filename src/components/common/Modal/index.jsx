@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { axiosPrivate } from '../../../api/apiController';
 import * as S from './style';
 
@@ -55,7 +55,11 @@ export function HeaderBasicModal({ setIsVisibleModal }) {
 }
 
 export function MyPostModal({ setIsVisibleModal, getUserPost, postId }) {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+  const accountname = JSON.parse(localStorage.getItem('accountname'));
 
   const handleDelete = async () => {
     const {
@@ -63,8 +67,12 @@ export function MyPostModal({ setIsVisibleModal, getUserPost, postId }) {
     } = await axiosPrivate.delete(`/post/${postId}`);
 
     if (message === '삭제되었습니다.' && status === '200') {
-      getUserPost();
       setIsVisibleModal(false);
+      if (pathname.split('/')[1] === 'profile') {
+        getUserPost();
+        return;
+      }
+      navigate(`/profile/${accountname}`, { replace: true });
     }
   };
 
