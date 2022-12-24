@@ -163,8 +163,19 @@ export function MyCommentModal({ setIsVisibleModal, getComments, commentId, post
   );
 }
 
-export function OthersPostCommentModal({ setIsVisibleModal }) {
+export function OthersPostCommentModal({ setIsVisibleModal, postId, commentId }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  const handleReport = async () => {
+    console.log(commentId);
+    if (commentId) {
+      // 댓글 신고
+      await axiosPrivate.post(`/post/${postId}/comments/${commentId}/report`);
+    } else {
+      await axiosPrivate.post(`/post/${postId}/report`);
+    }
+    setIsVisibleModal(false);
+  };
 
   return (
     <>
@@ -174,7 +185,7 @@ export function OthersPostCommentModal({ setIsVisibleModal }) {
       {isVisibleAlert && (
         <AlertModalLayout alertMessage='이 사용자를 신고하시겠어요?' setIsVisibleAlert={setIsVisibleAlert}>
           <li onClick={() => setIsVisibleModal(false)}>취소</li>
-          <li>신고하기</li>
+          <li onClick={handleReport}>신고하기</li>
         </AlertModalLayout>
       )}
     </>

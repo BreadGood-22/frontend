@@ -31,7 +31,7 @@ export function CommentList({ height, postId, getComments, comments, post, setPo
             setPost={setPost}
           />
         ) : (
-          <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} />
+          <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} postId={postId} commentId={commentId} />
         ))}
     </>
   );

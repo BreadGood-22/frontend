@@ -7,11 +7,10 @@ export function Comment({ comment, setIsVisibleModal, setIsMyComment, setComment
 
   const handleMoreBtn = (commentId) => {
     setIsVisibleModal(true);
-
+    setCommentId(commentId);
     if (!setIsMyComment) return;
     if (comment.author.accountname === accountname) {
       setIsMyComment(true);
-      setCommentId(commentId);
     } else {
       setIsMyComment(false);
     }

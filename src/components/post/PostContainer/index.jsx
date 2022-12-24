@@ -22,7 +22,7 @@ export function PostContainer({ postId, setPostId, post, getUserPost }) {
             setIsMyPost={setIsMyPost}
           />
         ) : (
-          <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} />
+          <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} postId={postId} />
         ))}
     </>
   );
