@@ -31,7 +31,8 @@ export function AddProductForm() {
           {...register('price', {
             required: true,
             onChange: (e) => setValue('price', e.target.value.replace(/[^0-9]/g, '')),
-            onBlur: (e) => setValue('price', new Intl.NumberFormat().format(e.target.value.replace(/,/g, ''))),
+            onBlur: (e) =>
+              e.target.value && setValue('price', new Intl.NumberFormat().format(e.target.value.replace(/,/g, ''))),
           })}
         />
         <S.TextLabel htmlFor='link'>판매링크</S.TextLabel>
