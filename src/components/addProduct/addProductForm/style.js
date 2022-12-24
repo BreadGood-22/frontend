@@ -32,6 +32,17 @@ export const ImageLabel = styled(SmallImgButtonLabel)`
   background-color: ${({ theme }) => theme.palette.whitishGray};
   border: 0.5px solid ${({ theme }) => theme.palette.lightGray};
   border-radius: 10px;
+  overflow: hidden;
+`;
+
+export const Image = styled.img.attrs({
+  alt: '상품 이미지',
+  onError: (e) => (e.target.style.display = 'none'),
+  onLoad: (e) => (e.target.style.display = 'inline-block'),
+})`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export const ImageInput = styled(SmallImgButtonInput)``;
