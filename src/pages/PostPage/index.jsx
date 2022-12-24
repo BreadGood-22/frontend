@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { axiosPrivate } from '../../api/apiController';
-import { HeaderBasic, HeaderBasicModal, MyPostModal, Post, Comment, CommentInput } from '../../components';
-import * as S from './style';
+import { HeaderBasic, HeaderBasicModal, PostContainer, CommentList, CommentInput } from '../../components';
 
 export function PostPage() {
-  const commentCont = useRef(null);
+  const container = useRef(null);
 
   const { postId: id } = useParams();
 
@@ -15,14 +14,6 @@ export function PostPage() {
   const [height, setHeight] = useState(0);
   const [isVisibleModal, setIsVisibleModal] = useState(false);
 
-  const getPost = async () => {
-    const {
-      data: { post },
-    } = await axiosPrivate.get(`/post/${postId}`);
-
-    setPost(post);
-  };
-
   const getComments = async () => {
     const {
       data: { comments },
@@ -31,36 +22,34 @@ export function PostPage() {
     setComments(comments);
   };
 
+  const getUserPost = async () => {
+    const {
+      data: { post },
+    } = await axiosPrivate.get(`/post/${postId}`);
+
+    setPost(post);
+  };
+
   useEffect(() => {
-    getPost();
+    getUserPost();
     getComments();
   }, []);
 
   useEffect(() => {
-    if (!commentCont.current) return;
-    setHeight(commentCont.current.clientHeight);
+    if (!container.current) return;
+    setHeight(container.current.clientHeight);
   }, [comments]);
 
   return (
     <>
-      {post && (
-        <section ref={commentCont}>
-          <HeaderBasic setIsVisibleModal={setIsVisibleModal} />
-          <S.Container>
-            <Post setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} data={post} />
-          </S.Container>
-          {comments.length && (
-            <S.CommentList height={height}>
-              {comments.map((comment) => (
-                <Comment key={comment.id} comment={comment} />
-              ))}
-            </S.CommentList>
-          )}
-        </section>
-      )}
+      <section ref={container}>
+        <h2 className='sr-only'>게시글 페이지</h2>
+        <HeaderBasic setIsVisibleModal={setIsVisibleModal} />
+        <PostContainer postId={postId} setPostId={setPostId} post={post} getUserPost={getUserPost} />
+        <CommentList height={height} postId={postId} getComments={getComments} comments={comments} />
+      </section>
       <CommentInput getComments={getComments} post={post} setPost={setPost} postId={postId} />
       {isVisibleModal && <HeaderBasicModal setIsVisibleModal={setIsVisibleModal} />}
-      {isVisibleModal && <MyPostModal setIsVisibleModal={setIsVisibleModal} />}
     </>
   );
 }

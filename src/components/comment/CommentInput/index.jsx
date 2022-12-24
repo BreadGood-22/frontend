@@ -15,7 +15,8 @@ export function CommentInput({ getComments, post, setPost, postId }) {
       },
     });
 
-    setPost((prev) => ({ ...prev, commentCount: ++post.commentCount }));
+    setInput('');
+    setPost((prev) => ({ ...prev, commentCount: post.commentCount + 1 }));
     getComments();
   };
 
@@ -30,7 +31,7 @@ export function CommentInput({ getComments, post, setPost, postId }) {
   return (
     <S.Container>
       <S.ProfileImage />
-      <S.Input onChange={(e) => setInput(e.target.value)} />
+      <S.Input value={input} onChange={(e) => setInput(e.target.value)} />
       <S.Button disabled={isDisabled} onClick={handleUpload}>
         게시
       </S.Button>
