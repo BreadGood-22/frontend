@@ -1,10 +1,10 @@
 import { Photo } from '../Photo';
 import * as S from './style';
 
-export function PhotoUploadList({ imgFile, setImgFile, setImgUrl }) {
+export function PhotoUploadList({ imgPrev, setImgPrev, setImgUrl }) {
   return (
     <S.PhotoUploadList>
-      <Photo imgFile={imgFile} setImgFile={setImgFile} setImgUrl={setImgUrl} />
+      <Photo imgPrev={imgPrev} setImgPrev={setImgPrev} setImgUrl={setImgUrl} />
     </S.PhotoUploadList>
   );
 }

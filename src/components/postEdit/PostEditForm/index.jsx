@@ -1,37 +1,52 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { axiosPrivate, axiosImg } from '../../../api/apiController';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as S from './style';
-import { PhotoUploadList } from '../PhotoUploadList';
+import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
 import { MediumImgButton } from '../../common/Button';
 import { HeaderUpload } from '../../common/Header';
+import { axiosPrivate, axiosImg } from '../../../api/apiController';
 
-export function PostUploadForm() {
+export function PostEditForm() {
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [profile, setProfile] = useState('');
   const [text, setText] = useState('');
   const [imgPrev, setImgPrev] = useState('');
   const [imgUrl, setImgUrl] = useState('');
-  const [profile, setProfile] = useState('');
-  const [isDisabled, setIsDisabled] = useState(true);
+  const location = useLocation();
   const textRef = useRef();
   const navigate = useNavigate();
+  const postId = location.pathname.split('/')[2];
   const accountname = JSON.parse(localStorage.getItem('accountname'));
 
-  // profile image 불러오기
+  // 게시글 콘텐츠 및 이미지 가져오기
+  const getPostContent = async () => {
+    const {
+      data: {
+        post: { content, image },
+      },
+    } = await axiosPrivate.get(`/post/${postId}`);
+
+    setText(content);
+    setImgUrl(image);
+    setImgPrev(image);
+  };
+
+  // 프로필 이미지 가져오기
+  const renderProfile = async () => {
+    const {
+      data: {
+        profile: { image },
+      },
+    } = await axiosPrivate.get(`/profile/${accountname}`);
+
+    setProfile(image);
+  };
+
   useEffect(() => {
-    const renderProfile = async () => {
-      const {
-        data: { profile },
-      } = await axiosPrivate.get(`/profile/${accountname}`);
-
-      setProfile(profile);
-    };
-
+    getPostContent();
     renderProfile();
   }, []);
 
-  const { image } = profile;
-
-  // 텍스트 input창의 높이 조절 및 텍스트 value 저장
   const handleTextArea = (e) => {
     textRef.current.style.height = 'auto';
     textRef.current.style.height = `${textRef.current.scrollHeight}px`;
@@ -50,9 +65,9 @@ export function PostUploadForm() {
     setImgPrev(URL.createObjectURL(file));
   };
 
-  // 포스트 업로드
+  // 포스트 수정 업로드
   const handlePostUpload = async () => {
-    const res = await axiosPrivate.post('/post', {
+    const res = await axiosPrivate.put(`/post/${postId}`, {
       post: {
         content: text,
         image: imgUrl,
@@ -62,6 +77,7 @@ export function PostUploadForm() {
     navigate(`/profile/${accountname}`);
   };
 
+  // 업로드 버튼 컨트롤
   useEffect(() => {
     if (text || imgPrev) {
       setIsDisabled(false);
@@ -75,11 +91,11 @@ export function PostUploadForm() {
       <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} />
       <S.Container>
         <h2 className='sr-only'>게시글 작성</h2>
-        <S.ProfileImg src={image} />
+        <S.ProfileImg src={profile} />
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
-            <S.ContentInput onInput={handleTextArea} ref={textRef} />
+            <S.ContentInput onInput={handleTextArea} ref={textRef} defaultValue={text} />
             <S.ImgUploadButton onChange={handleFileUpload}>
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
