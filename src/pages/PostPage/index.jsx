@@ -58,7 +58,7 @@ export function PostPage() {
           )}
         </section>
       )}
-      <CommentInput />
+      <CommentInput getComments={getComments} post={post} setPost={setPost} postId={postId} />
       {isVisibleModal && <HeaderBasicModal setIsVisibleModal={setIsVisibleModal} />}
       {isVisibleModal && <MyPostModal setIsVisibleModal={setIsVisibleModal} />}
     </>
