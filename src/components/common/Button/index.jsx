@@ -32,9 +32,9 @@ export function MediumButton({ isFollowed }) {
 }
 
 // 버튼 텍스트: 저장, 업로드 2가지이므로 props.content로 받기
-export function SmallButton({ disabled, children, handlePostUpload }) {
+export function SmallButton({ disabled, children, handlePostUpload, formId }) {
   return (
-    <S.SmallButton onClick={handlePostUpload} disabled={disabled}>
+    <S.SmallButton onClick={handlePostUpload} disabled={disabled} form={formId}>
       {children}
     </S.SmallButton>
   );

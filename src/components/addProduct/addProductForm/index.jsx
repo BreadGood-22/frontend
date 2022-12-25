@@ -9,7 +9,9 @@ export function AddProductForm() {
 
   const {
     register,
+    handleSubmit,
     setValue,
+    watch,
     formState: { isValid },
   } = useForm({
     mode: 'onChange',
@@ -18,21 +20,31 @@ export function AddProductForm() {
     },
   });
 
-  const handleImageUpload = async (e) => {
-    const formData = new FormData();
+  const handlePreviewImage = (e) => {
     const file = e.target.files[0];
 
-    formData.append('image', file);
+    setImageURL(URL.createObjectURL(file));
+  };
 
-    const { data } = await axiosImg.post('/image/uploadfile', formData);
+  const handleItemData = () => {
+    const { itemName, price, link, itemImage } = watch();
 
-    setImageURL(`http://146.56.183.55:5050/${data.filename}`);
+    // 이미지 전처리
+    (async (file) => {
+      const formData = new FormData();
+
+      formData.append('image', file);
+
+      const { data } = await axiosImg.post('/image/uploadfile', formData);
+
+      setImageURL(`http://146.56.183.55:5050/${data.filename}`);
+    })(itemImage[0]);
   };
 
   return (
     <>
-      <HeaderSave disabled={!isValid} />
-      <S.Form>
+      <HeaderSave disabled={!isValid} formId='product-form' />
+      <S.Form id='product-form' onSubmit={handleSubmit(handleItemData)}>
         <S.H3>이미지 등록</S.H3>
         <S.ImageLabel>
           <S.Image src={imageURL} />
@@ -40,7 +52,7 @@ export function AddProductForm() {
         <S.ImageInput
           {...register('itemImage', {
             required: true,
-            onChange: (e) => handleImageUpload(e),
+            onChange: (e) => handlePreviewImage(e),
           })}
         />
         <S.TextLabel htmlFor='itemName'>상품명</S.TextLabel>
