@@ -1,5 +1,11 @@
 import React from 'react';
+import { NoFollowings, HeaderMain } from '../../components';
 
 export function HomePage() {
-  return <div>Home</div>;
+  return (
+    <>
+      <HeaderMain />
+      <NoFollowings />
+    </>
+  );
 }

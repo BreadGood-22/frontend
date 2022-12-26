@@ -14,3 +14,4 @@ export { ProfileEditPage } from './ProfileEditPage';
 export { PostPage } from './PostPage';
 export { ProductEditPage } from './ProductEditPage';
 export { PostEditPage } from './PostEditPage';
+export { SearchPage } from './SearchPage';
