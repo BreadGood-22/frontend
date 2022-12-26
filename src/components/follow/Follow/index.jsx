@@ -1,16 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { axiosPrivate } from '../../../api/apiController';
 import { XSmallButton } from '../../common/Button';
 import * as S from './style';
 
-export function Follow() {
+export function Follow({ accountname, username, intro, image, isfollow }) {
+  const [isFollowed, setIsFollowed] = useState(isfollow);
+  const myAccountName = JSON.parse(localStorage.getItem('accountname'));
+  const url = `/profile/${accountname}`;
+
+  const changeFollow = async () => {
+    if (isFollowed) {
+      await axiosPrivate.delete(`/profile/${accountname}/unfollow`);
+
+      setIsFollowed(false);
+    } else {
+      await axiosPrivate.post(`/profile/${accountname}/follow`);
+
+      setIsFollowed(true);
+    }
+  };
+
   return (
     <S.Container>
-      <S.ProfileImg />
-      <S.UserInfo>
-        <S.UserName>유저 이름</S.UserName>
-        <S.UserIntro>유저 소개</S.UserIntro>
-      </S.UserInfo>
-      <XSmallButton />
+      <S.ProfileLink to={url}>
+        <S.ProfileImg src={image} />
+        <S.UserInfo>
+          <S.UserName>{username}</S.UserName>
+          <S.UserIntro>{intro}</S.UserIntro>
+        </S.UserInfo>
+      </S.ProfileLink>
+      {myAccountName === accountname ? null : <XSmallButton changeFollow={changeFollow} isFollowed={isFollowed} />}
     </S.Container>
   );
 }

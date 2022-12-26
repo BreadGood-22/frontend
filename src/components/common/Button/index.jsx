@@ -40,6 +40,10 @@ export function SmallButton({ disabled, children, handlePostUpload, formId }) {
   );
 }
 
-export function XSmallButton({ isFollowed }) {
-  return <S.XSmallButton isFollowed={isFollowed}>{isFollowed ? '취소' : '팔로우'}</S.XSmallButton>;
+export function XSmallButton({ isFollowed, changeFollow }) {
+  return (
+    <S.XSmallButton onClick={changeFollow} isFollowed={isFollowed}>
+      {isFollowed ? '취소' : '팔로우'}
+    </S.XSmallButton>
+  );
 }
