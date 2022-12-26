@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { axiosImg, axiosPrivate } from '../../../api/apiController';
 import { HeaderSave } from '../../index';
 import * as S from './style';
@@ -8,11 +8,14 @@ import * as S from './style';
 export function ProductEditForm() {
   const [imageURL, setImageURL] = useState('');
   const [imagePreview, setImagePreview] = useState('');
+  const navigate = useNavigate();
   const { productId } = useParams();
+  const accountname = JSON.parse(localStorage.getItem('accountname'));
   const {
     register,
+    handleSubmit,
     setValue,
-    trigger,
+    watch,
     formState: { isValid },
   } = useForm({
     mode: 'onChange',
@@ -28,10 +31,9 @@ export function ProductEditForm() {
     setValue('itemName', itemName);
     setValue('price', price);
     setValue('link', link);
-    setValue('itemImage', itemImage);
+    setValue('itemImage', itemImage, { shouldValidate: true });
     setImagePreview(itemImage);
-
-    trigger();
+    setImageURL(itemImage);
   };
 
   useEffect(() => {
@@ -50,10 +52,27 @@ export function ProductEditForm() {
     setImageURL(`http://146.56.183.55:5050/${data.filename}`);
   };
 
+  const handleItemData = async () => {
+    const { itemName, price, link } = watch();
+
+    const numberPrice = typeof price === 'number' ? price : parseInt(price.replace(/,/g, ''), 10);
+
+    const res = await axiosPrivate.put(`/product/${productId}`, {
+      product: {
+        itemName,
+        price: numberPrice,
+        link,
+        itemImage: imageURL,
+      },
+    });
+
+    navigate(`/profile/${accountname}`);
+  };
+
   return (
     <>
       <HeaderSave disabled={!isValid} formId='product-form' />
-      <S.Form id='product-form'>
+      <S.Form id='product-form' onSubmit={handleSubmit(handleItemData)}>
         <S.H3>이미지 등록</S.H3>
         <S.ImageLabel>
           <S.Image src={imagePreview} />
