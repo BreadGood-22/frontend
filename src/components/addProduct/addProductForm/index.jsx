@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { axiosImg } from '../../../api/apiController';
+import { useNavigate } from 'react-router-dom';
+import { axiosImg, axiosPrivate } from '../../../api/apiController';
 import { HeaderSave } from '../../index';
 import * as S from './style';
 
 export function AddProductForm() {
   const [imageURL, setImageURL] = useState('');
-
+  const [imagePreview, setImagePreview] = useState('');
+  const navigate = useNavigate();
+  const accountname = JSON.parse(localStorage.getItem('accountname'));
   const {
     register,
     handleSubmit,
@@ -20,25 +23,33 @@ export function AddProductForm() {
     },
   });
 
-  const handlePreviewImage = (e) => {
+  const handleUploadImage = async (e) => {
     const file = e.target.files[0];
+    const formData = new FormData();
 
-    setImageURL(URL.createObjectURL(file));
+    formData.append('image', file);
+
+    const { data } = await axiosImg.post('/image/uploadfile', formData);
+
+    setImagePreview(URL.createObjectURL(file));
+    setImageURL(`http://146.56.183.55:5050/${data.filename}`);
   };
 
-  const handleItemData = () => {
-    const { itemName, price, link, itemImage } = watch();
+  const handleItemData = async () => {
+    const { itemName, price, link } = watch();
 
-    // 이미지 전처리
-    (async (file) => {
-      const formData = new FormData();
+    const numberPrice = parseInt(price.replace(/,/g, ''), 10);
 
-      formData.append('image', file);
+    const res = await axiosPrivate.post('/product', {
+      product: {
+        itemName,
+        price: numberPrice,
+        link,
+        itemImage: imageURL,
+      },
+    });
 
-      const { data } = await axiosImg.post('/image/uploadfile', formData);
-
-      setImageURL(`http://146.56.183.55:5050/${data.filename}`);
-    })(itemImage[0]);
+    navigate(`/profile/${accountname}`);
   };
 
   return (
@@ -47,13 +58,13 @@ export function AddProductForm() {
       <S.Form id='product-form' onSubmit={handleSubmit(handleItemData)}>
         <S.H3>이미지 등록</S.H3>
         <S.ImageLabel>
-          <S.Image src={imageURL} />
+          <S.Image src={imagePreview} />
         </S.ImageLabel>
         <S.ImageInput
           {...register('itemImage', {
             required: true,
             validate: (fileList) => fileList.length > 0,
-            onChange: (e) => handlePreviewImage(e),
+            onChange: (e) => handleUploadImage(e),
           })}
         />
         <S.TextLabel htmlFor='itemName'>상품명</S.TextLabel>
