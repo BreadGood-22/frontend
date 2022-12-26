@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { axiosPrivate } from '../../../api/apiController';
 import * as S from './style';
 
@@ -55,7 +55,11 @@ export function HeaderBasicModal({ setIsVisibleModal }) {
 }
 
 export function MyPostModal({ setIsVisibleModal, getUserPost, postId }) {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+  const accountname = JSON.parse(localStorage.getItem('accountname'));
 
   const handleDelete = async () => {
     const {
@@ -63,8 +67,12 @@ export function MyPostModal({ setIsVisibleModal, getUserPost, postId }) {
     } = await axiosPrivate.delete(`/post/${postId}`);
 
     if (message === '삭제되었습니다.' && status === '200') {
-      getUserPost();
       setIsVisibleModal(false);
+      if (pathname.split('/')[1] === 'profile') {
+        getUserPost();
+        return;
+      }
+      navigate(`/profile/${accountname}`, { replace: true });
     }
   };
 
@@ -125,8 +133,20 @@ export function MyProductModal({ setIsVisibleModal, getProducts, product }) {
   );
 }
 
-export function MyCommentModal({ setIsVisibleModal }) {
+export function MyCommentModal({ setIsVisibleModal, getComments, commentId, postId, post, setPost }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  const handleDelete = async () => {
+    const {
+      data: { message, status },
+    } = await axiosPrivate.delete(`/post/${postId}/comments/${commentId}`);
+
+    if (message === '댓글이 삭제되었습니다.' && status === '200') {
+      getComments();
+      setIsVisibleModal(false);
+      setPost((prev) => ({ ...prev, commentCount: post.commentCount - 1 }));
+    }
+  };
 
   return (
     <>
@@ -136,15 +156,26 @@ export function MyCommentModal({ setIsVisibleModal }) {
       {isVisibleAlert && (
         <AlertModalLayout alertMessage='댓글을 삭제할까요?' setIsVisibleAlert={setIsVisibleAlert}>
           <li onClick={() => setIsVisibleModal(false)}>취소</li>
-          <li>삭제</li>
+          <li onClick={handleDelete}>삭제</li>
         </AlertModalLayout>
       )}
     </>
   );
 }
 
-export function OthersPostCommentModal({ setIsVisibleModal }) {
+export function OthersPostCommentModal({ setIsVisibleModal, postId, commentId }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  const handleReport = async () => {
+    console.log(commentId);
+    if (commentId) {
+      // 댓글 신고
+      await axiosPrivate.post(`/post/${postId}/comments/${commentId}/report`);
+    } else {
+      await axiosPrivate.post(`/post/${postId}/report`);
+    }
+    setIsVisibleModal(false);
+  };
 
   return (
     <>
@@ -154,7 +185,7 @@ export function OthersPostCommentModal({ setIsVisibleModal }) {
       {isVisibleAlert && (
         <AlertModalLayout alertMessage='이 사용자를 신고하시겠어요?' setIsVisibleAlert={setIsVisibleAlert}>
           <li onClick={() => setIsVisibleModal(false)}>취소</li>
-          <li>신고하기</li>
+          <li onClick={handleReport}>신고하기</li>
         </AlertModalLayout>
       )}
     </>

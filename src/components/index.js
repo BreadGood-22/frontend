@@ -36,3 +36,5 @@ export { Post } from './common/Post';
 export { Comment } from './comment/Comment';
 export { CommentInput } from './comment/CommentInput';
 export { AddProductForm } from './addProduct/addProductForm';
+export { PostContainer } from './post/PostContainer';
+export { CommentList } from './comment/CommentList';
