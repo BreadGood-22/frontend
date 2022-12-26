@@ -1,11 +1,14 @@
 import React from 'react';
-import { HeaderFollowers } from '../../components';
+import { Follow, HeaderFollowers } from '../../components';
+import * as S from './style';
 
 export function FollowerPage() {
   return (
     <>
       <HeaderFollowers />
-      <div>FollowerPage</div>
+      <S.Container>
+        <Follow />
+      </S.Container>
     </>
   );
 }
