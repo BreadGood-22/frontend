@@ -18,6 +18,7 @@ import {
   ProfileEditPage,
   PostPage,
   PostEditPage,
+  SearchPage,
 } from '../pages';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
@@ -32,6 +33,8 @@ export default function Router() {
               <Route index element={<HomePage />} />
               <Route path='chat' element={<ChatPage />} />
               <Route path='profile/:accountname' element={<ProfilePage />} />
+
+              <Route path='search' element={<SearchPage />} />
             </Route>
             <Route path='product' element={<AddProductPage />} />
             <Route path='product/:productId/edit' element={<ProductEditPage />} />

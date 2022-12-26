@@ -26,7 +26,9 @@ export function HeaderMain() {
   return (
     <S.HeaderContainer>
       <S.HeaderMainText>빵굿빵굿 피드</S.HeaderMainText>
-      <S.SearchIcon />
+      <Link to='/search'>
+        <S.SearchIcon />
+      </Link>
     </S.HeaderContainer>
   );
 }
