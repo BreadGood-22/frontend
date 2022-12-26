@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Container = styled.li`
@@ -12,6 +13,11 @@ export const Container = styled.li`
   &:last-child {
     margin-bottom: 0;
   }
+`;
+
+export const ProfileLink = styled(Link)`
+  display: flex;
+  flex-direction: row;
 `;
 
 export const ProfileImg = styled.img.attrs({
