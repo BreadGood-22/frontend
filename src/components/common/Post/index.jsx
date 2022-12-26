@@ -2,16 +2,25 @@ import React from 'react';
 import * as S from './style';
 import { LikeButton } from '../LikeButton';
 
-export function Post({ data, setIsVisibleModal, setPostId }) {
+export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
+  const accountname = JSON.parse(localStorage.getItem('accountname'));
+
   const handleMoreBtn = (postId) => {
     setIsVisibleModal(true);
     setPostId(postId);
+
+    if (!setIsMyPost) return;
+    if (data.author.accountname === accountname) {
+      setIsMyPost(true);
+      setPostId(postId);
+    } else {
+      setIsMyPost(false);
+    }
   };
 
   return (
     <S.Post key={data.id}>
       <h3 className='sr-only'>게시글</h3>
-
       <S.AuthorInfo>
         <h4 className='sr-only'>게시글 작성자 정보</h4>
         <S.ProfileImg src={data.author.image} />

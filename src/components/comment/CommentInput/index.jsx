@@ -1,9 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './style';
+import { axiosPrivate } from '../../../api/apiController';
 
-export function CommentInput() {
+export function CommentInput({ getComments, post, setPost, postId }) {
   const [input, setInput] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+
+  const handleUpload = async () => {
+    const {
+      data: { comment },
+    } = await axiosPrivate.post(`/post/${postId}/comments`, {
+      comment: {
+        content: input,
+      },
+    });
+
+    setInput('');
+    setPost((prev) => ({ ...prev, commentCount: post.commentCount + 1 }));
+    getComments();
+  };
 
   useEffect(() => {
     if (input) {
@@ -16,8 +31,10 @@ export function CommentInput() {
   return (
     <S.Container>
       <S.ProfileImage />
-      <S.Input onChange={(e) => setInput(e.target.value)} />
-      <S.Button disabled={isDisabled}>게시</S.Button>
+      <S.Input value={input} onChange={(e) => setInput(e.target.value)} />
+      <S.Button disabled={isDisabled} onClick={handleUpload}>
+        게시
+      </S.Button>
     </S.Container>
   );
 }
