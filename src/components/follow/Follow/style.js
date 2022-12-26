@@ -1,5 +1,5 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import profileTest from '../../../assets/images/basic-profile-img.png';
 
 export const Container = styled.li`
   display: flex;
@@ -15,8 +15,12 @@ export const Container = styled.li`
   }
 `;
 
+export const ProfileLink = styled(Link)`
+  display: flex;
+  flex-direction: row;
+`;
+
 export const ProfileImg = styled.img.attrs({
-  src: profileTest,
   alt: '프로필 이미지',
 })`
   width: 50px;
