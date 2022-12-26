@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { axiosPrivate } from '../../api/apiController';
 import { Follow, HeaderFollowers } from '../../components';
 import * as S from './style';
 
 export function FollowerPage() {
   const [userInfo, setUserInfo] = useState([]);
-  const accountname = JSON.parse(localStorage.getItem('accountname'));
+  const location = useLocation();
+  const accountname = location.pathname.split('/')[2];
 
   useEffect(() => {
     const getFollwer = async () => {
