@@ -39,3 +39,4 @@ export { CommentInput } from './comment/CommentInput';
 export { AddProductForm } from './addProduct/addProductForm';
 export { PostContainer } from './post/PostContainer';
 export { CommentList } from './comment/CommentList';
+export { Follow } from './follow/Follow';
