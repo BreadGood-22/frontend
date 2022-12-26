@@ -167,7 +167,6 @@ export function OthersPostCommentModal({ setIsVisibleModal, postId, commentId })
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
 
   const handleReport = async () => {
-    console.log(commentId);
     if (commentId) {
       // 댓글 신고
       await axiosPrivate.post(`/post/${postId}/comments/${commentId}/report`);
