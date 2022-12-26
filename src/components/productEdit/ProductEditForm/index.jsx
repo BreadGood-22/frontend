@@ -1,18 +1,54 @@
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import { axiosImg, axiosPrivate } from '../../../api/apiController';
 import { HeaderSave } from '../../index';
 import * as S from './style';
 
 export function ProductEditForm() {
+  const [imageURL, setImageURL] = useState('');
+  const [imagePreview, setImagePreview] = useState('');
+  const { productId } = useParams();
   const {
     register,
     setValue,
+    trigger,
     formState: { isValid },
   } = useForm({
     mode: 'onChange',
-    defaultValues: {
-      itemImage: '',
-    },
   });
+
+  const getProductContent = async () => {
+    const {
+      data: {
+        product: { itemName, price, link, itemImage },
+      },
+    } = await axiosPrivate.get(`/product/detail/${productId}`);
+
+    setValue('itemName', itemName);
+    setValue('price', price);
+    setValue('link', link);
+    setValue('itemImage', itemImage);
+    setImagePreview(itemImage);
+
+    trigger();
+  };
+
+  useEffect(() => {
+    getProductContent();
+  }, []);
+
+  const handleUploadImage = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+
+    formData.append('image', file);
+
+    const { data } = await axiosImg.post('/image/uploadfile', formData);
+
+    setImagePreview(URL.createObjectURL(file));
+    setImageURL(`http://146.56.183.55:5050/${data.filename}`);
+  };
 
   return (
     <>
@@ -20,12 +56,13 @@ export function ProductEditForm() {
       <S.Form id='product-form'>
         <S.H3>이미지 등록</S.H3>
         <S.ImageLabel>
-          <S.Image />
+          <S.Image src={imagePreview} />
         </S.ImageLabel>
         <S.ImageInput
           {...register('itemImage', {
             required: true,
             validate: (fileList) => fileList.length > 0,
+            onChange: (e) => handleUploadImage(e),
           })}
         />
         <S.TextLabel htmlFor='itemName'>상품명</S.TextLabel>
