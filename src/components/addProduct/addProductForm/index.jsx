@@ -52,6 +52,7 @@ export function AddProductForm() {
         <S.ImageInput
           {...register('itemImage', {
             required: true,
+            validate: (fileList) => fileList.length > 0,
             onChange: (e) => handlePreviewImage(e),
           })}
         />
