@@ -68,8 +68,21 @@ export function HeaderSave({ disabled, formId }) {
 export function HeaderFollowers() {
   return (
     <S.HeaderContainer>
-      <S.PreviousIcon />
+      <Link to={-1}>
+        <S.PreviousIcon />
+      </Link>
       <S.HeaderFollowersText>Followers</S.HeaderFollowersText>
+    </S.HeaderContainer>
+  );
+}
+
+export function HeaderFollowings() {
+  return (
+    <S.HeaderContainer>
+      <Link to={-1}>
+        <S.PreviousIcon />
+      </Link>
+      <S.HeaderFollowersText>Followings</S.HeaderFollowersText>
     </S.HeaderContainer>
   );
 }
