@@ -18,6 +18,7 @@ export {
   HeaderUpload,
   HeaderSave,
   HeaderFollowers,
+  HeaderFollowings,
 } from './common/Header';
 export { Navbar } from './common/Navbar';
 export { LoginButtons } from './start/LoginButtons';
