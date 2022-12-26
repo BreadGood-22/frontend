@@ -1,47 +1,62 @@
-import React, { useState } from 'react';
-import { HeaderBasic, HeaderBasicModal, MyPostModal, Post, Comment, CommentInput } from '../../components';
-import * as S from './style';
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { axiosPrivate } from '../../api/apiController';
+import { HeaderBasic, HeaderBasicModal, PostContainer, CommentList, CommentInput } from '../../components';
 
 export function PostPage() {
-  const [postId, setPostId] = useState('');
+  const container = useRef(null);
+
+  const { postId: id } = useParams();
+
+  const [postId, setPostId] = useState(id);
+  const [post, setPost] = useState('');
+  const [comments, setComments] = useState([]);
+  const [height, setHeight] = useState(0);
   const [isVisibleModal, setIsVisibleModal] = useState(false);
 
-  const data = {
-    id: '63a5380d23b7e292a5976f4a',
-    content: '테스트',
-    image: 'http://146.56.183.55:5050/1671772168118.png',
-    createdAt: '2022-12-23T05:09:33.614Z',
-    updatedAt: '2022-12-23T05:09:33.614Z',
-    hearted: false,
-    heartCount: 0,
-    comments: [],
-    commentCount: 0,
-    author: {
-      _id: '639eaaaf23b7e292a596b91d',
-      username: 'breadgood',
-      accountname: 'breadgood',
-      intro: '빵굿빵굿',
-      image: 'http://146.56.183.55:5050/1671604441884.png',
-      isfollow: false,
-      following: ['61ef2a93368570e1514706dc'],
-      follower: [],
-      followerCount: 0,
-      followingCount: 1,
-    },
+  const getComments = async () => {
+    const {
+      data: { comments },
+    } = await axiosPrivate.get(`/post/${id}/comments`);
+
+    setComments(comments);
   };
+
+  const getUserPost = async () => {
+    const {
+      data: { post },
+    } = await axiosPrivate.get(`/post/${postId}`);
+
+    setPost(post);
+  };
+
+  useEffect(() => {
+    getUserPost();
+    getComments();
+  }, []);
+
+  useEffect(() => {
+    if (!container.current) return;
+    setHeight(container.current.clientHeight);
+  }, [comments]);
 
   return (
     <>
-      <HeaderBasic setIsVisibleModal={setIsVisibleModal} />
-      <S.Container>
-        <Post setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} data={data} />
-      </S.Container>
-      <S.CommentList>
-        {!!data.length && data.map((comment) => <Comment key={comment.id} comment={comment} />)}
-      </S.CommentList>
-      <CommentInput />
+      <section ref={container}>
+        <h2 className='sr-only'>게시글 페이지</h2>
+        <HeaderBasic setIsVisibleModal={setIsVisibleModal} />
+        <PostContainer postId={postId} setPostId={setPostId} post={post} getUserPost={getUserPost} />
+        <CommentList
+          height={height}
+          postId={postId}
+          getComments={getComments}
+          comments={comments}
+          post={post}
+          setPost={setPost}
+        />
+      </section>
+      <CommentInput getComments={getComments} post={post} setPost={setPost} postId={postId} />
       {isVisibleModal && <HeaderBasicModal setIsVisibleModal={setIsVisibleModal} />}
-      {isVisibleModal && <MyPostModal setIsVisibleModal={setIsVisibleModal} />}
     </>
   );
 }

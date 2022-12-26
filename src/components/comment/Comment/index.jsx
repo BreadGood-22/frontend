@@ -1,8 +1,20 @@
 import React from 'react';
 import * as S from './style';
+import { timeForToday } from '../../../utils/timeForToday';
 
-export function Comment({ comment }) {
-  const handleMoreBtn = (postId) => {};
+export function Comment({ comment, setIsVisibleModal, setIsMyComment, setCommentId }) {
+  const accountname = JSON.parse(localStorage.getItem('accountname'));
+
+  const handleMoreBtn = (commentId) => {
+    setIsVisibleModal(true);
+    setCommentId(commentId);
+    if (!setIsMyComment) return;
+    if (comment.author.accountname === accountname) {
+      setIsMyComment(true);
+    } else {
+      setIsMyComment(false);
+    }
+  };
 
   return (
     <S.CommentItem>
@@ -11,7 +23,7 @@ export function Comment({ comment }) {
         <S.ProfileImg src={comment.author.image} />
         <S.TextContainer>
           <S.UserName>{comment.author.username}</S.UserName>
-          <S.Time>44분전</S.Time>
+          <S.Time>{timeForToday(comment.createdAt)}</S.Time>
         </S.TextContainer>
       </S.AuthorInfo>
       <S.PostInfo>
