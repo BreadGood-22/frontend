@@ -1,5 +1,5 @@
-import React from 'react';
+import { ProductEditForm } from '../../components';
 
 export function ProductEditPage() {
-  return <div>ProductEditPage</div>;
+  return <ProductEditForm />;
 }

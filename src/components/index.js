@@ -41,3 +41,4 @@ export { PostContainer } from './post/PostContainer';
 export { CommentList } from './comment/CommentList';
 export { Follow } from './follow/Follow';
 export { NoFollowings } from './home/NoFollowings';
+export { ProductEditForm } from './productEdit/ProductEditForm';
