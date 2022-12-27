@@ -6,7 +6,6 @@ import PostGalleryIconOff from '../../../assets/icons/icon-post-gallery-off.svg'
 
 export const Container = styled.section`
   background-color: ${({ theme }) => theme.palette.white};
-  padding-bottom: 60px;
 `;
 
 export const TabContainer = styled.div`
