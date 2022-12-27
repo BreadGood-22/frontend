@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { axiosImg, axiosPrivate } from '../../../api/apiController';
 import { HeaderSave } from '../../index';
 import * as S from './style';
 
-export function AddProductForm() {
+export function ProductEditForm() {
   const [imageURL, setImageURL] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const navigate = useNavigate();
+  const { productId } = useParams();
   const accountname = JSON.parse(localStorage.getItem('accountname'));
   const {
     register,
@@ -18,10 +19,26 @@ export function AddProductForm() {
     formState: { isValid },
   } = useForm({
     mode: 'onChange',
-    defaultValues: {
-      itemImage: '',
-    },
   });
+
+  const getProductContent = async () => {
+    const {
+      data: {
+        product: { itemName, price, link, itemImage },
+      },
+    } = await axiosPrivate.get(`/product/detail/${productId}`);
+
+    setValue('itemName', itemName);
+    setValue('price', price);
+    setValue('link', link);
+    setValue('itemImage', itemImage, { shouldValidate: true });
+    setImagePreview(itemImage);
+    setImageURL(itemImage);
+  };
+
+  useEffect(() => {
+    getProductContent();
+  }, []);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -38,9 +55,9 @@ export function AddProductForm() {
   const handleItemData = async () => {
     const { itemName, price, link } = watch();
 
-    const numberPrice = parseInt(price.replace(/,/g, ''), 10);
+    const numberPrice = typeof price === 'number' ? price : parseInt(price.replace(/,/g, ''), 10);
 
-    const res = await axiosPrivate.post('/product', {
+    const res = await axiosPrivate.put(`/product/${productId}`, {
       product: {
         itemName,
         price: numberPrice,
