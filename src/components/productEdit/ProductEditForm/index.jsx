@@ -40,7 +40,7 @@ export function ProductEditForm() {
     getProductContent();
   }, []);
 
-  const handleUploadImage = async (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
 
@@ -80,8 +80,8 @@ export function ProductEditForm() {
         <S.ImageInput
           {...register('itemImage', {
             required: true,
-            validate: (fileList) => fileList.length > 0,
-            onChange: (e) => handleUploadImage(e),
+            validate: (fileList) => !!imageURL || fileList.length > 0,
+            onChange: (e) => handleImageUpload(e),
           })}
         />
         <S.TextLabel htmlFor='itemName'>상품명</S.TextLabel>
