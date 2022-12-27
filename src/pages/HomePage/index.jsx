@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { PostList, NoFollowings, HeaderMain, OthersPostCommentModal } from '../../components';
 import { axiosPrivate } from '../../api/apiController';
 import { useIntersect } from '../../hooks/useIntersect';
-import * as S from './style';
 
 export function HomePage() {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
@@ -32,7 +31,7 @@ export function HomePage() {
         data: { posts },
       } = await axiosPrivate.get(`/post/feed/?limit=10&skip=${page * 10}`);
 
-      setHasNextPage(posts.length % 10 === 0);
+      setHasNextPage(posts.length === 10);
       setPage((prev) => prev + 1);
       setPosts((prev) => [...prev, ...posts]);
       setIsLoading(false);
@@ -56,7 +55,7 @@ export function HomePage() {
           getFollowingPosts={getFollowingPosts}
         />
       )}
-      <S.Target ref={ref}></S.Target>
+      <div ref={ref}></div>
       {isLoading && <div>Loading...</div>}
       {isVisibleModal && <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} postId={postId} />}
     </>
