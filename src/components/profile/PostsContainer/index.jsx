@@ -12,33 +12,32 @@ export function PostsContainer() {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const { accountname } = useParams();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasNextPage, setHasNextPage] = useState(false);
-  const [page, setPage] = useState(0);
+  const [state, setState] = useState({
+    isLoading: false,
+    hasNextPage: false,
+    page: 0,
+  });
 
   const ref = useIntersect((entry, observer) => {
     observer.unobserve(entry.target);
-    console.log(hasNextPage);
-    if (hasNextPage && !isLoading) {
+    if (state.hasNextPage && !state.isLoading) {
       getUserPost();
     }
   });
 
   const getUserPost = async () => {
     try {
-      setIsLoading(true);
+      setState((prev) => ({ ...prev, isLoading: true }));
       const {
         data: { post },
-      } = await axiosPrivate(`/post/${accountname}/userpost/?limit=10&skip=${page * 10}`);
+      } = await axiosPrivate(`/post/${accountname}/userpost/?limit=10&skip=${state.page * 10}`);
 
       setPosts((prev) => [...prev, ...post]);
-      setHasNextPage(post.length === 10);
-      setPage((prev) => prev + 1);
-      setIsLoading(false);
+      setState((prev) => ({ ...prev, hasNextPage: post.length === 10, page: prev.page + 1, isLoading: false }));
     } catch (e) {
-      setIsLoading(true);
+      setState((prev) => ({ ...prev, isLoading: true }));
       console.error(e);
-      setIsLoading(false);
+      setState((prev) => ({ ...prev, isLoading: false }));
     }
   };
 
@@ -79,7 +78,13 @@ export function PostsContainer() {
         </>
       )}
       {isVisibleModal && (
-        <MyPostModal setIsVisibleModal={setIsVisibleModal} getUserPost={getUserPost} postId={postId} />
+        <MyPostModal
+          setIsVisibleModal={setIsVisibleModal}
+          getUserPost={getUserPost}
+          postId={postId}
+          setPosts={setPosts}
+          setState={setState}
+        />
       )}
     </>
   );

@@ -54,7 +54,7 @@ export function HeaderBasicModal({ setIsVisibleModal }) {
   );
 }
 
-export function MyPostModal({ setIsVisibleModal, getUserPost, postId }) {
+export function MyPostModal({ setIsVisibleModal, getUserPost, postId, setPosts, setState }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -69,7 +69,19 @@ export function MyPostModal({ setIsVisibleModal, getUserPost, postId }) {
     if (message === '삭제되었습니다.' && status === '200') {
       setIsVisibleModal(false);
       if (pathname.split('/')[1] === 'profile') {
-        getUserPost();
+        try {
+          setState((prev) => ({ ...prev, isLoading: true, page: 0, hasNextPage: false }));
+          const {
+            data: { post },
+          } = await axiosPrivate(`/post/${accountname}/userpost/?limit=10&skip=0`);
+
+          setPosts([...post]);
+          setState((prev) => ({ ...prev, hasNextPage: post.length === 10, page: prev.page + 1, isLoading: false }));
+        } catch (e) {
+          setState((prev) => ({ ...prev, isLoading: true }));
+          console.error(e);
+          setState((prev) => ({ ...prev, isLoading: false }));
+        }
         return;
       }
       navigate(`/profile/${accountname}`, { replace: true });

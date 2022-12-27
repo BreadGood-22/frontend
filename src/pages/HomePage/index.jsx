@@ -48,12 +48,7 @@ export function HomePage() {
       {!posts.length ? (
         <NoFollowings />
       ) : (
-        <PostList
-          posts={posts}
-          setIsVisibleModal={setIsVisibleModal}
-          setPostId={setPostId}
-          getFollowingPosts={getFollowingPosts}
-        />
+        <PostList posts={posts} setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} />
       )}
       <div ref={ref}></div>
       {isLoading && <div>Loading...</div>}
