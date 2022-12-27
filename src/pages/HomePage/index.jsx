@@ -1,35 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PostList, NoFollowings, HeaderMain, OthersPostCommentModal } from '../../components';
+import { axiosPrivate } from '../../api/apiController';
+import { useIntersect } from '../../hooks/useIntersect';
 
 export function HomePage() {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [postId, setPostId] = useState('');
 
-  const [posts, setPosts] = useState([
-    {
-      id: '63a71f1223b7e292a597d8ff',
-      content: 'ss',
-      image: 'http://146.56.183.55:5050/1671896850472.png',
-      createdAt: '2022-12-24T15:47:30.743Z',
-      updatedAt: '2022-12-24T15:47:30.743Z',
-      hearted: false,
-      heartCount: 0,
-      comments: [],
-      commentCount: 0,
-      author: {
-        _id: '63a71e8423b7e292a597d736',
-        username: 'breadgod',
-        accountname: 'breadgodid',
-        intro: 'breadgod',
-        image: 'http://146.56.183.55:5050/Ellipse.png',
-        isfollow: false,
-        following: ['639eaaaf23b7e292a596b91d'],
-        follower: ['639eaaaf23b7e292a596b91d'],
-        followerCount: 1,
-        followingCount: 1,
-      },
-    },
-  ]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [page, setPage] = useState(0);
+
+  const [posts, setPosts] = useState([]);
+
+  const ref = useIntersect((entry, observer) => {
+    observer.unobserve(entry.target);
+    if (hasNextPage && !isLoading) {
+      getFollowingPosts();
+    }
+  });
+
+  useEffect(() => {
+    getFollowingPosts();
+  }, []);
+
+  const getFollowingPosts = async () => {
+    try {
+      setIsLoading(true);
+      const {
+        data: { posts },
+      } = await axiosPrivate.get(`/post/feed/?limit=10&skip=${page * 10}`);
+
+      setHasNextPage(posts.length === 10);
+      setPage((prev) => prev + 1);
+      setPosts((prev) => [...prev, ...posts]);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(true);
+      console.error(e);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -39,6 +50,8 @@ export function HomePage() {
       ) : (
         <PostList posts={posts} setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} />
       )}
+      <div ref={ref}></div>
+      {isLoading && <div>Loading...</div>}
       {isVisibleModal && <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} postId={postId} />}
     </>
   );
