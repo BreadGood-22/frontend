@@ -11,12 +11,6 @@ export const WarningText = styled.strong`
   margin-top: 6px;
 `;
 
-export const ImgWrapper = styled.div`
-  position: relative;
-  height: 110px;
-  margin-bottom: 30px;
-`;
-
 export const Form = styled.form`
   & label {
     margin-top: 16px;
@@ -56,15 +50,14 @@ export const ImageInput = styled(SmallImgButtonInput)``;
 export const ImageLabel = styled(SmallImgButtonLabel)`
   width: 110px;
   height: 110px;
-  border-radius: 70%;
 `;
 
 export const Image = styled.img.attrs({
-  // src: Profile,
   onError: (e) => (e.target.style.display = 'none'),
   onLoad: (e) => (e.target.style.display = 'inline-block'),
 })`
   width: 100%;
   height: 100%;
+  border-radius: 70px;
   object-fit: cover;
 `;
