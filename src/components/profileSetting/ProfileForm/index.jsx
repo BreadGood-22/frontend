@@ -78,7 +78,9 @@ export function ProfileForm() {
 
   return (
     <S.Form onSubmit={handleSubmit(handleAccountIdValidation)}>
-      <S.ImageLabel>{/* <S.Image /> */}</S.ImageLabel>
+      <S.ImageLabel>
+        <S.Image />
+      </S.ImageLabel>
       <S.ImageInput
         {...register('image', {
           required: true,
