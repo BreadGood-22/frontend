@@ -1,11 +1,16 @@
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import axios, { axiosImg } from '../../../api/apiController';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
-import axios from '../../../api/apiController';
 import * as S from './style';
 import { Label, NameInput, IDInput, IntroduceInput, LargeButton } from '../../index';
 // export function ProfileSettingButton() {
 //   return <LargeButton />;
 // }
+export function AddImgForm() {
+  const [imageURL, setImageURL] = useState('');
+}
+
 export function ProfileForm() {
   const LoginInformation = () => {
     const location = useLocation();
@@ -16,7 +21,6 @@ export function ProfileForm() {
       Navigate('/signup');
     }
   };
-
   const {
     register,
     handleSubmit,
@@ -59,21 +63,32 @@ export function ProfileForm() {
         image,
       },
     });
+  };
 
-    if (data.message === '사용 가능한 계정ID 입니다.') {
-      Navigate('/start'),
-        {
-          email,
-        };
-    }
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+
+    formData.append('image', file);
+
+    const { data } = await axiosImg.post('/image/uploadfile', formData);
+
+    setImagePreview(URL.createObjectURL(file));
+    setImageURL(`http://146.56.183.55:5050/${data.filename}`);
   };
 
   return (
     <S.Form onSubmit={handleSubmit(handleAccountIdValidation)}>
-      <S.ImgWrapper>
-        <S.Img />
-        <S.UploadImg />
-      </S.ImgWrapper>
+      <S.ImageLabel color='brown'>
+        <S.Image />
+        <S.ImageInput
+          {...register('image', {
+            required: true,
+            validate: (fileList) => !!imageURL || fileList.length > 0,
+            onChange: (e) => handleImageUpload(e),
+          })}
+        />
+      </S.ImageLabel>
       <Label htmlFor='name'>사용자 이름</Label>
       <NameInput />
       <Label htmlFor='accountId'>계정 ID</Label>
