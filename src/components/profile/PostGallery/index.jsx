@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
 
 export function PostGallery({ posts }) {
+  const galleryCont = useRef(null);
+
+  const [bottom, setbottom] = useState(0);
+
+  useEffect(() => {
+    if (!galleryCont.current) return;
+    setbottom(galleryCont.current.getBoundingClientRect().bottom);
+  }, [posts]);
+
   return (
-    <S.Container>
+    <S.Container ref={galleryCont} bottom={bottom}>
       <S.GalleryList>
         {posts.map(
           (data) =>

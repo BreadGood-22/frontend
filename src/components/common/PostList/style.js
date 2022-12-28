@@ -1,7 +1,13 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.section`
   padding: 16px;
+
+  ${({ height }) =>
+    height >= window.innerHeight - 107 &&
+    css`
+      padding-bottom: 89px;
+    `}
 
   & article + article {
     margin-top: 20px;
