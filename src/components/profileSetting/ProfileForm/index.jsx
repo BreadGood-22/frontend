@@ -65,6 +65,8 @@ export function ProfileForm() {
     });
   };
 
+  console.log('하이하이');
+
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
