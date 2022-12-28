@@ -12,7 +12,6 @@ export function LoginForm() {
   const {
     register,
     handleSubmit,
-    setValue,
     watch,
     formState: { isValid, isSubmitting },
   } = useForm({ mode: 'onSubmit' });
@@ -43,14 +42,12 @@ export function LoginForm() {
         <EmailInput
           {...register('email', {
             required: true,
-            onChange: (e) => setValue(e.target.value),
           })}
         />
         <Label>비밀번호</Label>
         <PasswordInput
           {...register('password', {
             required: true,
-            onChange: (e) => setValue(e.target.value),
           })}
         />
         <S.WarningText isVisible={!!error}>*{error}</S.WarningText>
