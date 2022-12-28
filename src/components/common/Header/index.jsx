@@ -33,13 +33,13 @@ export function HeaderMain() {
   );
 }
 
-export function HeaderChat({ setIsVisibleModal }) {
+export function HeaderChat({ setIsVisibleModal, children }) {
   return (
     <S.HeaderContainer>
       <Link to={-1}>
         <S.PreviousIcon />
       </Link>
-      <S.HeaderChatText>{}</S.HeaderChatText>
+      <S.HeaderChatText>{children}</S.HeaderChatText>
       <S.SettingIcon onClick={() => setIsVisibleModal(true)} />
     </S.HeaderContainer>
   );

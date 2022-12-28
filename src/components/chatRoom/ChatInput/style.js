@@ -13,6 +13,7 @@ export const Container = styled.footer`
   gap: 16px;
   padding: 0 16px;
   border-top: 1px solid ${({ theme }) => theme.palette.lightGray};
+  background-color: ${({ theme }) => theme.palette.white};
 `;
 
 export const ImageLabel = styled(SmallImgButtonLabel)`
