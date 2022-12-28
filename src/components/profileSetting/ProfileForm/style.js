@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import Profile from '../../../assets/images/basic-profile-img.png';
-import UploadFile from '../../../assets/images/upload-file.png';
 import { SmallImgButtonLabel, SmallImgButtonInput, Label } from '../../index';
 
 export const WarningText = styled.strong`
@@ -53,30 +51,16 @@ export const Notice = styled.p`
   color: ${({ theme }) => theme.palette.darkGray};
 `;
 
-// export const UploadImg = styled.img.attrs({
-//   src: UploadFile,
-//   alt: '프로필 수정',
-// })`
-//   right: 104px;
-//   width: 36px;
-//   height: 36px;
-//   position: absolute;
-//   bottom: 0;
-// `;
-
-export const ImageInput = styled.label.attrs(SmallImgButtonInput)``;
+export const ImageInput = styled(SmallImgButtonInput)``;
 
 export const ImageLabel = styled(SmallImgButtonLabel)`
   width: 110px;
   height: 110px;
-  background-color: ${({ theme }) => theme.palette.brown};
-  border: 0.5px solid ${({ theme }) => theme.palette.lightGray};
   border-radius: 70%;
-  overflow: hidden;
 `;
 
 export const Image = styled.img.attrs({
-  src: Profile,
+  // src: Profile,
   onError: (e) => (e.target.style.display = 'none'),
   onLoad: (e) => (e.target.style.display = 'inline-block'),
 })`
@@ -84,13 +68,3 @@ export const Image = styled.img.attrs({
   height: 100%;
   object-fit: cover;
 `;
-
-// export const Img = styled.img.attrs({
-//   src: Profile,
-//   alt: '프로필 기본 이미지',
-// })`
-//   object-fit: contain;
-//   width: 110px;
-//   height: 110px;
-//   border-radius: 70%;
-// `;
