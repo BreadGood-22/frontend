@@ -53,16 +53,16 @@ export const Notice = styled.p`
   color: ${({ theme }) => theme.palette.darkGray};
 `;
 
-export const UploadImg = styled.img.attrs({
-  src: UploadFile,
-  alt: '프로필 수정',
-})`
-  right: 104px;
-  width: 36px;
-  height: 36px;
-  position: absolute;
-  bottom: 0;
-`;
+// export const UploadImg = styled.img.attrs({
+//   src: UploadFile,
+//   alt: '프로필 수정',
+// })`
+//   right: 104px;
+//   width: 36px;
+//   height: 36px;
+//   position: absolute;
+//   bottom: 0;
+// `;
 
 export const ImageInput = styled.label.attrs(SmallImgButtonInput)``;
 
