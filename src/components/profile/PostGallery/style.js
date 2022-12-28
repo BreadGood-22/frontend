@@ -1,9 +1,15 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   max-width: 390px;
   width: 100%;
   padding: 16px;
+
+  ${({ bottom }) =>
+    bottom >= window.document.documentElement.clientHeight - 59 &&
+    css`
+      padding-bottom: 89px;
+    `}
 `;
 
 export const GalleryList = styled.ul`
