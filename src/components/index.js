@@ -39,6 +39,7 @@ export {
   MyCommentModal,
   OthersPostCommentModal,
   ChatRoomModal,
+  PostAlertModal,
 } from './common/Modal';
 export { Post } from './common/Post';
 export { Comment } from './comment/Comment';

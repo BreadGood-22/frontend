@@ -222,3 +222,20 @@ export function ChatRoomModal({ setIsVisibleModal }) {
     </>
   );
 }
+
+export function PostAlertModal({ setIsVisibleAlert }) {
+  return (
+    <S.ModalContainer>
+      <S.ModalBackground />
+      <AlertModalLayout
+        alertMessage='작성 중인 게시글이 삭제되어도 나가시겠어요?'
+        setIsVisibleAlert={setIsVisibleAlert}
+      >
+        <li onClick={() => setIsVisibleAlert(false)}>취소</li>
+        <li>
+          <Link to={-1}>나가기</Link>
+        </li>
+      </AlertModalLayout>
+    </S.ModalContainer>
+  );
+}
