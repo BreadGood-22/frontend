@@ -1,5 +1,5 @@
 import React from 'react';
 
-export function ChatPage() {
+export function ChatListPage() {
   return <div>Chat</div>;
 }

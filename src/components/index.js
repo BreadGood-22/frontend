@@ -32,7 +32,14 @@ export { ProductsContainer } from './profile/ProductsContainer';
 export { PostsContainer } from './profile/PostsContainer';
 export { PostList } from './common/PostList';
 export { PostGallery } from './profile/PostGallery';
-export { HeaderBasicModal, MyPostModal, MyProductModal, MyCommentModal, OthersPostCommentModal } from './common/Modal';
+export {
+  HeaderBasicModal,
+  MyPostModal,
+  MyProductModal,
+  MyCommentModal,
+  OthersPostCommentModal,
+  ChatRoomModal,
+} from './common/Modal';
 export { Post } from './common/Post';
 export { Comment } from './comment/Comment';
 export { CommentInput } from './comment/CommentInput';
@@ -43,3 +50,5 @@ export { Follow } from './follow/Follow';
 export { NoFollowings } from './home/NoFollowings';
 export { ProductEditForm } from './productEdit/ProductEditForm';
 export { Splash } from './start/Splash';
+export { ChatInput } from './chatRoom/ChatInput';
+export { ChatContents } from './chatRoom/ChatContents';

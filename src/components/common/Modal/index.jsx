@@ -202,3 +202,23 @@ export function OthersPostCommentModal({ setIsVisibleModal, postId, commentId })
     </>
   );
 }
+
+export function ChatRoomModal({ setIsVisibleModal }) {
+  const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+
+  return (
+    <>
+      <ModalLayout setIsVisibleModal={setIsVisibleModal}>
+        <li onClick={() => setIsVisibleAlert(true)}>채팅방 나가기</li>
+      </ModalLayout>
+      {isVisibleAlert && (
+        <AlertModalLayout alertMessage='채팅방을 나가시겠어요?' setIsVisibleAlert={setIsVisibleAlert}>
+          <li onClick={() => setIsVisibleModal(false)}>취소</li>
+          <li>
+            <Link to={-1}>나가기</Link>
+          </li>
+        </AlertModalLayout>
+      )}
+    </>
+  );
+}

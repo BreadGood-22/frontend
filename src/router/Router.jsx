@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Layout, Navbar } from '../components';
 import {
   HomePage,
-  ChatPage,
+  ChatListPage,
+  ChatRoomPage,
   PostUploadPage,
   SignupPage,
   ProfilePage,
@@ -31,7 +32,7 @@ export default function Router() {
           <Route element={<ProtectedRoute />}>
             <Route element={<Navbar />}>
               <Route index element={<HomePage />} />
-              <Route path='chat' element={<ChatPage />} />
+              <Route path='chat' element={<ChatListPage />} />
               <Route path='profile/:accountname' element={<ProfilePage />} />
 
               <Route path='search' element={<SearchPage />} />
@@ -44,6 +45,7 @@ export default function Router() {
             <Route path='profile/:accountname/edit' element={<ProfileEditPage />} />
             <Route path='profile/:accountname/following' element={<FollowingPage />} />
             <Route path='profile/:accountname/follower' element={<FollowerPage />} />
+            <Route path='chat/room' element={<ChatRoomPage />} />
           </Route>
 
           <Route element={<PublicRoute />}>

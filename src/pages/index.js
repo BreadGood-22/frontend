@@ -1,5 +1,6 @@
 export { SignupPage } from './SignupPage';
-export { ChatPage } from './ChatPage';
+export { ChatListPage } from './ChatListPage';
+export { ChatRoomPage } from './ChatRoomPage';
 export { HomePage } from './HomePage';
 export { ProfilePage } from './ProfilePage';
 export { PostUploadPage } from './PostUploadPage';
