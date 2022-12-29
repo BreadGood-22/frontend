@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.section`
-  height: calc(100% - 48px);
   padding: 0 16px;
   display: flex;
 `;

@@ -43,7 +43,8 @@ export function HomePage() {
   };
 
   return (
-    <>
+    <section>
+      <h2 className='sr-only'>빵굿빵굿 피드</h2>
       <HeaderMain />
       {!posts.length ? (
         <NoFollowings />
@@ -53,6 +54,6 @@ export function HomePage() {
       <div ref={ref}></div>
       {isLoading && <div>Loading...</div>}
       {isVisibleModal && <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} postId={postId} />}
-    </>
+    </section>
   );
 }
