@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import splashLogo from '../../../assets/images/splash.svg';
+import fullLogo from '../../../assets/images/full-logo.png';
 
 export const Container = styled.section`
   width: 100%;
@@ -8,11 +8,10 @@ export const Container = styled.section`
 `;
 
 export const Logo = styled.img.attrs({
-  src: splashLogo,
+  src: fullLogo,
   alt: '빵굿빵굿',
 })`
   width: 165px;
-  height: 220px;
   position: absolute;
   top: 50%;
   left: 50%;

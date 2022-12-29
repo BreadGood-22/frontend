@@ -63,13 +63,17 @@ export const LoginButtons = styled.div`
   bottom: 0;
   width: 100%;
   max-width: 390px;
-  height: 320px;
 
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: ${({ theme }) => theme.palette.white};
   border-radius: 20px 20px 0 0;
-  padding: 50px 34px;
+  padding: 50px 0 82px;
+
+  @media (max-width: 390px) {
+    padding: 50px 0 25px;
+  }
 `;
 
 export const OtherButtons = styled.div`
