@@ -17,6 +17,7 @@ export const ActiveTextInput = styled.input.attrs({
 })`
   width: 100%;
   border: none;
+  border-radius: 0px;
   border-bottom: 1px solid ${({ theme }) => theme.palette.lightGray};
   padding-bottom: 8px;
   font-weight: 400;
