@@ -2,15 +2,15 @@ import styled from 'styled-components';
 import homeLogo from '../../../assets/images/symbol-logo-gray.png';
 
 export const Container = styled.section`
-  height: calc(100% - 108px);
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  @media screen and (max-width: 390px) {
-    height: calc(100dvh - 108px);
-  }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 export const Image = styled.img.attrs({

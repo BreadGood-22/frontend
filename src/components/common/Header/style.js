@@ -4,6 +4,8 @@ import IconMoreVertical from '../../../assets/icons/icon-more-vertical.svg';
 import IconSearch from '../../../assets/icons/icon-search.svg';
 
 export const HeaderContainer = styled.header`
+  max-width: 390px;
+  width: 100%;
   height: 48px;
   position: sticky;
   top: 0;
