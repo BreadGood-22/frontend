@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as S from './style';
 import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
-import { MediumImgButton } from '../../common/Button';
-import { HeaderUpload } from '../../common/Header';
+import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
 import { axiosPrivate, axiosImg } from '../../../api/apiController';
 
 export function PostEditForm() {
@@ -12,6 +11,7 @@ export function PostEditForm() {
   const [text, setText] = useState('');
   const [imgPrev, setImgPrev] = useState('');
   const [imgUrl, setImgUrl] = useState('');
+  const [isVisibleAlert, setIsVisibleAlert] = useState(false);
   const location = useLocation();
   const textRef = useRef();
   const navigate = useNavigate();
@@ -88,7 +88,7 @@ export function PostEditForm() {
 
   return (
     <>
-      <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} />
+      <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} setIsVisibleAlert={setIsVisibleAlert} />
       <S.Container>
         <h2 className='sr-only'>게시글 작성</h2>
         <S.ProfileImg src={profile} />
@@ -104,6 +104,7 @@ export function PostEditForm() {
           </S.Form>
         </S.PostWrite>
       </S.Container>
+      {isVisibleAlert && <PostAlertModal setIsVisibleAlert={setIsVisibleAlert} />}
     </>
   );
 }
