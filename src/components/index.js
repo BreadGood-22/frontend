@@ -50,4 +50,5 @@ export { Follow } from './follow/Follow';
 export { NoFollowings } from './home/NoFollowings';
 export { ProductEditForm } from './productEdit/ProductEditForm';
 export { Splash } from './start/Splash';
-export { ChatRoom } from './chatRoom/ChatRoom';
+export { ChatInput } from './chatRoom/ChatInput';
+export { ChatContents } from './chatRoom/ChatContents';

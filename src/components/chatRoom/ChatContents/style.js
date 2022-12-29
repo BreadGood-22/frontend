@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import basicProfileImage from '../../../assets/images/basic-profile-img.png';
 import imageExample from '../../../assets/images/chat-example-img.png';
 
-export const Container = styled.section`
+export const ChatContents = styled.section`
   height: calc(100vh - 108px);
   display: flex;
   flex-direction: column;
