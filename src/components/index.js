@@ -53,3 +53,4 @@ export { ProductEditForm } from './productEdit/ProductEditForm';
 export { Splash } from './start/Splash';
 export { ChatInput } from './chatRoom/ChatInput';
 export { ChatContents } from './chatRoom/ChatContents';
+export { SearchCard } from './search/SearchCard';
