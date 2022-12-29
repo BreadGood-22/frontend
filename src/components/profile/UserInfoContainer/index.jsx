@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import * as S from './style';
 import { MediumButton } from '../../common/Button';
 import { ReactComponent as ShareIcon } from '../../../assets/icons/icon-share.svg';
 import { ReactComponent as ChatIcon } from '../../../assets/icons/icon-chat.svg';
 import { axiosPrivate } from '../../../api/apiController';
+import ProfileImg from '../../../assets/images/basic-profile-img.png';
 
 export function UserInfoContainer() {
   const [userInfo, setUserInfo] = useState({});
   const { accountname } = useParams();
 
   const localAccountName = JSON.parse(localStorage.getItem('accountname'));
+  const basicImg = 'http://146.56.183.55:5050/Ellipse.png';
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -24,11 +26,11 @@ export function UserInfoContainer() {
     getUserInfo();
   }, []);
 
-  const { username, accountname: _accountname, intro, followerCount, followingCount } = userInfo;
+  const { username, accountname: _accountname, intro, followerCount, followingCount, image } = userInfo;
 
   return (
     <S.Container>
-      <S.ProfileImage />
+      {image !== basicImg ? <S.ProfileImage src={image} /> : <S.ProfileImage src={ProfileImg} />}
       <S.AccountName>{username}</S.AccountName>
       <S.AccountId>@{_accountname}</S.AccountId>
       <S.Intro>{intro}</S.Intro>

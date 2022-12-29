@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import ProfileImg from '../../../assets/images/basic-profile-img.png';
-
 export const Container = styled.section`
   width: 100%;
   height: 314px;
@@ -17,12 +15,12 @@ export const Container = styled.section`
 `;
 
 export const ProfileImage = styled.img.attrs({
-  src: ProfileImg,
   alt: '프로필 이미지',
 })`
   width: 110px;
   height: 110px;
   margin-bottom: 16px;
+  object-fit: cover;
 `;
 
 export const AccountName = styled.strong`
