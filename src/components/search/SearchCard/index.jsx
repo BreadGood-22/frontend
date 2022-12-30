@@ -15,7 +15,7 @@ export function SearchCard({ info }) {
 
   return (
     <li>
-      <S.StyledLink>
+      <S.StyledLink to={`/profile/${info.accountname}`}>
         {renderProfileImage()}
         <S.UserInfo>
           <S.UserName>{info.username}</S.UserName>
