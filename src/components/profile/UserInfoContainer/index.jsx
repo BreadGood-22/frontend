@@ -25,12 +25,12 @@ export function UserInfoContainer() {
 
         setUserInfo(profile);
       } catch (e) {
-        console.error(e);
+        console.log(e);
       }
     };
 
     getUserInfo();
-  }, []);
+  }, [accountname]);
 
   const { username, accountname: _accountname, intro, followerCount, followingCount, image, isfollow } = userInfo;
 
