@@ -1,4 +1,4 @@
-import { useLocation, Navigate } from 'react-router-dom';
+import { useLocation, Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import axios, { axiosImg, axiosPrivate } from '../../../api/apiController';
@@ -8,6 +8,7 @@ import { Label, NameInput, IDInput, IntroduceInput, LargeButton } from '../../in
 import Profile from '../../../assets/images/basic-profile-img.png';
 
 export function ProfileForm() {
+  const navigate = useNavigate();
   const [imageURL, setImageURL] = useState(Profile);
 
   const LoginInformation = () => {
@@ -40,15 +41,19 @@ export function ProfileForm() {
     });
 
     if (data.message === '사용 가능한 계정ID 입니다.') {
-      // 계정 사용 가능 여부 저장
+      navigate('');
+    } else if (data.message === '이미 가입된 계정ID 입니다.') {
+      setError('accountname', {
+        message: '이미 가입된 계정ID 입니다.',
+      });
     } else {
-      setError('accountname', { message: `*$(data.message)` }, { shouldFocus: true });
+      setError('accountname', { message: `*${data.message}` }, { shouldFocus: true });
     }
   };
 
   const handleSignup = async () => {
     // 빵굿빵굿 시작하기 눌렀을 때 회원가입 axios 통신 로직
-    // 회원가입 axios 통신 시 중복된 아이디 아니면 axios 통신이 이루어지도록 조건문추가
+    // 회원가입 axios 통신 시 중복된 아이ㄹ디 아니면 axios 통신이 이루어지도록 조건문추가
     // Navigate('/start');
     const { email, password, user, accountname, introduce, image } = watch();
     const { data } = await axios.post('/user', {
@@ -87,12 +92,28 @@ export function ProfileForm() {
         })}
       />
       <Label htmlFor='name'>사용자 이름</Label>
-      <NameInput />
-      <Label htmlFor='accountId'>계정 ID</Label>
+      <NameInput
+        {...register('name', {
+          // required: true,
+          minLengthL: {
+            value: 2,
+            message: '*2자~10자 이내여야 합니다.',
+          },
+          maxLength: {
+            value: 10,
+            message: '*2자~10자 이내여야 합니다.',
+          },
+        })}
+        onBlur={handleAccountIdValidation}
+      />
+      <S.WarningText isVisible={!!errors.name}>{errors.name?.message}</S.WarningText>
+
+      <Label htmlFor='accountname'>계정 ID</Label>
       <IDInput
         {...register('accountname', {
-          required: true,
+          // required: true,
           pattern: {
+            maxLength: 11,
             value: /[a-zA-Z0-9_.]/,
             message: '영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.',
           },
