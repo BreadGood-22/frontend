@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as S from './style';
 import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
 import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
-import { axiosPrivate, axiosImg } from '../../../api/apiController';
+import { axiosPrivate, axiosImg, BASE_URL } from '../../../api/apiController';
 
 export function PostEditForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +18,6 @@ export function PostEditForm() {
   const navigate = useNavigate();
   const postId = location.pathname.split('/')[2];
   const accountname = JSON.parse(localStorage.getItem('accountname'));
-  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}`;
 
   // 게시글 콘텐츠 및 이미지 가져오기
   const getPostContent = async () => {
@@ -79,7 +78,7 @@ export function PostEditForm() {
     try {
       const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-      setImgUrl(`${BASIC_PROFILE_URL}/${data.filename}`);
+      setImgUrl(`${BASE_URL}/${data.filename}`);
       setImgPrev(URL.createObjectURL(file));
     } catch (e) {
       console.log(e);
