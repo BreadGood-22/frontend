@@ -5,17 +5,23 @@ import { Follow, HeaderFollowers } from '../../components';
 import * as S from './style';
 
 export function FollowerPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState([]);
   const location = useLocation();
   const accountname = location.pathname.split('/')[2];
 
-  useEffect(() => {
-    const getFollwer = async () => {
+  const getFollwer = async () => {
+    setIsLoading(true);
+    try {
       const { data } = await axiosPrivate.get(`/profile/${accountname}/follower`);
 
       setUserInfo(data);
-    };
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
+  useEffect(() => {
     getFollwer();
   }, []);
 
