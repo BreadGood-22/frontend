@@ -55,7 +55,7 @@ export function UserInfoContainer() {
         setUserInfo((prev) => ({ ...prev, isfollow, followerCount }));
       }
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
     setIsLoading(false);
   };
