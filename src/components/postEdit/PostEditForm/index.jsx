@@ -65,7 +65,7 @@ export function PostEditForm() {
   const renderProfileImage = () => {
     let profileImage = basicProfile;
 
-    if (profile !== BASE_URL) profileImage = profile;
+    if (profile !== `${BASE_URL}/Ellipse.png`) profileImage = profile;
 
     return <S.ProfileImg src={profileImage} />;
   };

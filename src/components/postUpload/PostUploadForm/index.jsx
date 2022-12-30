@@ -43,7 +43,7 @@ export function PostUploadForm() {
   const renderProfileImage = () => {
     let profileImage = basicProfile;
 
-    if (image !== BASE_URL) profileImage = image;
+    if (image !== `${BASE_URL}/Ellipse.png`) profileImage = image;
 
     return <S.ProfileImg src={profileImage} />;
   };
