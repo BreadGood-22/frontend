@@ -13,13 +13,13 @@ export function HeaderBasic({ setIsVisibleModal }) {
   );
 }
 
-export function HeaderSearch({ handleSearch }) {
+export function HeaderSearch({ handleSearch, keyword }) {
   return (
     <S.HeaderContainer>
       <Link to={-1}>
         <S.PreviousIcon />
       </Link>
-      <S.HeaderInput onChange={handleSearch} />
+      <S.HeaderInput onChange={handleSearch} value={keyword} />
     </S.HeaderContainer>
   );
 }

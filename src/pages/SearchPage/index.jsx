@@ -8,14 +8,16 @@ export function SearchPage() {
   const searchListCont = useRef(null);
   const [height, setHeight] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState([]);
-  const debouncedValue = useDebounce(result, 500);
+
+  const [searchResult, setSearchResult] = useState([]);
+  const [keyword, setKeyword] = useState('');
+  const debouncedValue = useDebounce(keyword, 500);
 
   const handleSearch = useCallback(
     (e) => {
-      setResult(e.target.value);
+      setKeyword(e.target.value);
     },
-    [result],
+    [keyword],
   );
 
   const getSearchResult = async () => {
@@ -23,7 +25,7 @@ export function SearchPage() {
     try {
       const { data } = await axiosPrivate.get(`/user/searchuser/?keyword=${debouncedValue}`);
 
-      setResult(data);
+      setSearchResult(data);
     } catch (e) {
       console.error(e);
     }
@@ -38,15 +40,20 @@ export function SearchPage() {
   useEffect(() => {
     if (!searchListCont.current) return;
     setHeight(searchListCont.current.getBoundingClientRect().height);
-  }, [result]);
+  }, [searchResult]);
 
-  if (isLoading) return <p>Loading...</p>;
   return (
     <>
-      <HeaderSearch handleSearch={handleSearch} />
-      <S.Container ref={searchListCont} height={height}>
-        <SearchCard />
-      </S.Container>
+      <HeaderSearch handleSearch={handleSearch} keyword={keyword} />
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <S.Container ref={searchListCont} height={height}>
+          {searchResult.map((info) => (
+            <SearchCard key={info._id} info={info} />
+          ))}
+        </S.Container>
+      )}
     </>
   );
 }
