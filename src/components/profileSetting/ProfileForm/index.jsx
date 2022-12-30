@@ -43,7 +43,7 @@ export function ProfileForm() {
     if (data.message === '사용 가능한 계정ID 입니다.') {
       // navigate('/start');
 
-      setError('accountname', { message: `*${data.message}` }, { shouldFocus: true });
+      setError('accountname', { message: `*${data.message}` }, { shouldFocus: false });
     }
   };
 
@@ -106,6 +106,7 @@ export function ProfileForm() {
 
       <Label htmlFor='accountname'>계정 ID</Label>
       <IDInput
+        onBlur={handleAccountIdValidation}
         {...register('accountname', {
           required: true,
           maxLength: {
@@ -117,7 +118,6 @@ export function ProfileForm() {
             message: '영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.',
           },
         })}
-        onFocus={handleAccountIdValidation}
       />
       <S.WarningText isVisible={!!errors.accountname}>{errors.accountname?.message}</S.WarningText>
       <Label>소개</Label>
