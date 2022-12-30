@@ -5,14 +5,14 @@ import { MediumButton } from '../../common/Button';
 import { ReactComponent as ShareIcon } from '../../../assets/icons/icon-share.svg';
 import { ReactComponent as ChatIcon } from '../../../assets/icons/icon-chat.svg';
 import { axiosPrivate } from '../../../api/apiController';
-import ProfileImg from '../../../assets/images/basic-profile-img.png';
+import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function UserInfoContainer() {
   const [userInfo, setUserInfo] = useState({});
   const { accountname } = useParams();
 
   const localAccountName = JSON.parse(localStorage.getItem('accountname'));
-  const basicImg = 'http://146.56.183.55:5050/Ellipse.png';
+  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}/Ellipse.png`;
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -28,9 +28,17 @@ export function UserInfoContainer() {
 
   const { username, accountname: _accountname, intro, followerCount, followingCount, image } = userInfo;
 
+  const renderProfileImage = () => {
+    let profileImage = basicProfile;
+
+    if (image !== BASIC_PROFILE_URL) profileImage = image;
+
+    return <S.ProfileImage src={profileImage} />;
+  };
+
   return (
     <S.Container>
-      {image !== basicImg ? <S.ProfileImage src={image} /> : <S.ProfileImage src={ProfileImg} />}
+      {renderProfileImage()}
       <S.AccountName>{username}</S.AccountName>
       <S.AccountId>@{_accountname}</S.AccountId>
       <S.Intro>{intro}</S.Intro>
