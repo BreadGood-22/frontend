@@ -31,7 +31,7 @@ export function ProfileForm() {
   });
 
   const handleAccountIdValidation = async () => {
-    const { name, introduce, accountname } = watch();
+    const { accountname } = watch();
     const { data } = await axios.post('/user/accountnamevalid', {
       user: {
         accountname,
@@ -43,31 +43,26 @@ export function ProfileForm() {
     if (data.message === '사용 가능한 계정ID 입니다.') {
       // navigate('/start');
 
-      // } else if (data.message === '이미 가입된 계정ID 입니다.') {
-      //   setError('accountname', {
-      //     message: '이미 가입된 계정ID 입니다.',
-      //   });
-      // } else {
       setError('accountname', { message: `*${data.message}` }, { shouldFocus: true });
     }
   };
 
-  const handleSignup = async () => {
-    // 빵굿빵굿 시작하기 눌렀을 때 회원가입 axios 통신 로직
-    // 회원가입 axios 통신 시 중복된 아이ㄹ디 아니면 axios 통신이 이루어지도록 조건문추가
-    // Navigate('/start');
-    const { email, password, user, accountname, introduce, image } = watch();
-    const { data } = await axios.post('/user', {
-      user: {
-        email,
-        password,
-        user,
-        accountname,
-        introduce,
-        image,
-      },
-    });
-  };
+  // const handleSignup = async () => {
+  //   빵굿빵굿 시작하기 눌렀을 때 회원가입 axios 통신 로직
+  //   회원가입 axios 통신 시 중복된 아이ㄹ디 아니면 axios 통신이 이루어지도록 조건문추가
+  //   Navigate('/start');
+  //   const { email, password, user, accountname, introduce, image } = watch();
+  //   const { data } = await axios.post('/user', {
+  //     user: {
+  //       email,
+  //       password,
+  //       user,
+  //       accountname,
+  //       introduce,
+  //       image,
+  //     },
+  //   });
+  // };
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -94,7 +89,6 @@ export function ProfileForm() {
       />
       <Label htmlFor='name'>사용자 이름</Label>
       <NameInput
-        id='name'
         {...register('name', {
           required: true,
           minLength: {
@@ -102,6 +96,7 @@ export function ProfileForm() {
             message: '*2자~10자 이내여야 합니다.',
           },
           maxLength: {
+            required: true,
             value: 10,
             message: '*2자~10자 이내여야 합니다.',
           },
@@ -111,7 +106,6 @@ export function ProfileForm() {
 
       <Label htmlFor='accountname'>계정 ID</Label>
       <IDInput
-        id='accountname'
         {...register('accountname', {
           required: true,
           maxLength: {
@@ -123,7 +117,7 @@ export function ProfileForm() {
             message: '영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.',
           },
         })}
-        onBlur={handleAccountIdValidation}
+        onFocus={handleAccountIdValidation}
       />
       <S.WarningText isVisible={!!errors.accountname}>{errors.accountname?.message}</S.WarningText>
       <Label>소개</Label>
