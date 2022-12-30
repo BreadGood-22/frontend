@@ -4,7 +4,7 @@ import * as S from './style';
 import { MediumButton } from '../../common/Button';
 import { ReactComponent as ShareIcon } from '../../../assets/icons/icon-share.svg';
 import { ReactComponent as ChatIcon } from '../../../assets/icons/icon-chat.svg';
-import { axiosPrivate } from '../../../api/apiController';
+import { axiosPrivate, BASE_URL } from '../../../api/apiController';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function UserInfoContainer() {
@@ -13,7 +13,6 @@ export function UserInfoContainer() {
   const { accountname } = useParams();
 
   const localAccountName = JSON.parse(localStorage.getItem('accountname'));
-  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}/Ellipse.png`;
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -63,7 +62,7 @@ export function UserInfoContainer() {
   const renderProfileImage = () => {
     let profileImage = basicProfile;
 
-    if (image !== BASIC_PROFILE_URL) profileImage = image;
+    if (image !== `${BASE_URL}/Ellipse.png`) profileImage = image;
 
     return <S.ProfileImage src={profileImage} />;
   };

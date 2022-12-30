@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './style';
-import { axiosPrivate } from '../../../api/apiController';
+import { axiosPrivate, BASE_URL } from '../../../api/apiController';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function CommentInput({ getComments, post, setPost, postId }) {
@@ -9,7 +9,6 @@ export function CommentInput({ getComments, post, setPost, postId }) {
   const [input, setInput] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const accountname = JSON.parse(localStorage.getItem('accountname'));
-  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}/Ellipse.png`;
 
   const getProfile = async () => {
     setIsLoading(true);
@@ -34,7 +33,7 @@ export function CommentInput({ getComments, post, setPost, postId }) {
   const renderProfileImage = () => {
     let profileImage = basicProfile;
 
-    if (profile !== BASIC_PROFILE_URL) profileImage = profile;
+    if (profile !== `${BASE_URL}/Ellipse.png`) profileImage = profile;
 
     return <S.ProfileImage src={profileImage} />;
   };

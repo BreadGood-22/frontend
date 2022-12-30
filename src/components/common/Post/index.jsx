@@ -2,10 +2,10 @@ import React from 'react';
 import * as S from './style';
 import { LikeButton } from '../LikeButton';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
+import { BASE_URL } from '../../../api/apiController';
 
 export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
   const accountname = JSON.parse(localStorage.getItem('accountname'));
-  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}/Ellipse.png`;
 
   const handleMoreBtn = (postId) => {
     setIsVisibleModal(true);
@@ -23,7 +23,7 @@ export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
   const renderProfileImage = () => {
     let profileImage = basicProfile;
 
-    if (data.author.image !== BASIC_PROFILE_URL) profileImage = data.author.image;
+    if (data.author.image !== `${BASE_URL}/Ellipse.png`) profileImage = data.author.image;
 
     return <S.ProfileImg src={profileImage} />;
   };
