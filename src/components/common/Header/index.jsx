@@ -45,12 +45,16 @@ export function HeaderChat({ setIsVisibleModal, children }) {
   );
 }
 
-export function HeaderUpload({ isDisabled, handlePostUpload }) {
+export function HeaderUpload({ isDisabled, handlePostUpload, setIsVisibleAlert }) {
   return (
     <S.HeaderContainer>
-      <Link to={-1}>
-        <S.PreviousIcon />
-      </Link>
+      {isDisabled === false ? (
+        <S.PreviousIcon onClick={() => setIsVisibleAlert(true)} />
+      ) : (
+        <Link to={-1}>
+          <S.PreviousIcon />
+        </Link>
+      )}
       <SmallButton disabled={isDisabled} handlePostUpload={handlePostUpload}>
         업로드
       </SmallButton>

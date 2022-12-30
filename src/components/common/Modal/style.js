@@ -65,7 +65,7 @@ export const AlertModalContainer = styled(ModalContainer)`
 `;
 
 export const AlertModalWindow = styled.div`
-  min-width: 252px;
+  width: 252px;
   text-align: center;
   border-radius: 10px;
   z-index: 300;
@@ -74,7 +74,7 @@ export const AlertModalWindow = styled.div`
 
 export const AlertModalMessage = styled.strong`
   display: block;
-  padding: 22px 0;
+  padding: 22px;
   font-weight: 500;
   font-size: 16px;
   line-height: 20px;

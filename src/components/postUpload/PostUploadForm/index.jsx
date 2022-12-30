@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { axiosPrivate, axiosImg } from '../../../api/apiController';
 import * as S from './style';
 import { PhotoUploadList } from '../PhotoUploadList';
-import { MediumImgButton } from '../../common/Button';
-import { HeaderUpload } from '../../common/Header';
+import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
 
 export function PostUploadForm() {
   const [text, setText] = useState('');
@@ -12,6 +11,7 @@ export function PostUploadForm() {
   const [imgUrl, setImgUrl] = useState('');
   const [profile, setProfile] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isVisibleAlert, setIsVisibleAlert] = useState(false);
   const textRef = useRef();
   const navigate = useNavigate();
   const accountname = JSON.parse(localStorage.getItem('accountname'));
@@ -72,7 +72,7 @@ export function PostUploadForm() {
 
   return (
     <>
-      <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} />
+      <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} setIsVisibleAlert={setIsVisibleAlert} />
       <S.Container>
         <h2 className='sr-only'>게시글 작성</h2>
         <S.ProfileImg src={image} />
@@ -88,6 +88,7 @@ export function PostUploadForm() {
           </S.Form>
         </S.PostWrite>
       </S.Container>
+      {isVisibleAlert && <PostAlertModal setIsVisibleAlert={setIsVisibleAlert} />}
     </>
   );
 }
