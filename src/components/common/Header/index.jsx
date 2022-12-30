@@ -13,11 +13,13 @@ export function HeaderBasic({ setIsVisibleModal }) {
   );
 }
 
-export function HeaderSearch() {
+export function HeaderSearch({ handleSearch }) {
   return (
     <S.HeaderContainer>
-      <S.PreviousIcon />
-      <S.HeaderInput />
+      <Link to={-1}>
+        <S.PreviousIcon />
+      </Link>
+      <S.HeaderInput onChange={handleSearch} />
     </S.HeaderContainer>
   );
 }
