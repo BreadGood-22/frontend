@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { axiosPrivate, axiosImg } from '../../../api/apiController';
+import { axiosPrivate, axiosImg, BASE_URL } from '../../../api/apiController';
 import * as S from './style';
 import { PhotoUploadList } from '../PhotoUploadList';
 import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
+import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function PostUploadForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,10 +17,9 @@ export function PostUploadForm() {
   const textRef = useRef();
   const navigate = useNavigate();
   const accountname = JSON.parse(localStorage.getItem('accountname'));
-  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}`;
 
   // profile image 불러오기
-  const renderProfile = async () => {
+  const getProfile = async () => {
     setIsLoading(true);
     try {
       const {
@@ -34,10 +34,19 @@ export function PostUploadForm() {
   };
 
   useEffect(() => {
-    renderProfile();
+    getProfile();
   }, []);
 
   const { image } = profile;
+
+  // profile image 렌더링
+  const renderProfileImage = () => {
+    let profileImage = basicProfile;
+
+    if (image !== BASE_URL) profileImage = image;
+
+    return <S.ProfileImg src={profileImage} />;
+  };
 
   // 텍스트 input창의 높이 조절 및 텍스트 value 저장
   const handleTextArea = (e) => {
@@ -58,7 +67,7 @@ export function PostUploadForm() {
     try {
       const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-      setImgUrl(`${BASIC_PROFILE_URL}/${data.filename}`);
+      setImgUrl(`${BASE_URL}/${data.filename}`);
       setImgPrev(URL.createObjectURL(file));
     } catch (e) {
       console.log(e);
@@ -97,7 +106,7 @@ export function PostUploadForm() {
       <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} setIsVisibleAlert={setIsVisibleAlert} />
       <S.Container>
         <h2 className='sr-only'>게시글 작성</h2>
-        <S.ProfileImg src={image} />
+        {renderProfileImage()}
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>

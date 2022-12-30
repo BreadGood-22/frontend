@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as S from './style';
 import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
 import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
-import { axiosPrivate, axiosImg } from '../../../api/apiController';
+import { axiosPrivate, axiosImg, BASE_URL } from '../../../api/apiController';
+import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function PostEditForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +19,6 @@ export function PostEditForm() {
   const navigate = useNavigate();
   const postId = location.pathname.split('/')[2];
   const accountname = JSON.parse(localStorage.getItem('accountname'));
-  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}`;
 
   // 게시글 콘텐츠 및 이미지 가져오기
   const getPostContent = async () => {
@@ -40,7 +40,7 @@ export function PostEditForm() {
   };
 
   // 프로필 이미지 가져오기
-  const renderProfile = async () => {
+  const getProfile = async () => {
     setIsLoading(true);
     try {
       const {
@@ -58,8 +58,17 @@ export function PostEditForm() {
 
   useEffect(() => {
     getPostContent();
-    renderProfile();
+    getProfile();
   }, []);
+
+  // profile image 렌더링
+  const renderProfileImage = () => {
+    let profileImage = basicProfile;
+
+    if (profile !== BASE_URL) profileImage = profile;
+
+    return <S.ProfileImg src={profileImage} />;
+  };
 
   const handleTextArea = (e) => {
     textRef.current.style.height = 'auto';
@@ -79,7 +88,7 @@ export function PostEditForm() {
     try {
       const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-      setImgUrl(`${BASIC_PROFILE_URL}/${data.filename}`);
+      setImgUrl(`${BASE_URL}/${data.filename}`);
       setImgPrev(URL.createObjectURL(file));
     } catch (e) {
       console.log(e);
@@ -119,7 +128,7 @@ export function PostEditForm() {
       <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} setIsVisibleAlert={setIsVisibleAlert} />
       <S.Container>
         <h2 className='sr-only'>게시글 작성</h2>
-        <S.ProfileImg src={profile} />
+        {renderProfileImage()}
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
