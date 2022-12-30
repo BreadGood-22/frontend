@@ -9,7 +9,7 @@ export function CommentInput({ getComments, post, setPost, postId }) {
   const [input, setInput] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const accountname = JSON.parse(localStorage.getItem('accountname'));
-  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}`;
+  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}/Ellipse.png`;
 
   const getProfile = async () => {
     setIsLoading(true);
