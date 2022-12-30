@@ -27,8 +27,12 @@ export function LargeButton({ disabled, handleClick, children }) {
   );
 }
 
-export function MediumButton({ isFollowed }) {
-  return <S.MediumButton isFollowed={isFollowed}>{isFollowed ? '언팔로우' : '팔로우'}</S.MediumButton>;
+export function MediumButton({ isFollowed, handleClick }) {
+  return (
+    <S.MediumButton isFollowed={isFollowed} onClick={handleClick}>
+      {isFollowed ? '언팔로우' : '팔로우'}
+    </S.MediumButton>
+  );
 }
 
 // 버튼 텍스트: 저장, 업로드 2가지이므로 props.content로 받기
