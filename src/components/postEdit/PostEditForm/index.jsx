@@ -17,6 +17,7 @@ export function PostEditForm() {
   const navigate = useNavigate();
   const postId = location.pathname.split('/')[2];
   const accountname = JSON.parse(localStorage.getItem('accountname'));
+  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}`;
 
   // 게시글 콘텐츠 및 이미지 가져오기
   const getPostContent = async () => {
@@ -61,7 +62,7 @@ export function PostEditForm() {
     formData.append('image', file);
     const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-    setImgUrl(`http://146.56.183.55:5050/${data.filename}`);
+    setImgUrl(`${BASIC_PROFILE_URL}/${data.filename}`);
     setImgPrev(URL.createObjectURL(file));
   };
 

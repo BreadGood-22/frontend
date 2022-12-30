@@ -15,6 +15,7 @@ export function PostUploadForm() {
   const textRef = useRef();
   const navigate = useNavigate();
   const accountname = JSON.parse(localStorage.getItem('accountname'));
+  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}`;
 
   // profile image 불러오기
   useEffect(() => {
@@ -46,7 +47,7 @@ export function PostUploadForm() {
     formData.append('image', file);
     const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-    setImgUrl(`http://146.56.183.55:5050/${data.filename}`);
+    setImgUrl(`${BASIC_PROFILE_URL}/${data.filename}`);
     setImgPrev(URL.createObjectURL(file));
   };
 

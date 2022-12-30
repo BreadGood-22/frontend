@@ -5,4 +5,8 @@ export const PhotoUploadList = styled.ul`
   display: flex;
   gap: 8px;
   overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
