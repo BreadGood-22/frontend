@@ -4,6 +4,7 @@ import { axiosPrivate, axiosImg, BASE_URL } from '../../../api/apiController';
 import * as S from './style';
 import { PhotoUploadList } from '../PhotoUploadList';
 import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
+import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function PostUploadForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +19,7 @@ export function PostUploadForm() {
   const accountname = JSON.parse(localStorage.getItem('accountname'));
 
   // profile image 불러오기
-  const renderProfile = async () => {
+  const getProfile = async () => {
     setIsLoading(true);
     try {
       const {
@@ -33,10 +34,19 @@ export function PostUploadForm() {
   };
 
   useEffect(() => {
-    renderProfile();
+    getProfile();
   }, []);
 
   const { image } = profile;
+
+  // profile image 렌더링
+  const renderProfileImage = () => {
+    let profileImage = basicProfile;
+
+    if (image !== BASE_URL) profileImage = image;
+
+    return <S.ProfileImg src={profileImage} />;
+  };
 
   // 텍스트 input창의 높이 조절 및 텍스트 value 저장
   const handleTextArea = (e) => {
@@ -96,7 +106,8 @@ export function PostUploadForm() {
       <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} setIsVisibleAlert={setIsVisibleAlert} />
       <S.Container>
         <h2 className='sr-only'>게시글 작성</h2>
-        <S.ProfileImg src={image} />
+        {/* <S.ProfileImg src={image} /> */}
+        {renderProfileImage()}
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
