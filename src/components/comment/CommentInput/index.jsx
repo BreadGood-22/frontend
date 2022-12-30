@@ -1,10 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './style';
 import { axiosPrivate } from '../../../api/apiController';
+import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function CommentInput({ getComments, post, setPost, postId }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [profile, setProfile] = useState('');
   const [input, setInput] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+  const accountname = JSON.parse(localStorage.getItem('accountname'));
+  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}/Ellipse.png`;
+
+  const getProfile = async () => {
+    setIsLoading(true);
+    try {
+      const {
+        data: {
+          profile: { image },
+        },
+      } = await axiosPrivate.get(`/profile/${accountname}`);
+
+      setProfile(image);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const renderProfileImage = () => {
+    let profileImage = basicProfile;
+
+    if (profile !== BASIC_PROFILE_URL) profileImage = profile;
+
+    return <S.ProfileImage src={profileImage} />;
+  };
 
   const handleUpload = async () => {
     const {
@@ -30,7 +63,7 @@ export function CommentInput({ getComments, post, setPost, postId }) {
 
   return (
     <S.Container>
-      <S.ProfileImage />
+      {renderProfileImage()}
       <S.Input value={input} onChange={(e) => setInput(e.target.value)} />
       <S.Button disabled={isDisabled} onClick={handleUpload}>
         게시

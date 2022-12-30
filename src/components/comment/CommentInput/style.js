@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import BasicProfileImage from '../../../assets/images/basic-profile-img.png';
 
 export const Container = styled.section`
   width: min(390px, 100%);
@@ -16,12 +15,12 @@ export const Container = styled.section`
 `;
 
 export const ProfileImage = styled.img.attrs({
-  src: BasicProfileImage,
   alt: '사용자 프로필 이미지',
 })`
   width: 36px;
   height: 36px;
   border-radius: 18px;
+  object-fit: cover;
 `;
 
 export const Input = styled.input.attrs({
