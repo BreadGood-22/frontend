@@ -24,7 +24,7 @@ export function Follow({ accountname, username, intro, image, isfollow }) {
         setIsFollowed(true);
       }
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
     setIsLoading(false);
   };

@@ -17,7 +17,7 @@ export function FollowerPage() {
 
       setUserInfo(data);
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
   };
 
