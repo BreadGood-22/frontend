@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { axiosImg, axiosPrivate } from '../../../api/apiController';
+import { axiosImg, axiosPrivate, BASE_URL } from '../../../api/apiController';
 import { HeaderSave } from '../../index';
 import * as S from './style';
 
 export function ProductEditForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const [imageURL, setImageURL] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const navigate = useNavigate();
@@ -22,18 +23,25 @@ export function ProductEditForm() {
   });
 
   const getProductContent = async () => {
-    const {
-      data: {
-        product: { itemName, price, link, itemImage },
-      },
-    } = await axiosPrivate.get(`/product/detail/${productId}`);
+    setIsLoading(true);
 
-    setValue('itemName', itemName);
-    setValue('price', price);
-    setValue('link', link);
-    setValue('itemImage', itemImage, { shouldValidate: true });
-    setImagePreview(itemImage);
-    setImageURL(itemImage);
+    try {
+      const {
+        data: {
+          product: { itemName, price, link, itemImage },
+        },
+      } = await axiosPrivate.get(`/product/detail/${productId}`);
+
+      setValue('itemName', itemName);
+      setValue('price', price);
+      setValue('link', link);
+      setValue('itemImage', itemImage, { shouldValidate: true });
+      setImagePreview(itemImage);
+      setImageURL(itemImage);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -41,32 +49,46 @@ export function ProductEditForm() {
   }, []);
 
   const handleImageUpload = async (e) => {
+    setIsLoading(true);
+
     const file = e.target.files[0];
     const formData = new FormData();
 
     formData.append('image', file);
 
-    const { data } = await axiosImg.post('/image/uploadfile', formData);
+    try {
+      const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-    setImagePreview(URL.createObjectURL(file));
-    setImageURL(`http://146.56.183.55:5050/${data.filename}`);
+      setImagePreview(URL.createObjectURL(file));
+      setImageURL(`${BASE_URL}/${data.filename}`);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
   };
 
   const handleItemData = async () => {
-    const { itemName, price, link } = watch();
+    setIsLoading(true);
 
-    const numberPrice = typeof price === 'number' ? price : parseInt(price.replace(/,/g, ''), 10);
+    try {
+      const { itemName, price, link } = watch();
 
-    const res = await axiosPrivate.put(`/product/${productId}`, {
-      product: {
-        itemName,
-        price: numberPrice,
-        link,
-        itemImage: imageURL,
-      },
-    });
+      const numberPrice = typeof price === 'number' ? price : parseInt(price.replace(/,/g, ''), 10);
 
-    navigate(`/profile/${accountname}`);
+      const res = await axiosPrivate.put(`/product/${productId}`, {
+        product: {
+          itemName,
+          price: numberPrice,
+          link,
+          itemImage: imageURL,
+        },
+      });
+
+      navigate(`/profile/${accountname}`);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
   };
 
   return (
