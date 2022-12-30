@@ -6,6 +6,7 @@ import { PhotoUploadList } from '../PhotoUploadList';
 import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
 
 export function PostUploadForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState('');
   const [imgPrev, setImgPrev] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -18,15 +19,21 @@ export function PostUploadForm() {
   const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}`;
 
   // profile image 불러오기
-  useEffect(() => {
-    const renderProfile = async () => {
+  const renderProfile = async () => {
+    setIsLoading(true);
+    try {
       const {
         data: { profile },
       } = await axiosPrivate.get(`/profile/${accountname}`);
 
       setProfile(profile);
-    };
+    } catch (e) {
+      console.error(e);
+    }
+    setIsLoading(false);
+  };
 
+  useEffect(() => {
     renderProfile();
   }, []);
 
@@ -41,26 +48,40 @@ export function PostUploadForm() {
 
   // 이미지 업로드
   const handleFileUpload = async (e) => {
+    setIsLoading(true);
+
     const file = e.target.files[0];
     const formData = new FormData();
 
     formData.append('image', file);
-    const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-    setImgUrl(`${BASIC_PROFILE_URL}/${data.filename}`);
-    setImgPrev(URL.createObjectURL(file));
+    try {
+      const { data } = await axiosImg.post('/image/uploadfile', formData);
+
+      setImgUrl(`${BASIC_PROFILE_URL}/${data.filename}`);
+      setImgPrev(URL.createObjectURL(file));
+    } catch (e) {
+      console.error(e);
+    }
+    setIsLoading(false);
   };
 
   // 포스트 업로드
   const handlePostUpload = async () => {
-    const res = await axiosPrivate.post('/post', {
-      post: {
-        content: text,
-        image: imgUrl,
-      },
-    });
+    setIsLoading(true);
+    try {
+      const res = await axiosPrivate.post('/post', {
+        post: {
+          content: text,
+          image: imgUrl,
+        },
+      });
 
-    navigate(`/profile/${accountname}`);
+      navigate(`/profile/${accountname}`);
+    } catch (e) {
+      console.error(e);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
