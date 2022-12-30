@@ -5,6 +5,7 @@ import { MyProductModal } from '../../../components';
 import * as S from './style';
 
 export function ProductsContainer() {
+  const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [product, setProduct] = useState({
@@ -15,11 +16,17 @@ export function ProductsContainer() {
   const { accountname } = useParams();
 
   const getProducts = async () => {
-    const {
-      data: { data: count, product },
-    } = await axiosPrivate.get(`/product/${accountname}`);
+    setIsLoading(true);
+    try {
+      const {
+        data: { data: count, product },
+      } = await axiosPrivate.get(`/product/${accountname}`);
 
-    setProducts(product);
+      setProducts(product);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
   };
 
   const handleClick = (productId) => {
@@ -31,7 +38,7 @@ export function ProductsContainer() {
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [accountname]);
 
   return (
     <>

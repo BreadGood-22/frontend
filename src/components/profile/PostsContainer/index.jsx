@@ -36,14 +36,14 @@ export function PostsContainer() {
       setState((prev) => ({ ...prev, hasNextPage: post.length === 10, page: prev.page + 1, isLoading: false }));
     } catch (e) {
       setState((prev) => ({ ...prev, isLoading: true }));
-      console.error(e);
+      console.log(e);
       setState((prev) => ({ ...prev, isLoading: false }));
     }
   };
 
   useEffect(() => {
     getUserPost();
-  }, []);
+  }, [accountname]);
 
   const tabs = [
     {

@@ -8,6 +8,7 @@ import { axiosPrivate } from '../../../api/apiController';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function UserInfoContainer() {
+  const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const { accountname } = useParams();
 
@@ -16,17 +17,48 @@ export function UserInfoContainer() {
 
   useEffect(() => {
     const getUserInfo = async () => {
-      const {
-        data: { profile },
-      } = await axiosPrivate.get(`/profile/${accountname}`);
+      setIsLoading(true);
+      try {
+        const {
+          data: { profile },
+        } = await axiosPrivate.get(`/profile/${accountname}`);
 
-      setUserInfo(profile);
+        setUserInfo(profile);
+      } catch (e) {
+        console.log(e);
+      }
     };
 
     getUserInfo();
-  }, []);
+  }, [accountname]);
 
-  const { username, accountname: _accountname, intro, followerCount, followingCount, image } = userInfo;
+  const { username, accountname: _accountname, intro, followerCount, followingCount, image, isfollow } = userInfo;
+
+  const handleClick = async () => {
+    setIsLoading(true);
+    try {
+      if (isfollow) {
+        const {
+          data: {
+            profile: { isfollow, followerCount },
+          },
+        } = await axiosPrivate.delete(`/profile/${accountname}/unfollow`);
+
+        setUserInfo((prev) => ({ ...prev, isfollow, followerCount }));
+      } else {
+        const {
+          data: {
+            profile: { isfollow, followerCount },
+          },
+        } = await axiosPrivate.post(`/profile/${accountname}/follow`);
+
+        setUserInfo((prev) => ({ ...prev, isfollow, followerCount }));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    setIsLoading(false);
+  };
 
   const renderProfileImage = () => {
     let profileImage = basicProfile;
@@ -61,7 +93,7 @@ export function UserInfoContainer() {
           <S.IconButton>
             <ChatIcon />
           </S.IconButton>
-          <MediumButton isFollowed={true} />
+          <MediumButton isFollowed={isfollow} handleClick={handleClick} />
           <S.IconButton>
             <ShareIcon />
           </S.IconButton>

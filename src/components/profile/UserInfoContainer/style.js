@@ -19,6 +19,7 @@ export const ProfileImage = styled.img.attrs({
 })`
   width: 110px;
   height: 110px;
+  border-radius: 55px;
   margin-bottom: 16px;
   object-fit: cover;
 `;
