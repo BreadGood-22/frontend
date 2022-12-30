@@ -106,7 +106,6 @@ export function PostUploadForm() {
       <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} setIsVisibleAlert={setIsVisibleAlert} />
       <S.Container>
         <h2 className='sr-only'>게시글 작성</h2>
-        {/* <S.ProfileImg src={image} /> */}
         {renderProfileImage()}
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>

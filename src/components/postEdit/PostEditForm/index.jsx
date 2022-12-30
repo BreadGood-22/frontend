@@ -4,6 +4,7 @@ import * as S from './style';
 import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
 import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
 import { axiosPrivate, axiosImg, BASE_URL } from '../../../api/apiController';
+import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function PostEditForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +40,7 @@ export function PostEditForm() {
   };
 
   // 프로필 이미지 가져오기
-  const renderProfile = async () => {
+  const getProfile = async () => {
     setIsLoading(true);
     try {
       const {
@@ -57,8 +58,17 @@ export function PostEditForm() {
 
   useEffect(() => {
     getPostContent();
-    renderProfile();
+    getProfile();
   }, []);
+
+  // profile image 렌더링
+  const renderProfileImage = () => {
+    let profileImage = basicProfile;
+
+    if (profile !== BASE_URL) profileImage = profile;
+
+    return <S.ProfileImg src={profileImage} />;
+  };
 
   const handleTextArea = (e) => {
     textRef.current.style.height = 'auto';
@@ -118,7 +128,7 @@ export function PostEditForm() {
       <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} setIsVisibleAlert={setIsVisibleAlert} />
       <S.Container>
         <h2 className='sr-only'>게시글 작성</h2>
-        <S.ProfileImg src={profile} />
+        {renderProfileImage()}
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
