@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './style';
 import { axiosPrivate } from '../../../api/apiController';
@@ -10,38 +10,39 @@ export function PostsContainer() {
   const [posts, setPosts] = useState([]);
   const [postId, setPostId] = useState('');
   const [isVisibleModal, setIsVisibleModal] = useState(false);
-  const { accountname } = useParams();
 
-  const [state, setState] = useState({
-    isLoading: false,
-    hasNextPage: false,
-    page: 0,
-  });
+  const { accountname } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const page = useRef(0);
 
   const ref = useIntersect((entry, observer) => {
     observer.unobserve(entry.target);
-    if (state.hasNextPage && !state.isLoading) {
+    if (hasNextPage && !isLoading) {
       getUserPost();
     }
   });
 
   const getUserPost = async () => {
+    setIsLoading(true);
     try {
-      setState((prev) => ({ ...prev, isLoading: true }));
       const {
         data: { post },
-      } = await axiosPrivate(`/post/${accountname}/userpost/?limit=10&skip=${state.page * 10}`);
+      } = await axiosPrivate(`/post/${accountname}/userpost/?limit=10&skip=${page.current * 10}`);
 
       setPosts((prev) => [...prev, ...post]);
-      setState((prev) => ({ ...prev, hasNextPage: post.length === 10, page: prev.page + 1, isLoading: false }));
+      setHasNextPage(post.length === 10);
+      page.current += 1;
     } catch (e) {
-      setState((prev) => ({ ...prev, isLoading: true }));
       console.log(e);
-      setState((prev) => ({ ...prev, isLoading: false }));
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
+    setPosts([]);
+    setHasNextPage(false);
+    page.current = 0;
     getUserPost();
   }, [accountname]);
 
@@ -83,7 +84,9 @@ export function PostsContainer() {
           getUserPost={getUserPost}
           postId={postId}
           setPosts={setPosts}
-          setState={setState}
+          setIsLoading={setIsLoading}
+          setHasNextPage={setHasNextPage}
+          page={page}
         />
       )}
     </>

@@ -19,7 +19,7 @@ export function ProductsContainer() {
     setIsLoading(true);
     try {
       const {
-        data: { data: count, product },
+        data: { product },
       } = await axiosPrivate.get(`/product/${accountname}`);
 
       setProducts(product);
@@ -29,10 +29,15 @@ export function ProductsContainer() {
     setIsLoading(false);
   };
 
-  const handleClick = (productId) => {
-    setIsVisibleModal(true);
-    const [{ link }] = products.filter((item) => item.id === productId);
+  const handleClick = (productId, _accountname, link) => {
+    const myAccountName = JSON.parse(localStorage.getItem('accountname'));
 
+    if (myAccountName !== _accountname) {
+      window.open(link);
+      return;
+    }
+
+    setIsVisibleModal(true);
     setProduct((prev) => ({ ...prev, productId, link }));
   };
 
@@ -47,7 +52,7 @@ export function ProductsContainer() {
           <S.Title>판매 중인 상품</S.Title>
           <S.ProductList>
             {products.map((item) => (
-              <S.ProductItem key={item.id} onClick={() => handleClick(item.id)}>
+              <S.ProductItem key={item.id} onClick={() => handleClick(item.id, item.author.accountname, item.link)}>
                 <S.ProductImage src={item.itemImage} />
                 <S.ProductName>{item.itemName}</S.ProductName>
                 <S.ProductPrice>

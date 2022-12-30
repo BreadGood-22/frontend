@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
 import { timeForToday } from '../../../utils/timeForToday';
+import { BASE_URL } from '../../../api/apiController';
+import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function Comment({ comment, setIsVisibleModal, setIsMyComment, setCommentId }) {
   const accountname = JSON.parse(localStorage.getItem('accountname'));
@@ -18,13 +20,19 @@ export function Comment({ comment, setIsVisibleModal, setIsMyComment, setComment
     }
   };
 
+  const renderProfileImage = () => {
+    let profileImage = basicProfile;
+
+    if (comment.author.image !== `${BASE_URL}/Ellipse.png`) profileImage = comment.author.image;
+
+    return <S.ProfileImg src={profileImage} />;
+  };
+
   return (
     <S.CommentItem>
       <S.AuthorInfo>
         <h4 className='sr-only'>게시글 작성자 정보</h4>
-        <Link to={userURL}>
-          <S.ProfileImg src={comment.author.image} />
-        </Link>
+        <Link to={userURL}>{renderProfileImage()}</Link>
         <S.TextContainer>
           <Link to={userURL}>
             <S.UserName>{comment.author.username}</S.UserName>

@@ -54,7 +54,7 @@ export function HeaderBasicModal({ setIsVisibleModal }) {
   );
 }
 
-export function MyPostModal({ setIsVisibleModal, getUserPost, postId, setPosts, setState }) {
+export function MyPostModal({ setIsVisibleModal, postId, setPosts, setIsLoading, setHasNextPage, page }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -69,19 +69,19 @@ export function MyPostModal({ setIsVisibleModal, getUserPost, postId, setPosts, 
     if (message === '삭제되었습니다.' && status === '200') {
       setIsVisibleModal(false);
       if (pathname.split('/')[1] === 'profile') {
+        setIsLoading(true);
         try {
-          setState((prev) => ({ ...prev, isLoading: true, page: 0, hasNextPage: false }));
           const {
             data: { post },
-          } = await axiosPrivate(`/post/${accountname}/userpost/?limit=10&skip=0`);
+          } = await axiosPrivate.get(`/post/${accountname}/userpost/?limit=10&skip=0`);
 
           setPosts([...post]);
-          setState((prev) => ({ ...prev, hasNextPage: post.length === 10, page: prev.page + 1, isLoading: false }));
+          setHasNextPage(post.length === 10);
+          page.current += 1;
         } catch (e) {
-          setState((prev) => ({ ...prev, isLoading: true }));
-          console.error(e);
-          setState((prev) => ({ ...prev, isLoading: false }));
+          console.log(e);
         }
+        setIsLoading(false);
         return;
       }
       navigate(`/profile/${accountname}`, { replace: true });
@@ -93,7 +93,6 @@ export function MyPostModal({ setIsVisibleModal, getUserPost, postId, setPosts, 
       <ModalLayout setIsVisibleModal={setIsVisibleModal}>
         <li onClick={() => setIsVisibleAlert(true)}>삭제</li>
         <li>
-          {/* Link 시 state 값으로 해당 post 넘기기 */}
           <Link to={`/post/${postId}/edit`}>수정</Link>
         </li>
       </ModalLayout>
