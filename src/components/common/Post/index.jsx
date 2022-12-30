@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import * as S from './style';
 import { LikeButton } from '../LikeButton';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
@@ -6,6 +7,7 @@ import { BASE_URL } from '../../../api/apiController';
 
 export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
   const accountname = JSON.parse(localStorage.getItem('accountname'));
+  const userURL = `/profile/${data.author.accountname}`;
 
   const handleMoreBtn = (postId) => {
     setIsVisibleModal(true);
@@ -31,14 +33,16 @@ export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
   return (
     <S.Post key={data.id}>
       <h3 className='sr-only'>게시글</h3>
-      <S.AuthorInfo>
-        <h4 className='sr-only'>게시글 작성자 정보</h4>
-        {renderProfileImage()}
-        <S.TextContainer>
-          <S.UserName>{data.author.username}</S.UserName>
-          <S.AccountName>@{data.author.accountname}</S.AccountName>
-        </S.TextContainer>
-      </S.AuthorInfo>
+      <Link to={userURL}>
+        <S.AuthorInfo>
+          <h4 className='sr-only'>게시글 작성자 정보</h4>
+          {renderProfileImage()}
+          <S.TextContainer>
+            <S.UserName>{data.author.username}</S.UserName>
+            <S.AccountName>@{data.author.accountname}</S.AccountName>
+          </S.TextContainer>
+        </S.AuthorInfo>
+      </Link>
       <S.PostInfo>
         <h4 className='sr-only'>게시글 정보</h4>
         <S.Content>{data.content}</S.Content>
