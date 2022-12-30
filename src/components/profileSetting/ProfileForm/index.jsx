@@ -31,22 +31,23 @@ export function ProfileForm() {
   });
 
   const handleAccountIdValidation = async () => {
-    const { name, accountname, introduce } = watch();
+    const { name, introduce, accountname } = watch();
     const { data } = await axios.post('/user/accountnamevalid', {
       user: {
-        name,
         accountname,
-        introduce,
+        // name,
+        // introduce,
       },
     });
 
     if (data.message === '사용 가능한 계정ID 입니다.') {
-      navigate('');
-    } else if (data.message === '이미 가입된 계정ID 입니다.') {
-      setError('accountname', {
-        message: '이미 가입된 계정ID 입니다.',
-      });
-    } else {
+      // navigate('/start');
+
+      // } else if (data.message === '이미 가입된 계정ID 입니다.') {
+      //   setError('accountname', {
+      //     message: '이미 가입된 계정ID 입니다.',
+      //   });
+      // } else {
       setError('accountname', { message: `*${data.message}` }, { shouldFocus: true });
     }
   };
@@ -93,9 +94,10 @@ export function ProfileForm() {
       />
       <Label htmlFor='name'>사용자 이름</Label>
       <NameInput
+        id='name'
         {...register('name', {
-          // required: true,
-          minLengthL: {
+          required: true,
+          minLength: {
             value: 2,
             message: '*2자~10자 이내여야 합니다.',
           },
@@ -104,16 +106,19 @@ export function ProfileForm() {
             message: '*2자~10자 이내여야 합니다.',
           },
         })}
-        onBlur={handleAccountIdValidation}
       />
       <S.WarningText isVisible={!!errors.name}>{errors.name?.message}</S.WarningText>
 
       <Label htmlFor='accountname'>계정 ID</Label>
       <IDInput
+        id='accountname'
         {...register('accountname', {
-          // required: true,
+          required: true,
+          maxLength: {
+            value: 11,
+            message: '*계정 ID는 11자리 이하여야 합니다.',
+          },
           pattern: {
-            maxLength: 11,
             value: /[a-zA-Z0-9_.]/,
             message: '영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.',
           },
