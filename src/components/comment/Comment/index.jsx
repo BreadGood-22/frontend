@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import * as S from './style';
 import { timeForToday } from '../../../utils/timeForToday';
 
 export function Comment({ comment, setIsVisibleModal, setIsMyComment, setCommentId }) {
   const accountname = JSON.parse(localStorage.getItem('accountname'));
+  const userURL = `/profile/${comment.author.accountname}`;
 
   const handleMoreBtn = (commentId) => {
     setIsVisibleModal(true);
@@ -20,9 +22,13 @@ export function Comment({ comment, setIsVisibleModal, setIsMyComment, setComment
     <S.CommentItem>
       <S.AuthorInfo>
         <h4 className='sr-only'>게시글 작성자 정보</h4>
-        <S.ProfileImg src={comment.author.image} />
+        <Link to={userURL}>
+          <S.ProfileImg src={comment.author.image} />
+        </Link>
         <S.TextContainer>
-          <S.UserName>{comment.author.username}</S.UserName>
+          <Link to={userURL}>
+            <S.UserName>{comment.author.username}</S.UserName>
+          </Link>
           <S.Time>{timeForToday(comment.createdAt)}</S.Time>
         </S.TextContainer>
       </S.AuthorInfo>
