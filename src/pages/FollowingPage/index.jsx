@@ -5,17 +5,24 @@ import { Follow, HeaderFollowings } from '../../components';
 import * as S from './style';
 
 export function FollowingPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState([]);
   const location = useLocation();
   const accountname = location.pathname.split('/')[2];
 
-  useEffect(() => {
-    const getFollwing = async () => {
+  const getFollwing = async () => {
+    setIsLoading(true);
+    try {
       const { data } = await axiosPrivate.get(`/profile/${accountname}/following`);
 
       setUserInfo(data);
-    };
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
+  };
 
+  useEffect(() => {
     getFollwing();
   }, []);
 

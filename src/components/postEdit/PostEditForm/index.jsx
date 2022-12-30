@@ -34,7 +34,7 @@ export function PostEditForm() {
       setImgUrl(image);
       setImgPrev(image);
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
     setIsLoading(false);
   };
@@ -51,7 +51,7 @@ export function PostEditForm() {
 
       setProfile(image);
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
     setIsLoading(false);
   };
@@ -82,7 +82,7 @@ export function PostEditForm() {
       setImgUrl(`${BASIC_PROFILE_URL}/${data.filename}`);
       setImgPrev(URL.createObjectURL(file));
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
     setIsLoading(false);
   };
@@ -100,7 +100,7 @@ export function PostEditForm() {
 
       navigate(`/profile/${accountname}`);
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
     setIsLoading(false);
   };

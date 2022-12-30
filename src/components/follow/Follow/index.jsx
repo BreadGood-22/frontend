@@ -5,21 +5,28 @@ import * as S from './style';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function Follow({ accountname, username, intro, image, isfollow }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [isFollowed, setIsFollowed] = useState(isfollow);
   const myAccountName = JSON.parse(localStorage.getItem('accountname'));
   const url = `/profile/${accountname}`;
   const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}/Ellipse.png`;
 
   const changeFollow = async () => {
-    if (isFollowed) {
-      await axiosPrivate.delete(`/profile/${accountname}/unfollow`);
+    setIsLoading(true);
+    try {
+      if (isFollowed) {
+        await axiosPrivate.delete(`/profile/${accountname}/unfollow`);
 
-      setIsFollowed(false);
-    } else {
-      await axiosPrivate.post(`/profile/${accountname}/follow`);
+        setIsFollowed(false);
+      } else {
+        await axiosPrivate.post(`/profile/${accountname}/follow`);
 
-      setIsFollowed(true);
+        setIsFollowed(true);
+      }
+    } catch (e) {
+      console.log(e);
     }
+    setIsLoading(false);
   };
 
   const renderProfileImage = () => {
