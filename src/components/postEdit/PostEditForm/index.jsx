@@ -6,6 +6,7 @@ import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
 import { axiosPrivate, axiosImg } from '../../../api/apiController';
 
 export function PostEditForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [profile, setProfile] = useState('');
   const [text, setText] = useState('');
@@ -21,26 +22,38 @@ export function PostEditForm() {
 
   // 게시글 콘텐츠 및 이미지 가져오기
   const getPostContent = async () => {
-    const {
-      data: {
-        post: { content, image },
-      },
-    } = await axiosPrivate.get(`/post/${postId}`);
+    setIsLoading(true);
+    try {
+      const {
+        data: {
+          post: { content, image },
+        },
+      } = await axiosPrivate.get(`/post/${postId}`);
 
-    setText(content);
-    setImgUrl(image);
-    setImgPrev(image);
+      setText(content);
+      setImgUrl(image);
+      setImgPrev(image);
+    } catch (e) {
+      console.error(e);
+    }
+    setIsLoading(false);
   };
 
   // 프로필 이미지 가져오기
   const renderProfile = async () => {
-    const {
-      data: {
-        profile: { image },
-      },
-    } = await axiosPrivate.get(`/profile/${accountname}`);
+    setIsLoading(true);
+    try {
+      const {
+        data: {
+          profile: { image },
+        },
+      } = await axiosPrivate.get(`/profile/${accountname}`);
 
-    setProfile(image);
+      setProfile(image);
+    } catch (e) {
+      console.error(e);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -56,26 +69,40 @@ export function PostEditForm() {
 
   // 이미지 업로드
   const handleFileUpload = async (e) => {
+    setIsLoading(true);
+
     const file = e.target.files[0];
     const formData = new FormData();
 
     formData.append('image', file);
-    const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-    setImgUrl(`${BASIC_PROFILE_URL}/${data.filename}`);
-    setImgPrev(URL.createObjectURL(file));
+    try {
+      const { data } = await axiosImg.post('/image/uploadfile', formData);
+
+      setImgUrl(`${BASIC_PROFILE_URL}/${data.filename}`);
+      setImgPrev(URL.createObjectURL(file));
+    } catch (e) {
+      console.error(e);
+    }
+    setIsLoading(false);
   };
 
   // 포스트 수정 업로드
   const handlePostUpload = async () => {
-    const res = await axiosPrivate.put(`/post/${postId}`, {
-      post: {
-        content: text,
-        image: imgUrl,
-      },
-    });
+    setIsLoading(true);
+    try {
+      const res = await axiosPrivate.put(`/post/${postId}`, {
+        post: {
+          content: text,
+          image: imgUrl,
+        },
+      });
 
-    navigate(`/profile/${accountname}`);
+      navigate(`/profile/${accountname}`);
+    } catch (e) {
+      console.error(e);
+    }
+    setIsLoading(false);
   };
 
   // 업로드 버튼 컨트롤
