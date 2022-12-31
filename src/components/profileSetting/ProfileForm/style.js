@@ -53,6 +53,7 @@ export const ImageLabel = styled(SmallImgButtonLabel)`
 
   &::after {
     right: 0px;
+    bottom: 0px;
   }
 `;
 

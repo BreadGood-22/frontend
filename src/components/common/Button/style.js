@@ -88,7 +88,7 @@ export const SmallImgButtonLabel = styled.label.attrs({
     content: '';
     position: absolute;
     right: 12px;
-    bottom: 0px;
+    bottom: 12px;
     width: 36px;
     height: 36px;
     border-radius: 50%;

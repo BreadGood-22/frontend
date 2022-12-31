@@ -20,6 +20,7 @@ export const ProfileImage = styled.img.attrs({
   width: 36px;
   height: 36px;
   border-radius: 18px;
+  border: 1px solid ${({ theme }) => theme.palette.lightGray};
   object-fit: cover;
 `;
 

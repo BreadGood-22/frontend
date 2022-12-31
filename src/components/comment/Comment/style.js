@@ -17,6 +17,7 @@ export const ProfileImg = styled.img`
   height: 42px;
   border-radius: 21px;
   object-fit: cover;
+  border: 1px solid ${({ theme }) => theme.palette.lightGray};
   margin-right: 12px;
 `;
 
