@@ -5,12 +5,13 @@ import axios, { axiosImg, BASE_URL } from '../../../api/apiController';
 
 import * as S from './style';
 import { Label, NameInput, IDInput, IntroduceInput, LargeButton } from '../../index';
-import Profile from '../../../assets/images/basic-profile-img.png';
+import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function ProfileForm() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [imageURL, setImageURL] = useState(Profile);
+  const [imageURL, setImageURL] = useState(`${BASE_URL}/Ellipse.png`);
+  const [imagePreview, setImagePreview] = useState(basicProfile);
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -49,7 +50,7 @@ export function ProfileForm() {
             username,
             accountname,
             intro,
-            // image,
+            image: imageURL,
           },
         });
 
@@ -64,20 +65,28 @@ export function ProfileForm() {
   };
 
   const handleImageUpload = async (e) => {
+    setIsLoading(true);
+
     const file = e.target.files[0];
     const formData = new FormData();
 
     formData.append('image', file);
 
-    const { data } = await axiosImg.post('/image/uploadfile', formData);
+    try {
+      const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-    setImageURL(`${BASE_URL}/${data.filename}`);
+      setImagePreview(URL.createObjectURL(file));
+      setImageURL(`${BASE_URL}/${data.filename}`);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
   };
 
   return (
     <S.Form onSubmit={handleSubmit(handleSignup)}>
       <S.ImageLabel color='brown'>
-        <S.Image src={imageURL} />
+        <S.Image src={imagePreview} />
       </S.ImageLabel>
       <S.ImageInput onChange={(e) => handleImageUpload(e)} />
       <Label htmlFor='username'>사용자 이름</Label>
