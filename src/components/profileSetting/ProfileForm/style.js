@@ -50,6 +50,10 @@ export const ImageInput = styled(SmallImgButtonInput)``;
 export const ImageLabel = styled(SmallImgButtonLabel)`
   width: 120px;
   height: 110px;
+
+  &::after {
+    right: 0px;
+  }
 `;
 
 export const Image = styled.img.attrs({
