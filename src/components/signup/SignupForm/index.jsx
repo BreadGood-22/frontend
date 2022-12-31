@@ -56,7 +56,7 @@ export function SignupForm() {
         {...register('email', {
           required: true,
           pattern: {
-            value: /[a-zA-Z0-9-_.]+[@][a-zA-Z0-9]+\.[a-zA-Z]+/,
+            value: /^[a-zA-Z0-9-_.]+[@][a-zA-Z0-9]+\.[a-zA-Z]+$/,
             message: '*올바르지 않은 이메일 형식입니다.',
           },
         })}
