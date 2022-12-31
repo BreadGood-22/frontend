@@ -1,7 +1,7 @@
-import { useLocation, Navigate, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import axios, { axiosImg, axiosPrivate } from '../../../api/apiController';
+import axios, { axiosImg, BASE_URL } from '../../../api/apiController';
 
 import * as S from './style';
 import { Label, NameInput, IDInput, IntroduceInput, LargeButton } from '../../index';
@@ -9,17 +9,9 @@ import Profile from '../../../assets/images/basic-profile-img.png';
 
 export function ProfileForm() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [imageURL, setImageURL] = useState(Profile);
-
-  const LoginInformation = () => {
-    const location = useLocation();
-    const email = location.state.email;
-    const password = location.state.password;
-
-    if (location.state === undefined) {
-      Navigate('/signup');
-    }
-  };
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -43,23 +35,32 @@ export function ProfileForm() {
   };
 
   const handleSignup = async () => {
-    // 빵굿빵굿 시작하기 눌렀을 때 회원가입 axios 통신 로직
-    // 회원가입 axios 통신 시 중복된 아이디 아니면 axios 통신이 이루어지도록 조건문추가
-    const { email, password, user, accountname, introduce, image } = watch();
-    const { data } = await axios.post('/user', {
-      user: {
-        email,
-        password,
-        user,
-        accountname,
-        introduce,
-        image,
-      },
-    });
+    setIsLoading(true);
 
-    if (data.message === '회원가입 성공') {
-      navigate('/start');
+    const { email, password } = location.state;
+    const { username, accountname, intro } = watch();
+
+    try {
+      if (isValid) {
+        const { data } = await axios.post('/user', {
+          user: {
+            email,
+            password,
+            username,
+            accountname,
+            intro,
+            // image,
+          },
+        });
+
+        if (data.message === '회원가입 성공') {
+          navigate('/start');
+        }
+      }
+    } catch (e) {
+      console.log(e);
     }
+    setIsLoading(false);
   };
 
   const handleImageUpload = async (e) => {
@@ -70,7 +71,7 @@ export function ProfileForm() {
 
     const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-    setImageURL(`http://146.56.183.55:5050/${data.filename}`);
+    setImageURL(`${BASE_URL}/${data.filename}`);
   };
 
   return (
@@ -114,7 +115,7 @@ export function ProfileForm() {
       />
       <S.WarningText isVisible={!!errors.accountname}>{errors.accountname?.message}</S.WarningText>
       <Label>소개</Label>
-      <IntroduceInput />
+      <IntroduceInput {...register('intro')} />
       <LargeButton disabled={!isValid}>빵굿빵굿 시작하기</LargeButton>
     </S.Form>
   );
