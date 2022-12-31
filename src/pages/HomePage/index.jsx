@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { PostList, NoFollowings, HeaderMain, OthersPostCommentModal } from '../../components';
 import { axiosPrivate } from '../../api/apiController';
 import { useIntersect } from '../../hooks/useIntersect';
@@ -9,7 +9,7 @@ export function HomePage() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(false);
-  const [page, setPage] = useState(0);
+  const page = useRef(0);
 
   const [posts, setPosts] = useState([]);
 
@@ -25,21 +25,19 @@ export function HomePage() {
   }, []);
 
   const getFollowingPosts = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const {
         data: { posts },
-      } = await axiosPrivate.get(`/post/feed/?limit=10&skip=${page * 10}`);
+      } = await axiosPrivate.get(`/post/feed/?limit=10&skip=${page.current * 10}`);
 
       setHasNextPage(posts.length === 10);
-      setPage((prev) => prev + 1);
+      page.current += 1;
       setPosts((prev) => [...prev, ...posts]);
-      setIsLoading(false);
     } catch (e) {
-      setIsLoading(true);
-      console.error(e);
-      setIsLoading(false);
+      console.log(e);
     }
+    setIsLoading(false);
   };
 
   return (

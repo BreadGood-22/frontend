@@ -13,21 +13,34 @@ export function PostPage() {
   const [comments, setComments] = useState([]);
   const [height, setHeight] = useState(0);
   const [isVisibleModal, setIsVisibleModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getComments = async () => {
-    const {
-      data: { comments },
-    } = await axiosPrivate.get(`/post/${id}/comments`);
+    setIsLoading(true);
+    try {
+      const {
+        data: { comments },
+      } = await axiosPrivate.get(`/post/${id}/comments`);
 
-    setComments(comments);
+      setComments(comments);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
   };
 
   const getUserPost = async () => {
-    const {
-      data: { post },
-    } = await axiosPrivate.get(`/post/${postId}`);
+    setIsLoading(true);
+    try {
+      const {
+        data: { post },
+      } = await axiosPrivate.get(`/post/${postId}`);
 
-    setPost(post);
+      setPost(post);
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {

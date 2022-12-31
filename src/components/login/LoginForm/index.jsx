@@ -8,6 +8,7 @@ import { Label, EmailInput, PasswordInput, LargeButton } from '../../index';
 export function LoginForm() {
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -17,22 +18,28 @@ export function LoginForm() {
   } = useForm({ mode: 'onSubmit' });
 
   const handleLogin = async (e) => {
-    const { email, password } = watch();
+    setIsLoading(true);
+    try {
+      const { email, password } = watch();
 
-    const { data } = await axios.post('/user/login', {
-      user: {
-        email,
-        password,
-      },
-    });
+      const { data } = await axios.post('/user/login', {
+        user: {
+          email,
+          password,
+        },
+      });
 
-    if (data.status === 422) {
-      return setError(data.message);
+      if (data.status === 422) {
+        return setError(data.message);
+      }
+
+      localStorage.setItem('token', JSON.stringify(data.user?.token));
+      localStorage.setItem('accountname', JSON.stringify(data.user?.accountname));
+      navigate('/', { replace: true });
+    } catch (e) {
+      console.log(e);
     }
-
-    localStorage.setItem('token', JSON.stringify(data.user?.token));
-    localStorage.setItem('accountname', JSON.stringify(data.user?.accountname));
-    navigate('/', { replace: true });
+    setIsLoading(false);
   };
 
   return (
