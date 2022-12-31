@@ -4,5 +4,5 @@ export default function ProtectedRoute() {
   const token = localStorage.getItem('token');
   const location = useLocation();
 
-  return <>{token ? <Outlet /> : <Navigate to='/login' state={{ from: location }} />}</>;
+  return <>{token ? <Outlet /> : <Navigate to='/start' state={{ from: location }} />}</>;
 }
