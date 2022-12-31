@@ -26,7 +26,7 @@ import PublicRoute from './PublicRoute';
 
 export default function Router() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='/frontend'>
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route element={<ProtectedRoute />}>
