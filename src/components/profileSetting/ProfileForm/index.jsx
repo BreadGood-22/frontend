@@ -35,34 +35,33 @@ export function ProfileForm() {
     const { data } = await axios.post('/user/accountnamevalid', {
       user: {
         accountname,
-        // name,
-        // introduce,
       },
     });
 
-    if (data.message === '사용 가능한 계정ID 입니다.') {
-      // navigate('/start');
-
+    if (data.message === '이미 사용중인 계정 ID입니다.') {
       setError('accountname', { message: `*${data.message}` }, { shouldFocus: false });
     }
   };
 
-  // const handleSignup = async () => {
-  //   빵굿빵굿 시작하기 눌렀을 때 회원가입 axios 통신 로직
-  //   회원가입 axios 통신 시 중복된 아이ㄹ디 아니면 axios 통신이 이루어지도록 조건문추가
-  //   Navigate('/start');
-  //   const { email, password, user, accountname, introduce, image } = watch();
-  //   const { data } = await axios.post('/user', {
-  //     user: {
-  //       email,
-  //       password,
-  //       user,
-  //       accountname,
-  //       introduce,
-  //       image,
-  //     },
-  //   });
-  // };
+  const handleSignup = async () => {
+    // 빵굿빵굿 시작하기 눌렀을 때 회원가입 axios 통신 로직
+    // 회원가입 axios 통신 시 중복된 아이ㄹ디 아니면 axios 통신이 이루어지도록 조건문추가
+    const { email, password, user, accountname, introduce, image } = watch();
+    const { data } = await axios.post('/user', {
+      user: {
+        email,
+        password,
+        user,
+        accountname,
+        introduce,
+        image,
+      },
+    });
+
+    if (data.message === '회원가입 성공') {
+      navigate('/start');
+    }
+  };
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -86,7 +85,7 @@ export function ProfileForm() {
           validate: (fileList) => !!imageURL || fileList.length > 0,
           onChange: (e) => handleImageUpload(e),
         })}
-      />
+      ></S.ImageInput>
       <Label htmlFor='name'>사용자 이름</Label>
       <NameInput
         {...register('name', {
@@ -106,7 +105,7 @@ export function ProfileForm() {
 
       <Label htmlFor='accountname'>계정 ID</Label>
       <IDInput
-        onBlur={handleAccountIdValidation}
+        onFocus={handleAccountIdValidation}
         {...register('accountname', {
           required: true,
           maxLength: {
@@ -122,7 +121,9 @@ export function ProfileForm() {
       <S.WarningText isVisible={!!errors.accountname}>{errors.accountname?.message}</S.WarningText>
       <Label>소개</Label>
       <IntroduceInput />
-      <LargeButton disabled={!isValid}>빵굿빵굿 시작하기</LargeButton>
+      <LargeButton onBlur={handleSignup} disabled={!isValid}>
+        빵굿빵굿 시작하기
+      </LargeButton>
     </S.Form>
   );
 }

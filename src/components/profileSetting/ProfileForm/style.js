@@ -48,7 +48,7 @@ export const Notice = styled.p`
 export const ImageInput = styled(SmallImgButtonInput)``;
 
 export const ImageLabel = styled(SmallImgButtonLabel)`
-  width: 110px;
+  width: 120px;
   height: 110px;
 `;
 
