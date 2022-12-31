@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../../api/apiController';
@@ -5,6 +6,7 @@ import { EmailInput, PasswordInput, LargeButton, Label } from '../../index';
 import * as S from './style';
 
 export function SignupForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -18,23 +20,31 @@ export function SignupForm() {
   });
 
   const handleEmailValidation = async () => {
-    const { email, password } = watch();
-    const { data } = await axios.post('/user/emailvalid', {
-      user: {
-        email,
-      },
-    });
+    setIsLoading(true);
 
-    if (data.message === '사용 가능한 이메일 입니다.') {
-      navigate('/profile/setting', {
-        state: {
+    const { email, password } = watch();
+
+    try {
+      const { data } = await axios.post('/user/emailvalid', {
+        user: {
           email,
-          password,
         },
       });
-    } else {
-      setError('email', { message: `*${data.message}` }, { shouldFocus: true });
+
+      if (data.message === '사용 가능한 이메일 입니다.') {
+        navigate('/profile/setting', {
+          state: {
+            email,
+            password,
+          },
+        });
+      } else {
+        setError('email', { message: `*${data.message}` }, { shouldFocus: true });
+      }
+    } catch (e) {
+      console.log(e);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -46,7 +56,7 @@ export function SignupForm() {
         {...register('email', {
           required: true,
           pattern: {
-            value: /[a-zA-Z0-9-_.]+[@][a-zA-Z0-9]+\.[a-zA-Z]+/,
+            value: /^[a-zA-Z0-9-_.]+[@][a-zA-Z0-9]+\.[a-zA-Z]+$/,
             message: '*올바르지 않은 이메일 형식입니다.',
           },
         })}
