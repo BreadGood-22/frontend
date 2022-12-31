@@ -30,22 +30,21 @@ export function ProfileForm() {
     mode: 'onBlur',
   });
 
-  const handleAccountIdValidation = async () => {
-    const { accountname } = watch();
+  const handleAccountNameValidation = async (e) => {
     const { data } = await axios.post('/user/accountnamevalid', {
       user: {
-        accountname,
+        accountname: e.target.value,
       },
     });
 
-    if (data.message === '이미 사용중인 계정 ID입니다.') {
-      setError('accountname', { message: `*${data.message}` }, { shouldFocus: false });
+    if (data.message === '이미 가입된 계정ID 입니다.') {
+      setError('accountname', { message: `*${data.message}` }, { shouldFocus: true });
     }
   };
 
   const handleSignup = async () => {
     // 빵굿빵굿 시작하기 눌렀을 때 회원가입 axios 통신 로직
-    // 회원가입 axios 통신 시 중복된 아이ㄹ디 아니면 axios 통신이 이루어지도록 조건문추가
+    // 회원가입 axios 통신 시 중복된 아이디 아니면 axios 통신이 이루어지도록 조건문추가
     const { email, password, user, accountname, introduce, image } = watch();
     const { data } = await axios.post('/user', {
       user: {
@@ -75,20 +74,15 @@ export function ProfileForm() {
   };
 
   return (
-    <S.Form onSubmit={handleSubmit(handleAccountIdValidation)}>
+    <S.Form onSubmit={handleSubmit(handleSignup)}>
       <S.ImageLabel color='brown'>
         <S.Image src={imageURL} />
       </S.ImageLabel>
-      <S.ImageInput
-        {...register('image', {
-          required: true,
-          validate: (fileList) => !!imageURL || fileList.length > 0,
-          onChange: (e) => handleImageUpload(e),
-        })}
-      ></S.ImageInput>
-      <Label htmlFor='name'>사용자 이름</Label>
+      <S.ImageInput onChange={(e) => handleImageUpload(e)} />
+      <Label htmlFor='username'>사용자 이름</Label>
       <NameInput
-        {...register('name', {
+        id='username'
+        {...register('username', {
           required: true,
           minLength: {
             value: 2,
@@ -102,10 +96,9 @@ export function ProfileForm() {
         })}
       />
       <S.WarningText isVisible={!!errors.name}>{errors.name?.message}</S.WarningText>
-
       <Label htmlFor='accountname'>계정 ID</Label>
       <IDInput
-        onFocus={handleAccountIdValidation}
+        id='accountname'
         {...register('accountname', {
           required: true,
           maxLength: {
@@ -114,16 +107,15 @@ export function ProfileForm() {
           },
           pattern: {
             value: /[a-zA-Z0-9_.]/,
-            message: '영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.',
+            message: '*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.',
           },
+          onBlur: (e) => handleAccountNameValidation(e),
         })}
       />
       <S.WarningText isVisible={!!errors.accountname}>{errors.accountname?.message}</S.WarningText>
       <Label>소개</Label>
       <IntroduceInput />
-      <LargeButton onBlur={handleSignup} disabled={!isValid}>
-        빵굿빵굿 시작하기
-      </LargeButton>
+      <LargeButton disabled={!isValid}>빵굿빵굿 시작하기</LargeButton>
     </S.Form>
   );
 }
