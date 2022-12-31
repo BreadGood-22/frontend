@@ -46,7 +46,7 @@ export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
       <S.PostInfo>
         <h4 className='sr-only'>게시글 정보</h4>
         <S.Content>{data.content}</S.Content>
-        {data.image && <S.Img src={data.image} />}
+        {data.image && <S.Img src={data.image.split(',')[0]} />}
         <S.LikeComment>
           <LikeButton hearted={data.hearted} heartCount={data.heartCount} postId={data.id} />
           <S.StyledLink to={`/post/${data.id}`}>
