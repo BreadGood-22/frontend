@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import axios, { axiosImg, BASE_URL } from '../../../api/apiController';
-
 import * as S from './style';
 import { Label, NameInput, IDInput, IntroduceInput, LargeButton } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
@@ -105,7 +104,7 @@ export function ProfileForm() {
           },
         })}
       />
-      <S.WarningText isVisible={!!errors.name}>{errors.name?.message}</S.WarningText>
+      <S.WarningText isVisible={!!errors.username}>{errors.username?.message}</S.WarningText>
       <Label htmlFor='accountname'>계정 ID</Label>
       <IDInput
         id='accountname'
@@ -116,15 +115,15 @@ export function ProfileForm() {
             message: '*계정 ID는 11자리 이하여야 합니다.',
           },
           pattern: {
-            value: /[a-zA-Z0-9_.]/,
+            value: /^[a-zA-Z0-9_.]$/,
             message: '*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.',
           },
           onBlur: (e) => handleAccountNameValidation(e),
         })}
       />
       <S.WarningText isVisible={!!errors.accountname}>{errors.accountname?.message}</S.WarningText>
-      <Label>소개</Label>
-      <IntroduceInput {...register('intro')} />
+      <Label htmlFor='intro'>소개</Label>
+      <IntroduceInput id='intro' {...register('intro')} />
       <LargeButton disabled={!isValid}>빵굿빵굿 시작하기</LargeButton>
     </S.Form>
   );
