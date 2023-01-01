@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 
-export const slideUp = keyframes`
+export const SlideUp = keyframes`
  from{
    transform: translate(-50%, 50px)
  }
@@ -34,7 +34,7 @@ export const ModalLists = styled.ul`
   border-radius: 10px 10px 0 0;
   z-index: 200;
   background-color: ${({ theme }) => theme.palette.white};
-  animation: ${slideUp} 0.4s ease-out;
+  animation: ${SlideUp} 0.4s ease-out;
 
   &::before {
     content: '';
@@ -54,6 +54,10 @@ export const ModalLists = styled.ul`
     font-size: 14px;
     line-height: 46px;
     cursor: pointer;
+  }
+
+  & > li > a {
+    display: block;
   }
 `;
 
