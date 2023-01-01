@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 import { ActiveTextInput, Label, SmallImgButtonLabel, SmallImgButtonInput } from '../../index';
 
+export const Main = styled.main`
+  padding-top: 30px;
+`;
+
 export const Form = styled.form`
   width: calc(100% - 68px);
-  margin: 30px auto;
+  margin: 0 auto;
 
   & label[for='small-img-button'] {
     margin-top: 18px;
@@ -18,7 +22,7 @@ export const Form = styled.form`
   }
 `;
 
-export const H3 = styled.h3`
+export const ImageLabelTitle = styled.p`
   display: block;
   font-size: 12px;
   line-height: 15px;
