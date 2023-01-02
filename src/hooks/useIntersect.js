@@ -1,6 +1,6 @@
 import { useRef, useCallback, useEffect } from 'react';
 
-export const useIntersect = (onIntersect, options = { threshold: 1 }) => {
+export default function useIntersect(onIntersect, options = { threshold: 1 }) {
   const ref = useRef(null);
 
   const callback = useCallback(
@@ -21,4 +21,4 @@ export const useIntersect = (onIntersect, options = { threshold: 1 }) => {
   }, [ref, options, callback]);
 
   return ref;
-};
+}

@@ -5,6 +5,7 @@ import ChatIcon from '../../../assets/icons/icon-chat.svg';
 import MoreIcon from '../../../assets/icons/icon-more-vertical.svg';
 
 export const Post = styled.article`
+  width: 100%;
   position: relative;
 `;
 
@@ -52,6 +53,7 @@ export const Content = styled.p`
   font-size: 14px;
   line-height: 18px;
   margin-bottom: 16px;
+  word-wrap: break-word;
 `;
 
 export const Img = styled.img`

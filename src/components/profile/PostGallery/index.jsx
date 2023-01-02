@@ -1,19 +1,15 @@
-import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import useHeight from '../../../hooks/useHeight';
 import * as S from './style';
 
 export function PostGallery({ posts }) {
-  const galleryCont = useRef(null);
+  const isImage = posts.filter((post) => post.image);
+  const [container, height] = useHeight(posts);
 
-  const [bottom, setbottom] = useState(0);
-
-  useEffect(() => {
-    if (!galleryCont.current) return;
-    setbottom(galleryCont.current.getBoundingClientRect().bottom);
-  }, [posts]);
+  if (!isImage.length) return;
 
   return (
-    <S.Container ref={galleryCont} bottom={bottom}>
+    <S.Container ref={container} bottom={height}>
       <S.GalleryList>
         {posts.map(
           (data) =>

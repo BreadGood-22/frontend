@@ -6,7 +6,7 @@ export const CommentList = styled.ul`
   ${({ height }) =>
     height >= window.innerHeight - 62 &&
     css`
-      padding-bottom: 82px;
+      padding-bottom: 92px;
     `}
 
   & li + li {
