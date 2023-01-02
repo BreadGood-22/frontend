@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './style';
 import { axiosPrivate } from '../../../api/apiController';
-import { PostList, PostGallery, MyPostModal } from '../../../components';
+import { PostList, PostGallery, MyPostModal, OthersPostCommentModal } from '../../../components';
 import useIntersect from '../../../hooks/useIntersect';
 
 export function PostsContainer() {
@@ -12,6 +12,8 @@ export function PostsContainer() {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
 
   const { accountname } = useParams();
+  const isMyPost = accountname === JSON.parse(localStorage.getItem('accountname'));
+
   const [isLoading, setIsLoading] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(false);
   const page = useRef(0);
@@ -78,17 +80,20 @@ export function PostsContainer() {
           </S.Container>
         </>
       )}
-      {isVisibleModal && (
-        <MyPostModal
-          setIsVisibleModal={setIsVisibleModal}
-          getUserPost={getUserPost}
-          postId={postId}
-          setPosts={setPosts}
-          setIsLoading={setIsLoading}
-          setHasNextPage={setHasNextPage}
-          page={page}
-        />
-      )}
+      {isVisibleModal &&
+        (isMyPost ? (
+          <MyPostModal
+            setIsVisibleModal={setIsVisibleModal}
+            getUserPost={getUserPost}
+            postId={postId}
+            setPosts={setPosts}
+            setIsLoading={setIsLoading}
+            setHasNextPage={setHasNextPage}
+            page={page}
+          />
+        ) : (
+          <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} postId={postId} />
+        ))}
     </>
   );
 }
