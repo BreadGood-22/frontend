@@ -8,7 +8,7 @@ export function PostList({ posts, setIsVisibleModal, setPostId }) {
 
   useEffect(() => {
     if (!postListCont.current) return;
-    setHeight(postListCont.current.getBoundingClientRect().height);
+    setHeight(postListCont.current.getBoundingClientRect().bottom);
   }, [posts]);
 
   return (
