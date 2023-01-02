@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import * as S from './style';
 import { axiosPrivate } from '../../../api/apiController';
 import { PostList, PostGallery, MyPostModal } from '../../../components';
-import { useIntersect } from '../../../hooks/useIntersect';
+import useIntersect from '../../../hooks/useIntersect';
 
 export function PostsContainer() {
   const [activeIndex, setActiveIndex] = useState(0);

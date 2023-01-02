@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { PostList, NoFollowings, HeaderMain, OthersPostCommentModal } from '../../components';
 import { axiosPrivate } from '../../api/apiController';
-import { useIntersect } from '../../hooks/useIntersect';
+import useIntersect from '../../hooks/useIntersect';
 
 export function HomePage() {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
