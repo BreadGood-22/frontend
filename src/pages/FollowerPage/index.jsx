@@ -13,7 +13,7 @@ export function FollowerPage() {
   const getFollwer = async () => {
     setIsLoading(true);
     try {
-      const { data } = await axiosPrivate.get(`/profile/${accountname}/follower`);
+      const { data } = await axiosPrivate.get(`/profile/${accountname}/follower/?limit=0`);
 
       setUserInfo(data);
     } catch (e) {
