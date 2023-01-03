@@ -7,14 +7,14 @@ import { Label, EmailInput, PasswordInput, LargeButton } from '../../index';
 
 export function LoginForm() {
   const navigate = useNavigate();
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { isValid, isSubmitting },
+    setError,
+    formState: { isValid, isSubmitting, errors },
   } = useForm({ mode: 'onSubmit' });
 
   const handleLogin = async (e) => {
@@ -30,7 +30,7 @@ export function LoginForm() {
       });
 
       if (data.status === 422) {
-        return setError(data.message);
+        return setError('password', { message: `*${data.message}` });
       }
 
       localStorage.setItem('token', JSON.stringify(data.user?.token));
@@ -57,7 +57,7 @@ export function LoginForm() {
             required: true,
           })}
         />
-        <S.WarningText isVisible={!!error}>*{error}</S.WarningText>
+        <S.WarningText isVisible={!!errors.password}>{errors.password?.message}</S.WarningText>
         <LargeButton disabled={!isValid || isSubmitting}>로그인</LargeButton>
       </S.Form>
       <S.SignupLink to='/signup'>이메일로 회원가입</S.SignupLink>
