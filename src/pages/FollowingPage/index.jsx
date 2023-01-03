@@ -13,7 +13,7 @@ export function FollowingPage() {
   const getFollwing = async () => {
     setIsLoading(true);
     try {
-      const { data } = await axiosPrivate.get(`/profile/${accountname}/following`);
+      const { data } = await axiosPrivate.get(`/profile/${accountname}/following/?limit=0`);
 
       setUserInfo(data);
     } catch (e) {
