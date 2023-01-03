@@ -3,7 +3,7 @@ import * as S from './style';
 import { axiosPrivate, BASE_URL } from '../../../api/apiController';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 
-export function CommentInput({ getComments, post, setPost, postId }) {
+export function CommentInput({ getComments, post, setPost, postId, setComments, setHasNextPage, page }) {
   const [isLoading, setIsLoading] = useState(false);
   const [profile, setProfile] = useState('');
   const [input, setInput] = useState('');
@@ -39,17 +39,25 @@ export function CommentInput({ getComments, post, setPost, postId }) {
   };
 
   const handleUpload = async () => {
-    const {
-      data: { comment },
-    } = await axiosPrivate.post(`/post/${postId}/comments`, {
-      comment: {
-        content: input,
-      },
-    });
+    setIsLoading(true);
 
-    setInput('');
-    setPost((prev) => ({ ...prev, commentCount: post.commentCount + 1 }));
-    getComments();
+    try {
+      await axiosPrivate.post(`/post/${postId}/comments`, {
+        comment: {
+          content: input,
+        },
+      });
+
+      setInput('');
+      setPost((prev) => ({ ...prev, commentCount: post.commentCount + 1 }));
+      setComments([]);
+      setHasNextPage(false);
+      page.current = 0;
+      getComments();
+    } catch (e) {
+      console.log(e);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import * as S from './style';
 import { Comment, OthersPostCommentModal, MyCommentModal } from '../../../components';
 import useHeight from '../../../hooks/useHeight';
 
-export function CommentList({ postId, getComments, comments, post, setPost }) {
+export function CommentList({ postId, getComments, comments, post, setPost, setComments, setHasNextPage, page }) {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [isMyComment, setIsMyComment] = useState(false);
   const [commentId, setCommentId] = useState('');
@@ -32,6 +32,9 @@ export function CommentList({ postId, getComments, comments, post, setPost }) {
             postId={postId}
             post={post}
             setPost={setPost}
+            setComments={setComments}
+            setHasNextPage={setHasNextPage}
+            page={page}
           />
         ) : (
           <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} postId={postId} commentId={commentId} />

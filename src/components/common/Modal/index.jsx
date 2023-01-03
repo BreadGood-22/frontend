@@ -144,7 +144,17 @@ export function MyProductModal({ setIsVisibleModal, getProducts, product }) {
   );
 }
 
-export function MyCommentModal({ setIsVisibleModal, getComments, commentId, postId, post, setPost }) {
+export function MyCommentModal({
+  setIsVisibleModal,
+  getComments,
+  commentId,
+  postId,
+  post,
+  setPost,
+  setComments,
+  setHasNextPage,
+  page,
+}) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
 
   const handleDelete = async () => {
@@ -153,6 +163,9 @@ export function MyCommentModal({ setIsVisibleModal, getComments, commentId, post
     } = await axiosPrivate.delete(`/post/${postId}/comments/${commentId}`);
 
     if (message === '댓글이 삭제되었습니다.' && status === '200') {
+      setComments([]);
+      setHasNextPage(false);
+      page.current = 0;
       getComments();
       setIsVisibleModal(false);
       setPost((prev) => ({ ...prev, commentCount: post.commentCount - 1 }));
