@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { axiosPrivate } from '../../../api/apiController';
+import { axiosPrivate, BASE_URL } from '../../../api/apiController';
 import { XSmallButton } from '../../common/Button';
 import * as S from './style';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
@@ -9,7 +9,6 @@ export function Follow({ accountname, username, intro, image, isfollow }) {
   const [isFollowed, setIsFollowed] = useState(isfollow);
   const myAccountName = JSON.parse(localStorage.getItem('accountname'));
   const url = `/profile/${accountname}`;
-  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}/Ellipse.png`;
 
   const changeFollow = async () => {
     setIsLoading(true);
@@ -32,7 +31,7 @@ export function Follow({ accountname, username, intro, image, isfollow }) {
   const renderProfileImage = () => {
     let profileImage = basicProfile;
 
-    if (image !== BASIC_PROFILE_URL) profileImage = image;
+    if (image !== `${BASE_URL}/Ellipse.png`) profileImage = image;
 
     return <S.ProfileImg src={profileImage} />;
   };
