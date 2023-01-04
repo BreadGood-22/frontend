@@ -19,7 +19,7 @@ export function StartPage() {
       ) : (
         <S.Container>
           <h2 className='sr-only'>빵굿빵굿 시작페이지</h2>
-          <S.Logo src={logo} />
+          <S.Logo src={logo} alt='빵굿빵굿' />
           <LoginButtons />
         </S.Container>
       )}
