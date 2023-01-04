@@ -40,6 +40,7 @@ export function HomePage() {
     setIsLoading(false);
   };
 
+  if (isLoading) return <div>로딩중...</div>;
   return (
     <section>
       <h2 className='sr-only'>빵굿빵굿 피드</h2>
@@ -50,7 +51,6 @@ export function HomePage() {
         <PostList posts={posts} setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} />
       )}
       <div ref={ref}></div>
-      {isLoading && <div>Loading...</div>}
       {isVisibleModal && <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} postId={postId} />}
     </section>
   );
