@@ -40,10 +40,14 @@ export const ProductImage = styled.img.attrs({
 
 export const ProductName = styled.strong`
   display: inline-block;
+  width: 100%;
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
   margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const ProductPrice = styled.p`
