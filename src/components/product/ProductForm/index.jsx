@@ -132,6 +132,7 @@ export function ProductForm({ isProductEdit }) {
         <S.PriceInput
           {...register('price', {
             required: true,
+            max: 10000000,
             onChange: (e) => setValue('price', e.target.value.replace(/[^0-9]/g, '')),
             onBlur: (e) =>
               e.target.value && setValue('price', new Intl.NumberFormat().format(e.target.value.replace(/,/g, ''))),
