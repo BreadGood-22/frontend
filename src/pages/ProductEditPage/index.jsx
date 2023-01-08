@@ -1,5 +1,8 @@
-import { ProductEditForm } from '../../components';
+import { useState } from 'react';
+import { ProductForm } from '../../components';
 
 export function ProductEditPage() {
-  return <ProductEditForm />;
+  const [isProductEdit, setIsProductEdit] = useState(true);
+
+  return <ProductForm isProductEdit={isProductEdit} />;
 }
