@@ -155,7 +155,7 @@ export function ProductForm({ isProductEdit }) {
             required: true,
             pattern: {
               // eslint-disable-next-line
-              value: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
+              value: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
               message: '*http 또는 https를 포함한 정확한 URL을 입력해주세요.',
             },
           })}
