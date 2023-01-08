@@ -66,3 +66,13 @@ export const LinkInput = styled(ActiveTextInput).attrs({
   id: 'link',
   placeholder: 'URL을 입력해 주세요.',
 })``;
+
+export const WarningText = styled.strong`
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+  margin-top: 6px;
+  margin-right: auto;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: ${({ theme }) => theme.palette.brown};
+`;

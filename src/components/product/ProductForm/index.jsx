@@ -17,7 +17,7 @@ export function ProductForm({ isProductEdit }) {
     handleSubmit,
     setValue,
     watch,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
   });
@@ -124,28 +124,43 @@ export function ProductForm({ isProductEdit }) {
         <S.ItemNameInput
           {...register('itemName', {
             required: true,
-            minLength: 2,
-            maxLength: 15,
+            minLength: {
+              value: 2,
+              message: '*상품명은 2~15자 이내여야 합니다.',
+            },
+            maxLength: {
+              value: 15,
+              message: '*상품명은 2~15자 이내여야 합니다.',
+            },
           })}
         />
+        <S.WarningText isVisible={!!errors.itemName}>{errors.itemName?.message}</S.WarningText>
         <S.TextLabel htmlFor='price'>가격</S.TextLabel>
         <S.PriceInput
           {...register('price', {
             required: true,
-            max: 10000000,
+            max: {
+              value: 10000000,
+              message: '*가격은 1000만원 이내여야 합니다.',
+            },
             onChange: (e) => setValue('price', e.target.value.replace(/[^0-9]/g, '')),
             onBlur: (e) =>
               e.target.value && setValue('price', new Intl.NumberFormat().format(e.target.value.replace(/,/g, ''))),
           })}
         />
+        <S.WarningText isVisible={!!errors.price}>{errors.price?.message}</S.WarningText>
         <S.TextLabel htmlFor='link'>판매링크</S.TextLabel>
         <S.LinkInput
           {...register('link', {
             required: true,
-            // eslint-disable-next-line
-            pattern: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
+            pattern: {
+              // eslint-disable-next-line
+              value: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
+              message: '*http 또는 https를 포함한 정확한 URL을 입력해주세요.',
+            },
           })}
         />
+        <S.WarningText isVisible={!!errors.link}>{errors.link?.message}</S.WarningText>
       </S.Form>
     </>
   );
