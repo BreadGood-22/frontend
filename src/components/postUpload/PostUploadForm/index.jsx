@@ -83,7 +83,7 @@ export function PostUploadForm() {
       copyPostImg.push(imgUrl);
       setPostImg(copyPostImg);
     } else {
-      alert('이미지 3개까지');
+      alert('이미지는 3장까지 업로드 가능합니다');
     }
   };
 
@@ -129,7 +129,7 @@ export function PostUploadForm() {
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
             </S.ImgUploadButton>
-            {/* {imgPrev && <PhotoUploadList imgPrev={imgPrev} setImgPrev={setImgPrev} setImgUrl={setImgUrl} />} */}
+            {postImg.length === 0 ? null : <PhotoUploadList imgSrc={postImg} setPostImg={setPostImg} />}
           </S.Form>
         </S.PostWrite>
       </S.Container>
