@@ -139,10 +139,7 @@ export function ProductForm({ isProductEdit }) {
         <S.PriceInput
           {...register('price', {
             required: true,
-            max: {
-              value: 10000000,
-              message: '*가격은 1000만원 이내여야 합니다.',
-            },
+            validate: (value) => value.replace(/,/g, '') <= 10000000 || '*가격은 1000만원 이내여야 합니다.',
             onChange: (e) => setValue('price', e.target.value.replace(/[^0-9]/g, '')),
             onBlur: (e) =>
               e.target.value && setValue('price', new Intl.NumberFormat().format(e.target.value.replace(/,/g, ''))),
