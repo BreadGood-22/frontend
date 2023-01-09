@@ -3,6 +3,7 @@ import RemoveIcon from '../../../assets/icons/icon-img-remove.svg';
 
 export const Photo = styled.li`
   position: relative;
+  flex-shrink: 0;
   width: 304px;
   height: 228px;
   overflow: hidden;
