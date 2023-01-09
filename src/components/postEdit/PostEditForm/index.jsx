@@ -11,14 +11,16 @@ export function PostEditForm() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [profile, setProfile] = useState('');
   const [text, setText] = useState('');
-  const [imgPrev, setImgPrev] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
+  const [postImg, setPostImg] = useState([]);
+  // const [imgPrev, setImgPrev] = useState('');
+  // const [imgUrl, setImgUrl] = useState('');
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
   const location = useLocation();
   const textRef = useRef();
   const navigate = useNavigate();
   const postId = location.pathname.split('/')[2];
   const accountname = JSON.parse(localStorage.getItem('accountname'));
+  const MAX_UPLOAD = 3;
 
   // 게시글 콘텐츠 및 이미지 가져오기
   const getPostContent = async () => {
@@ -30,9 +32,10 @@ export function PostEditForm() {
         },
       } = await axiosPrivate.get(`/post/${postId}`);
 
+      const postImg = image.split(',');
+
       setText(content);
-      setImgUrl(image);
-      setImgPrev(image);
+      setPostImg(postImg);
     } catch (e) {
       console.log(e);
     }
@@ -77,23 +80,35 @@ export function PostEditForm() {
   };
 
   // 이미지 업로드
-  const handleFileUpload = async (e) => {
+  const handleFileUpload = async (file) => {
     setIsLoading(true);
 
-    const file = e.target.files[0];
-    const formData = new FormData();
-
-    formData.append('image', file);
-
     try {
+      const formData = new FormData();
+
+      formData.append('image', file);
+
       const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-      setImgUrl(`${BASE_URL}/${data.filename}`);
-      setImgPrev(URL.createObjectURL(file));
+      return `${BASE_URL}/${data.filename}`;
     } catch (e) {
       console.log(e);
     }
+
     setIsLoading(false);
+  };
+
+  const handleGetImageUrl = async (e) => {
+    if (postImg.length < MAX_UPLOAD) {
+      const file = e.target.files[0];
+      const imgUrl = await handleFileUpload(file);
+      const copyPostImg = [...postImg];
+
+      copyPostImg.push(imgUrl);
+      setPostImg(copyPostImg);
+    } else {
+      alert('이미지는 3장까지 업로드 가능합니다');
+    }
   };
 
   // 포스트 수정 업로드
@@ -103,7 +118,7 @@ export function PostEditForm() {
       const res = await axiosPrivate.put(`/post/${postId}`, {
         post: {
           content: text,
-          image: imgUrl,
+          image: postImg.join(','),
         },
       });
 
@@ -116,12 +131,12 @@ export function PostEditForm() {
 
   // 업로드 버튼 컨트롤
   useEffect(() => {
-    if (text || imgPrev) {
+    if (text || postImg.length) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
     }
-  }, [text, imgPrev]);
+  }, [text, postImg]);
 
   return (
     <>
@@ -133,11 +148,11 @@ export function PostEditForm() {
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
             <S.ContentInput onInput={handleTextArea} ref={textRef} defaultValue={text} />
-            <S.ImgUploadButton onChange={handleFileUpload}>
+            <S.ImgUploadButton onChange={handleGetImageUrl}>
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
             </S.ImgUploadButton>
-            {imgPrev && <PhotoUploadList imgPrev={imgPrev} setImgPrev={setImgPrev} setImgUrl={setImgUrl} />}
+            {postImg.length === 0 ? null : <PhotoUploadList imgSrc={postImg} setPostImg={setPostImg} />}
           </S.Form>
         </S.PostWrite>
       </S.Container>
