@@ -82,6 +82,7 @@ export function PostUploadForm() {
 
       copyPostImg.push(imgUrl);
       setPostImg(copyPostImg);
+      e.target.value = '';
     } else {
       alert('이미지는 3장까지 업로드 가능합니다');
     }

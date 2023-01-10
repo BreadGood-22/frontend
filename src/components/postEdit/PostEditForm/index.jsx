@@ -12,8 +12,6 @@ export function PostEditForm() {
   const [profile, setProfile] = useState('');
   const [text, setText] = useState('');
   const [postImg, setPostImg] = useState([]);
-  // const [imgPrev, setImgPrev] = useState('');
-  // const [imgUrl, setImgUrl] = useState('');
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
   const location = useLocation();
   const textRef = useRef();
@@ -106,6 +104,7 @@ export function PostEditForm() {
 
       copyPostImg.push(imgUrl);
       setPostImg(copyPostImg);
+      e.target.value = '';
     } else {
       alert('이미지는 3장까지 업로드 가능합니다');
     }
