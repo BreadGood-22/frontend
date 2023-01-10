@@ -134,7 +134,7 @@ export function ProductForm({ isProductEdit }) {
             },
           })}
         />
-        <S.WarningText isVisible={!!errors.itemName}>{errors.itemName?.message}</S.WarningText>
+        {errors?.itemName && <S.WarningText>{errors.itemName?.message}</S.WarningText>}
         <S.TextLabel htmlFor='price'>가격</S.TextLabel>
         <S.PriceInput
           {...register('price', {
@@ -145,7 +145,7 @@ export function ProductForm({ isProductEdit }) {
               e.target.value && setValue('price', new Intl.NumberFormat().format(e.target.value.replace(/,/g, ''))),
           })}
         />
-        <S.WarningText isVisible={!!errors.price}>{errors.price?.message}</S.WarningText>
+        {errors?.price && <S.WarningText>{errors.price?.message}</S.WarningText>}
         <S.TextLabel htmlFor='link'>판매링크</S.TextLabel>
         <S.LinkInput
           {...register('link', {
@@ -157,7 +157,7 @@ export function ProductForm({ isProductEdit }) {
             },
           })}
         />
-        <S.WarningText isVisible={!!errors.link}>{errors.link?.message}</S.WarningText>
+        {errors?.link && <S.WarningText>{errors.link?.message}</S.WarningText>}
       </S.Form>
     </>
   );
