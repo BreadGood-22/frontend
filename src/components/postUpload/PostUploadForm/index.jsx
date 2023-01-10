@@ -9,14 +9,14 @@ import basicProfile from '../../../assets/images/basic-profile-img.png';
 export function PostUploadForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState('');
-  const [imgPrev, setImgPrev] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
+  const [postImg, setPostImg] = useState([]);
   const [profile, setProfile] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
   const textRef = useRef();
   const navigate = useNavigate();
   const accountname = JSON.parse(localStorage.getItem('accountname'));
+  const MAX_UPLOAD = 3;
 
   // profile image 불러오기
   const getProfile = async () => {
@@ -56,33 +56,47 @@ export function PostUploadForm() {
   };
 
   // 이미지 업로드
-  const handleFileUpload = async (e) => {
+  const handleFileUpload = async (file) => {
     setIsLoading(true);
 
-    const file = e.target.files[0];
-    const formData = new FormData();
-
-    formData.append('image', file);
-
     try {
+      const formData = new FormData();
+
+      formData.append('image', file);
+
       const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-      setImgUrl(`${BASE_URL}/${data.filename}`);
-      setImgPrev(URL.createObjectURL(file));
+      return `${BASE_URL}/${data.filename}`;
     } catch (e) {
       console.log(e);
     }
+
     setIsLoading(false);
+  };
+
+  const handleGetImageUrl = async (e) => {
+    if (postImg.length < MAX_UPLOAD) {
+      const file = e.target.files[0];
+      const imgUrl = await handleFileUpload(file);
+      const copyPostImg = [...postImg];
+
+      copyPostImg.push(imgUrl);
+      setPostImg(copyPostImg);
+      e.target.value = '';
+    } else {
+      alert('이미지는 3장까지 업로드 가능합니다');
+    }
   };
 
   // 포스트 업로드
   const handlePostUpload = async () => {
     setIsLoading(true);
+
     try {
-      const res = await axiosPrivate.post('/post', {
+      await axiosPrivate.post('/post', {
         post: {
           content: text,
-          image: imgUrl,
+          image: postImg.join(','),
         },
       });
 
@@ -90,16 +104,17 @@ export function PostUploadForm() {
     } catch (e) {
       console.log(e);
     }
+
     setIsLoading(false);
   };
 
   useEffect(() => {
-    if (text || imgPrev) {
+    if (text || postImg.length) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
     }
-  }, [text, imgPrev]);
+  }, [text, postImg]);
 
   return (
     <>
@@ -111,11 +126,11 @@ export function PostUploadForm() {
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
             <S.ContentInput onInput={handleTextArea} ref={textRef} />
-            <S.ImgUploadButton onChange={handleFileUpload}>
+            <S.ImgUploadButton onChange={handleGetImageUrl}>
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
             </S.ImgUploadButton>
-            {imgPrev && <PhotoUploadList imgPrev={imgPrev} setImgPrev={setImgPrev} setImgUrl={setImgUrl} />}
+            {postImg.length === 0 ? null : <PhotoUploadList imgSrc={postImg} setPostImg={setPostImg} />}
           </S.Form>
         </S.PostWrite>
       </S.Container>

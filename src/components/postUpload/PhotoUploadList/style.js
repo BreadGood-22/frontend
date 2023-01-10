@@ -7,6 +7,12 @@ export const PhotoUploadList = styled.ul`
   overflow-x: scroll;
 
   &::-webkit-scrollbar {
-    display: none;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.palette.lightGray};
+    border: 3px solid ${({ theme }) => theme.palette.white};
+    border-radius: 10px;
   }
 `;
