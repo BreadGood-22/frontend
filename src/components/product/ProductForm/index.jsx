@@ -5,7 +5,7 @@ import { axiosImg, axiosPrivate, BASE_URL } from '../../../api/apiController';
 import { HeaderSave } from '../../index';
 import * as S from './style';
 
-export function ProductEditForm() {
+export function ProductForm({ isProductEdit }) {
   const [isLoading, setIsLoading] = useState(false);
   const [imageURL, setImageURL] = useState('');
   const [imagePreview, setImagePreview] = useState('');
@@ -17,7 +17,7 @@ export function ProductEditForm() {
     handleSubmit,
     setValue,
     watch,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
   });
@@ -45,7 +45,9 @@ export function ProductEditForm() {
   };
 
   useEffect(() => {
-    getProductContent();
+    if (isProductEdit) {
+      getProductContent();
+    }
   }, []);
 
   const handleImageUpload = async (e) => {
@@ -56,10 +58,11 @@ export function ProductEditForm() {
 
     formData.append('image', file);
 
+    setImagePreview(URL.createObjectURL(file));
+
     try {
       const { data } = await axiosImg.post('/image/uploadfile', formData);
 
-      setImagePreview(URL.createObjectURL(file));
       setImageURL(`${BASE_URL}/${data.filename}`);
     } catch (e) {
       console.log(e);
@@ -75,14 +78,25 @@ export function ProductEditForm() {
 
       const numberPrice = typeof price === 'number' ? price : parseInt(price.replace(/,/g, ''), 10);
 
-      const res = await axiosPrivate.put(`/product/${productId}`, {
-        product: {
-          itemName,
-          price: numberPrice,
-          link,
-          itemImage: imageURL,
-        },
-      });
+      if (!isProductEdit) {
+        const res = await axiosPrivate.post('/product', {
+          product: {
+            itemName,
+            price: numberPrice,
+            link,
+            itemImage: imageURL,
+          },
+        });
+      } else {
+        const res = await axiosPrivate.put(`/product/${productId}`, {
+          product: {
+            itemName,
+            price: numberPrice,
+            link,
+            itemImage: imageURL,
+          },
+        });
+      }
 
       navigate(`/profile/${accountname}`);
     } catch (e) {
@@ -110,27 +124,40 @@ export function ProductEditForm() {
         <S.ItemNameInput
           {...register('itemName', {
             required: true,
-            minLength: 2,
-            maxLength: 15,
+            minLength: {
+              value: 2,
+              message: '*상품명은 2~15자 이내여야 합니다.',
+            },
+            maxLength: {
+              value: 15,
+              message: '*상품명은 2~15자 이내여야 합니다.',
+            },
           })}
         />
+        {errors?.itemName && <S.WarningText>{errors.itemName?.message}</S.WarningText>}
         <S.TextLabel htmlFor='price'>가격</S.TextLabel>
         <S.PriceInput
           {...register('price', {
             required: true,
+            validate: (value) => value.replace(/,/g, '') <= 10000000 || '*가격은 1000만원 이내여야 합니다.',
             onChange: (e) => setValue('price', e.target.value.replace(/[^0-9]/g, '')),
             onBlur: (e) =>
               e.target.value && setValue('price', new Intl.NumberFormat().format(e.target.value.replace(/,/g, ''))),
           })}
         />
+        {errors?.price && <S.WarningText>{errors.price?.message}</S.WarningText>}
         <S.TextLabel htmlFor='link'>판매링크</S.TextLabel>
         <S.LinkInput
           {...register('link', {
             required: true,
-            // eslint-disable-next-line
-            pattern: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
+            pattern: {
+              // eslint-disable-next-line
+              value: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
+              message: '*http 또는 https를 포함한 정확한 URL을 입력해주세요.',
+            },
           })}
         />
+        {errors?.link && <S.WarningText>{errors.link?.message}</S.WarningText>}
       </S.Form>
     </>
   );

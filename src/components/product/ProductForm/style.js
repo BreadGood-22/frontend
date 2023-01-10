@@ -14,7 +14,7 @@ export const Form = styled.form`
   }
 
   & > label {
-    margin-top: 16px;
+    margin-top: 24px;
   }
 `;
 
@@ -66,3 +66,14 @@ export const LinkInput = styled(ActiveTextInput).attrs({
   id: 'link',
   placeholder: 'URL을 입력해 주세요.',
 })``;
+
+export const WarningText = styled.strong`
+  display: block;
+  position: absolute;
+  margin-top: 2px;
+  margin-right: auto;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 14px;
+  color: ${({ theme }) => theme.palette.brown};
+`;
