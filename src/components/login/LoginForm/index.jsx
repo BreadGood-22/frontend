@@ -44,22 +44,26 @@ export function LoginForm() {
 
   return (
     <>
-      <S.Form onSubmit={handleSubmit(handleLogin)}>
-        <Label>이메일</Label>
-        <EmailInput
-          {...register('email', {
-            required: true,
-          })}
-        />
-        <Label>비밀번호</Label>
-        <PasswordInput
-          {...register('password', {
-            required: true,
-          })}
-        />
-        <S.WarningText isVisible={!!errors.password}>{errors.password?.message}</S.WarningText>
-        <LargeButton disabled={!isValid || isSubmitting}>로그인</LargeButton>
-      </S.Form>
+      <form onSubmit={handleSubmit(handleLogin)}>
+        <S.EmailContainer>
+          <Label>이메일</Label>
+          <EmailInput
+            {...register('email', {
+              required: true,
+            })}
+          />
+        </S.EmailContainer>
+        <S.PasswordContainer>
+          <Label>비밀번호</Label>
+          <PasswordInput
+            {...register('password', {
+              required: true,
+            })}
+          />
+          {errors?.password && <S.WarningText>{errors?.password?.message}</S.WarningText>}
+        </S.PasswordContainer>
+        <LargeButton disabled={isSubmitting || !isValid}>로그인</LargeButton>
+      </form>
       <S.SignupLink to='/signup'>이메일로 회원가입</S.SignupLink>
     </>
   );
