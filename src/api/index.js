@@ -13,3 +13,4 @@ export { deleteFollow } from './follow/deleteFollow';
 export { addProduct } from './product/addProduct';
 export { updateProduct } from './product/updateProduct';
 export { getProductDetail } from './product/getProductDetail';
+export { addLogin } from './login/addLogin';
