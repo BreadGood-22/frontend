@@ -57,10 +57,7 @@ export const ImageLabel = styled(SmallImgButtonLabel)`
   }
 `;
 
-export const Image = styled.img.attrs({
-  onError: (e) => (e.target.style.display = 'none'),
-  onLoad: (e) => (e.target.style.display = 'inline-block'),
-})`
+export const Image = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 70px;
