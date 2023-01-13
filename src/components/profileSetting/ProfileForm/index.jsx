@@ -103,7 +103,7 @@ export function ProfileForm() {
           },
         })}
       />
-      <S.WarningText isVisible={!!errors.username}>{errors.username?.message}</S.WarningText>
+      {errors?.username && <S.WarningText>{errors?.username?.message}</S.WarningText>}
       <Label htmlFor='accountname'>계정 ID</Label>
       <IDInput
         id='accountname'
@@ -120,7 +120,7 @@ export function ProfileForm() {
           onBlur: (e) => handleAccountNameValidation(e),
         })}
       />
-      <S.WarningText isVisible={!!errors.accountname}>{errors.accountname?.message}</S.WarningText>
+      {errors?.accountname && <S.WarningText>{errors?.accountname?.message}</S.WarningText>}
       <Label htmlFor='intro'>소개</Label>
       <IntroduceInput id='intro' {...register('intro')} />
       <LargeButton disabled={!isValid}>빵굿빵굿 시작하기</LargeButton>
