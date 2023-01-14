@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import axios from '../../../api/apiController';
+import { addEmailValid } from '../../../api';
 import { EmailInput, PasswordInput, LargeButton, Label } from '../../index';
 import * as S from './style';
 
@@ -12,26 +12,19 @@ export function SignupForm() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isValid },
     setError,
   } = useForm({
     mode: 'onBlur',
   });
 
-  const handleEmailValidation = async () => {
+  const handleEmailValidation = async (data) => {
     setIsLoading(true);
 
-    const { email, password } = watch();
+    const { email, password } = data;
 
-    try {
-      const { data } = await axios.post('/user/emailvalid', {
-        user: {
-          email,
-        },
-      });
-
-      if (data.message === '사용 가능한 이메일 입니다.') {
+    await addEmailValid(email).then((res) => {
+      if (res === '사용 가능한 이메일 입니다.') {
         navigate('/profile/setting', {
           state: {
             email,
@@ -39,11 +32,10 @@ export function SignupForm() {
           },
         });
       } else {
-        setError('email', { message: `*${data.message}` }, { shouldFocus: true });
+        setError('email', { message: `*${res}` }, { shouldFocus: true });
       }
-    } catch (e) {
-      console.log(e);
-    }
+    });
+
     setIsLoading(false);
   };
 
@@ -61,7 +53,7 @@ export function SignupForm() {
           },
         })}
       />
-      <S.WarningText isVisible={!!errors.email}>{errors.email?.message}</S.WarningText>
+      {errors?.email && <S.WarningText>{errors?.email?.message}</S.WarningText>}
       <Label htmlFor='password'>비밀번호</Label>
       <PasswordInput
         id='password'
@@ -74,7 +66,7 @@ export function SignupForm() {
           },
         })}
       />
-      <S.WarningText isVisible={!!errors.password}>{errors.password?.message}</S.WarningText>
+      {errors?.password && <S.WarningText>{errors?.password?.message}</S.WarningText>}
       <LargeButton disabled={!isValid}>다음</LargeButton>
     </S.Form>
   );

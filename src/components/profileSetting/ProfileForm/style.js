@@ -1,22 +1,25 @@
 import styled from 'styled-components';
-import { SmallImgButtonLabel, SmallImgButtonInput, Label } from '../../index';
+import { SmallImgButtonLabel, SmallImgButtonInput } from '../../index';
 
 export const WarningText = styled.strong`
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+  display: block;
+  position: absolute;
   color: ${({ theme }) => theme.palette.brown};
-  font-size: 12px;
-  font-weight: 400;
+  font-size: 11px;
   line-height: 14px;
   text-align: left;
-  margin-top: 6px;
+  margin-top: 2px;
 `;
 
 export const Form = styled.form`
-  & label {
+  & label[for='small-img-button'] {
+    margin-top: 0;
+  }
+  & label[for='username'] {
     margin-top: 16px;
   }
-  & label:nth-child(1) {
-    margin-top: 0;
+  & label {
+    margin-top: 22px;
   }
   & button {
     margin-top: 30px;
@@ -57,10 +60,7 @@ export const ImageLabel = styled(SmallImgButtonLabel)`
   }
 `;
 
-export const Image = styled.img.attrs({
-  onError: (e) => (e.target.style.display = 'none'),
-  onLoad: (e) => (e.target.style.display = 'inline-block'),
-})`
+export const Image = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 70px;

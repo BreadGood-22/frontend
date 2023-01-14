@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import axios, { axiosImg, BASE_URL } from '../../../api/apiController';
+import { addImage, addAccountNameValid, addUserInfo } from '../../../api';
 import * as S from './style';
 import { Label, NameInput, IDInput, IntroduceInput, LargeButton } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
@@ -9,13 +9,11 @@ import basicProfile from '../../../assets/images/basic-profile-img.png';
 export function ProfileForm() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [imageURL, setImageURL] = useState(`${BASE_URL}/Ellipse.png`);
   const [imagePreview, setImagePreview] = useState(basicProfile);
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isValid },
     setError,
   } = useForm({
@@ -23,63 +21,39 @@ export function ProfileForm() {
   });
 
   const handleAccountNameValidation = async (e) => {
-    const { data } = await axios.post('/user/accountnamevalid', {
-      user: {
-        accountname: e.target.value,
-      },
+    setIsLoading(true);
+    await addAccountNameValid(e).then((res) => {
+      if (res === '이미 가입된 계정ID 입니다.') {
+        setError('accountname', { message: `*${res}` }, { shouldFocus: true });
+      }
     });
-
-    if (data.message === '이미 가입된 계정ID 입니다.') {
-      setError('accountname', { message: `*${data.message}` }, { shouldFocus: true });
-    }
+    setIsLoading(false);
   };
 
-  const handleSignup = async () => {
+  const handleSignup = async (data) => {
     setIsLoading(true);
 
     const { email, password } = location.state;
-    const { username, accountname, intro } = watch();
+    const { username, accountname, intro, imageFile } = data;
 
-    try {
-      if (isValid) {
-        const { data } = await axios.post('/user', {
-          user: {
-            email,
-            password,
-            username,
-            accountname,
-            intro,
-            image: imageURL,
-          },
-        });
+    const image =
+      imageFile.length > 0 ? await addImage(imageFile[0]) : 'https://mandarin.api.weniv.co.kr/1673585016866.png';
 
-        if (data.message === '회원가입 성공') {
+    if (isValid) {
+      await addUserInfo({ email, password, username, accountname, intro, image }).then((res) => {
+        if (res === '회원가입 성공') {
           navigate('/start');
         }
-      }
-    } catch (e) {
-      console.log(e);
+      });
     }
+
     setIsLoading(false);
   };
 
-  const handleImageUpload = async (e) => {
-    setIsLoading(true);
-
+  const handleImagePreview = (e) => {
     const file = e.target.files[0];
-    const formData = new FormData();
 
-    formData.append('image', file);
-
-    try {
-      const { data } = await axiosImg.post('/image/uploadfile', formData);
-
-      setImagePreview(URL.createObjectURL(file));
-      setImageURL(`${BASE_URL}/${data.filename}`);
-    } catch (e) {
-      console.log(e);
-    }
-    setIsLoading(false);
+    setImagePreview(URL.createObjectURL(file));
   };
 
   useEffect(() => {
@@ -93,7 +67,11 @@ export function ProfileForm() {
       <S.ImageLabel color='brown'>
         <S.Image src={imagePreview} />
       </S.ImageLabel>
-      <S.ImageInput onChange={(e) => handleImageUpload(e)} />
+      <S.ImageInput
+        {...register('imageFile', {
+          onChange: (e) => handleImagePreview(e),
+        })}
+      />
       <Label htmlFor='username'>사용자 이름</Label>
       <NameInput
         id='username'
@@ -110,7 +88,7 @@ export function ProfileForm() {
           },
         })}
       />
-      <S.WarningText isVisible={!!errors.username}>{errors.username?.message}</S.WarningText>
+      {errors?.username && <S.WarningText>{errors?.username?.message}</S.WarningText>}
       <Label htmlFor='accountname'>계정 ID</Label>
       <IDInput
         id='accountname'
@@ -127,7 +105,7 @@ export function ProfileForm() {
           onBlur: (e) => handleAccountNameValidation(e),
         })}
       />
-      <S.WarningText isVisible={!!errors.accountname}>{errors.accountname?.message}</S.WarningText>
+      {errors?.accountname && <S.WarningText>{errors?.accountname?.message}</S.WarningText>}
       <Label htmlFor='intro'>소개</Label>
       <IntroduceInput id='intro' {...register('intro')} />
       <LargeButton disabled={!isValid}>빵굿빵굿 시작하기</LargeButton>
