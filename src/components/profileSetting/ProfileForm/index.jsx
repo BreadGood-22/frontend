@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import axios from '../../../api/apiController';
-import { addImage } from '../../../api';
+import { addImage, addAccountNameValid } from '../../../api';
 import * as S from './style';
 import { Label, NameInput, IDInput, IntroduceInput, LargeButton } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
@@ -22,15 +22,13 @@ export function ProfileForm() {
   });
 
   const handleAccountNameValidation = async (e) => {
-    const { data } = await axios.post('/user/accountnamevalid', {
-      user: {
-        accountname: e.target.value,
-      },
+    setIsLoading(true);
+    await addAccountNameValid(e).then((res) => {
+      if (res === '이미 가입된 계정ID 입니다.') {
+        setError('accountname', { message: `*${res}` }, { shouldFocus: true });
+      }
     });
-
-    if (data.message === '이미 가입된 계정ID 입니다.') {
-      setError('accountname', { message: `*${data.message}` }, { shouldFocus: true });
-    }
+    setIsLoading(false);
   };
 
   const handleSignup = async (data) => {
