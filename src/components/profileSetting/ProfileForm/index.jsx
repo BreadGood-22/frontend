@@ -1,8 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import axios from '../../../api/apiController';
-import { addImage, addAccountNameValid } from '../../../api';
+import { addImage, addAccountNameValid, addUserInfo } from '../../../api';
 import * as S from './style';
 import { Label, NameInput, IDInput, IntroduceInput, LargeButton } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
@@ -40,26 +39,14 @@ export function ProfileForm() {
     const image =
       imageFile.length > 0 ? await addImage(imageFile[0]) : 'https://mandarin.api.weniv.co.kr/1673585016866.png';
 
-    try {
-      if (isValid) {
-        const { data } = await axios.post('/user', {
-          user: {
-            email,
-            password,
-            username,
-            accountname,
-            intro,
-            image,
-          },
-        });
-
-        if (data.message === '회원가입 성공') {
+    if (isValid) {
+      await addUserInfo({ email, password, username, accountname, intro, image }).then((res) => {
+        if (res === '회원가입 성공') {
           navigate('/start');
         }
-      }
-    } catch (e) {
-      console.log(e);
+      });
     }
+
     setIsLoading(false);
   };
 
