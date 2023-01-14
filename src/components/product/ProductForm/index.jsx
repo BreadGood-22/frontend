@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { axiosImg, axiosPrivate, BASE_URL } from '../../../api/apiController';
+import { addImage } from '../../../api';
+import { axiosPrivate } from '../../../api/apiController';
 import { HeaderSave } from '../../index';
 import * as S from './style';
 
 export function ProductForm({ isProductEdit }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [imageURL, setImageURL] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const navigate = useNavigate();
   const { productId } = useParams();
@@ -16,7 +16,6 @@ export function ProductForm({ isProductEdit }) {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
@@ -35,9 +34,8 @@ export function ProductForm({ isProductEdit }) {
       setValue('itemName', itemName);
       setValue('price', price);
       setValue('link', link);
-      setValue('itemImage', itemImage, { shouldValidate: true });
+      setValue('imageFile', itemImage, { shouldValidate: true });
       setImagePreview(itemImage);
-      setImageURL(itemImage);
     } catch (e) {
       console.log(e);
     }
@@ -50,32 +48,20 @@ export function ProductForm({ isProductEdit }) {
     }
   }, []);
 
-  const handleImageUpload = async (e) => {
-    setIsLoading(true);
-
+  const handleImagePreview = (e) => {
     const file = e.target.files[0];
-    const formData = new FormData();
-
-    formData.append('image', file);
 
     setImagePreview(URL.createObjectURL(file));
-
-    try {
-      const { data } = await axiosImg.post('/image/uploadfile', formData);
-
-      setImageURL(`${BASE_URL}/${data.filename}`);
-    } catch (e) {
-      console.log(e);
-    }
-    setIsLoading(false);
   };
 
-  const handleItemData = async () => {
+  const handleItemData = async (data) => {
     setIsLoading(true);
 
-    try {
-      const { itemName, price, link } = watch();
+    const { itemName, price, link, imageFile } = data;
 
+    const itemImage = await addImage(imageFile[0]);
+
+    try {
       const numberPrice = typeof price === 'number' ? price : parseInt(price.replace(/,/g, ''), 10);
 
       if (!isProductEdit) {
@@ -84,7 +70,7 @@ export function ProductForm({ isProductEdit }) {
             itemName,
             price: numberPrice,
             link,
-            itemImage: imageURL,
+            itemImage,
           },
         });
       } else {
@@ -93,7 +79,7 @@ export function ProductForm({ isProductEdit }) {
             itemName,
             price: numberPrice,
             link,
-            itemImage: imageURL,
+            itemImage,
           },
         });
       }
@@ -114,10 +100,10 @@ export function ProductForm({ isProductEdit }) {
           <S.Image src={imagePreview} />
         </S.ImageLabel>
         <S.ImageInput
-          {...register('itemImage', {
+          {...register('imageFile', {
             required: true,
-            validate: (fileList) => !!imageURL || fileList.length > 0,
-            onChange: (e) => handleImageUpload(e),
+            validate: (fileList) => fileList.length > 0,
+            onChange: (e) => handleImagePreview(e),
           })}
         />
         <S.TextLabel htmlFor='itemName'>상품명</S.TextLabel>
