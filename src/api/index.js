@@ -1,3 +1,4 @@
 export { addImage } from './imgUpload/addImage';
-export { addAccountNameValid } from './profile/addAccountNameValid';
-export { addUserInfo } from './profile/addUserInfo';
+export { addAccountNameValid } from './signup/addAccountNameValid';
+export { addUserInfo } from './signup/addUserInfo';
+export { addEmailValid } from './signup/addEmailValid';
