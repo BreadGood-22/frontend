@@ -32,7 +32,7 @@ export function ProductForm({ isProductEdit }) {
       } = await axiosPrivate.get(`/product/detail/${productId}`);
 
       setValue('itemName', itemName);
-      setValue('price', price);
+      setValue('price', `${price}`);
       setValue('link', link);
       setValue('imageFile', itemImage, { shouldValidate: true });
       setImagePreview(itemImage);
