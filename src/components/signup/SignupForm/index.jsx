@@ -61,7 +61,7 @@ export function SignupForm() {
           },
         })}
       />
-      <S.WarningText isVisible={!!errors.email}>{errors.email?.message}</S.WarningText>
+      {errors?.email && <S.WarningText>{errors?.email?.message}</S.WarningText>}
       <Label htmlFor='password'>비밀번호</Label>
       <PasswordInput
         id='password'
@@ -74,7 +74,7 @@ export function SignupForm() {
           },
         })}
       />
-      <S.WarningText isVisible={!!errors.password}>{errors.password?.message}</S.WarningText>
+      {errors?.password && <S.WarningText>{errors?.password?.message}</S.WarningText>}
       <LargeButton disabled={!isValid}>다음</LargeButton>
     </S.Form>
   );
