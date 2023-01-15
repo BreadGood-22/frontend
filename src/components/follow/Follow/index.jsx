@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { axiosPrivate, BASE_URL } from '../../../api/apiController';
+import { BASE_URL } from '../../../api/apiController';
 import { XSmallButton } from '../../common/Button';
 import * as S from './style';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
+import { addFollow, deleteFollow } from '../../../api';
 
 export function Follow({ accountname, username, intro, image, isfollow }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,19 +13,15 @@ export function Follow({ accountname, username, intro, image, isfollow }) {
 
   const changeFollow = async () => {
     setIsLoading(true);
-    try {
-      if (isFollowed) {
-        await axiosPrivate.delete(`/profile/${accountname}/unfollow`);
 
-        setIsFollowed(false);
-      } else {
-        await axiosPrivate.post(`/profile/${accountname}/follow`);
-
-        setIsFollowed(true);
-      }
-    } catch (e) {
-      console.log(e);
+    if (isFollowed) {
+      await deleteFollow(accountname);
+      setIsFollowed(false);
+    } else {
+      await addFollow(accountname);
+      setIsFollowed(true);
     }
+
     setIsLoading(false);
   };
 

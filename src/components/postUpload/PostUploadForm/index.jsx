@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { axiosPrivate, axiosImg, BASE_URL } from '../../../api/apiController';
+import { BASE_URL } from '../../../api/apiController';
+import { addImage, getUserInfo, addPost } from '../../../api';
 import * as S from './style';
 import { PhotoUploadList } from '../PhotoUploadList';
 import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
@@ -18,18 +19,13 @@ export function PostUploadForm() {
   const accountname = JSON.parse(localStorage.getItem('accountname'));
   const MAX_UPLOAD = 3;
 
-  // profile image 불러오기
   const getProfile = async () => {
     setIsLoading(true);
-    try {
-      const {
-        data: { profile },
-      } = await axiosPrivate.get(`/profile/${accountname}`);
 
-      setProfile(profile);
-    } catch (e) {
-      console.log(e);
-    }
+    const { image } = await getUserInfo(accountname);
+
+    setProfile(image);
+
     setIsLoading(false);
   };
 
@@ -37,47 +33,26 @@ export function PostUploadForm() {
     getProfile();
   }, []);
 
-  const { image } = profile;
-
-  // profile image 렌더링
   const renderProfileImage = () => {
     let profileImage = basicProfile;
 
-    if (image !== `${BASE_URL}/Ellipse.png`) profileImage = image;
+    if (profile !== `${BASE_URL}/Ellipse.png`) profileImage = profile;
 
     return <S.ProfileImg src={profileImage} />;
   };
 
-  // 텍스트 input창의 높이 조절 및 텍스트 value 저장
   const handleTextArea = (e) => {
     textRef.current.style.height = 'auto';
     textRef.current.style.height = `${textRef.current.scrollHeight}px`;
     setText(e.target.value);
   };
 
-  // 이미지 업로드
-  const handleFileUpload = async (file) => {
+  const handleGetImageUrl = async (e) => {
     setIsLoading(true);
 
-    try {
-      const formData = new FormData();
-
-      formData.append('image', file);
-
-      const { data } = await axiosImg.post('/image/uploadfile', formData);
-
-      return `${BASE_URL}/${data.filename}`;
-    } catch (e) {
-      console.log(e);
-    }
-
-    setIsLoading(false);
-  };
-
-  const handleGetImageUrl = async (e) => {
     if (postImg.length < MAX_UPLOAD) {
       const file = e.target.files[0];
-      const imgUrl = await handleFileUpload(file);
+      const imgUrl = await addImage(file);
       const copyPostImg = [...postImg];
 
       copyPostImg.push(imgUrl);
@@ -86,24 +61,17 @@ export function PostUploadForm() {
     } else {
       alert('이미지는 3장까지 업로드 가능합니다');
     }
+
+    setIsLoading(false);
   };
 
-  // 포스트 업로드
   const handlePostUpload = async () => {
+    const images = postImg.join(',');
+
     setIsLoading(true);
 
-    try {
-      await axiosPrivate.post('/post', {
-        post: {
-          content: text,
-          image: postImg.join(','),
-        },
-      });
-
-      navigate(`/profile/${accountname}`);
-    } catch (e) {
-      console.log(e);
-    }
+    await addPost(text, images);
+    navigate(`/profile/${accountname}`);
 
     setIsLoading(false);
   };
