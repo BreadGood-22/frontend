@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as S from './style';
 import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
 import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
-import { axiosPrivate, axiosImg, BASE_URL } from '../../../api/apiController';
+import { BASE_URL } from '../../../api/apiController';
+import { addImage, getUserInfo, getUserPost, updatePost } from '../../../api';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function PostEditForm() {
@@ -20,40 +21,23 @@ export function PostEditForm() {
   const accountname = JSON.parse(localStorage.getItem('accountname'));
   const MAX_UPLOAD = 3;
 
-  // 게시글 콘텐츠 및 이미지 가져오기
-  const getPostContent = async () => {
+  const getProfile = async () => {
     setIsLoading(true);
-    try {
-      const {
-        data: {
-          post: { content, image },
-        },
-      } = await axiosPrivate.get(`/post/${postId}`);
 
-      const postImg = image.split(',');
+    const { image } = await getUserInfo(accountname);
 
-      setText(content);
-      setPostImg(postImg);
-    } catch (e) {
-      console.log(e);
-    }
+    setProfile(image);
     setIsLoading(false);
   };
 
-  // 프로필 이미지 가져오기
-  const getProfile = async () => {
+  const getPostContent = async () => {
     setIsLoading(true);
-    try {
-      const {
-        data: {
-          profile: { image },
-        },
-      } = await axiosPrivate.get(`/profile/${accountname}`);
 
-      setProfile(image);
-    } catch (e) {
-      console.log(e);
-    }
+    const { content, image } = await getUserPost(postId);
+
+    setText(content);
+    setPostImg(image.split(','));
+
     setIsLoading(false);
   };
 
@@ -62,7 +46,6 @@ export function PostEditForm() {
     getProfile();
   }, []);
 
-  // profile image 렌더링
   const renderProfileImage = () => {
     let profileImage = basicProfile;
 
@@ -77,29 +60,10 @@ export function PostEditForm() {
     setText(e.target.value);
   };
 
-  // 이미지 업로드
-  const handleFileUpload = async (file) => {
-    setIsLoading(true);
-
-    try {
-      const formData = new FormData();
-
-      formData.append('image', file);
-
-      const { data } = await axiosImg.post('/image/uploadfile', formData);
-
-      return `${BASE_URL}/${data.filename}`;
-    } catch (e) {
-      console.log(e);
-    }
-
-    setIsLoading(false);
-  };
-
   const handleGetImageUrl = async (e) => {
     if (postImg.length < MAX_UPLOAD) {
       const file = e.target.files[0];
-      const imgUrl = await handleFileUpload(file);
+      const imgUrl = await addImage(file);
       const copyPostImg = [...postImg];
 
       copyPostImg.push(imgUrl);
@@ -110,25 +74,17 @@ export function PostEditForm() {
     }
   };
 
-  // 포스트 수정 업로드
   const handlePostUpload = async () => {
-    setIsLoading(true);
-    try {
-      const res = await axiosPrivate.put(`/post/${postId}`, {
-        post: {
-          content: text,
-          image: postImg.join(','),
-        },
-      });
+    const images = postImg.join(',');
 
-      navigate(`/profile/${accountname}`);
-    } catch (e) {
-      console.log(e);
-    }
+    setIsLoading(true);
+
+    await updatePost(postId, text, images);
+    navigate(`/profile/${accountname}`);
+
     setIsLoading(false);
   };
 
-  // 업로드 버튼 컨트롤
   useEffect(() => {
     if (text || postImg.length) {
       setIsDisabled(false);
