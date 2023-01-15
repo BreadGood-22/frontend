@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { axiosPrivate } from '../../api/apiController';
+import { getFollowings } from '../../api';
 import { Follow, HeaderFollowings } from '../../components';
 import * as S from './style';
 
@@ -12,13 +12,10 @@ export function FollowingPage() {
 
   const getFollwing = async () => {
     setIsLoading(true);
-    try {
-      const { data } = await axiosPrivate.get(`/profile/${accountname}/following/?limit=0`);
 
-      setUserInfo(data);
-    } catch (e) {
-      console.log(e);
-    }
+    const { data } = await getFollowings({ accountname });
+
+    setUserInfo(data);
     setIsLoading(false);
   };
 

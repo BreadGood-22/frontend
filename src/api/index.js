@@ -6,3 +6,5 @@ export { getUserInfo } from './profile/getUserInfo';
 export { addPost } from './post/addPost';
 export { getUserPost } from './post/getUserPost';
 export { updatePost } from './post/updatePost';
+export { getFollowers } from './follow/getFollowers';
+export { getFollowings } from './follow/getFollowings';
