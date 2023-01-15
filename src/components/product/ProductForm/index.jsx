@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { axiosImg, axiosPrivate, BASE_URL } from '../../../api/apiController';
+import { addImage, addProduct, getProductDetail, updateProduct } from '../../../api';
 import { HeaderSave } from '../../index';
 import * as S from './style';
 
 export function ProductForm({ isProductEdit }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [imageURL, setImageURL] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const navigate = useNavigate();
   const { productId } = useParams();
@@ -16,7 +15,7 @@ export function ProductForm({ isProductEdit }) {
     register,
     handleSubmit,
     setValue,
-    watch,
+    getValues,
     formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
@@ -25,22 +24,14 @@ export function ProductForm({ isProductEdit }) {
   const getProductContent = async () => {
     setIsLoading(true);
 
-    try {
-      const {
-        data: {
-          product: { itemName, price, link, itemImage },
-        },
-      } = await axiosPrivate.get(`/product/detail/${productId}`);
+    const { itemName, price, link, itemImage } = await getProductDetail(productId);
 
-      setValue('itemName', itemName);
-      setValue('price', price);
-      setValue('link', link);
-      setValue('itemImage', itemImage, { shouldValidate: true });
-      setImagePreview(itemImage);
-      setImageURL(itemImage);
-    } catch (e) {
-      console.log(e);
-    }
+    setValue('itemName', itemName);
+    setValue('price', `${price}`);
+    setValue('link', link);
+    setValue('imageFile', itemImage, { shouldValidate: true });
+    setImagePreview(itemImage);
+
     setIsLoading(false);
   };
 
@@ -50,58 +41,28 @@ export function ProductForm({ isProductEdit }) {
     }
   }, []);
 
-  const handleImageUpload = async (e) => {
-    setIsLoading(true);
-
+  const handleImagePreview = (e) => {
     const file = e.target.files[0];
-    const formData = new FormData();
-
-    formData.append('image', file);
 
     setImagePreview(URL.createObjectURL(file));
-
-    try {
-      const { data } = await axiosImg.post('/image/uploadfile', formData);
-
-      setImageURL(`${BASE_URL}/${data.filename}`);
-    } catch (e) {
-      console.log(e);
-    }
-    setIsLoading(false);
   };
 
-  const handleItemData = async () => {
+  const handleItemData = async (data) => {
     setIsLoading(true);
 
-    try {
-      const { itemName, price, link } = watch();
+    const { itemName, link, imageFile } = data;
+    const inputPrice = getValues('price');
+    const price = typeof inputPrice === 'number' ? inputPrice : parseInt(inputPrice.replace(/,/g, ''), 10);
+    const itemImage = imageFile.length === 1 ? await addImage(imageFile[0]) : imageFile;
 
-      const numberPrice = typeof price === 'number' ? price : parseInt(price.replace(/,/g, ''), 10);
-
-      if (!isProductEdit) {
-        const res = await axiosPrivate.post('/product', {
-          product: {
-            itemName,
-            price: numberPrice,
-            link,
-            itemImage: imageURL,
-          },
-        });
-      } else {
-        const res = await axiosPrivate.put(`/product/${productId}`, {
-          product: {
-            itemName,
-            price: numberPrice,
-            link,
-            itemImage: imageURL,
-          },
-        });
-      }
-
-      navigate(`/profile/${accountname}`);
-    } catch (e) {
-      console.log(e);
+    if (!isProductEdit) {
+      await addProduct(itemName, price, link, itemImage);
+    } else {
+      await updateProduct(productId, itemName, price, link, itemImage);
     }
+
+    navigate(`/profile/${accountname}`);
+
     setIsLoading(false);
   };
 
@@ -114,10 +75,10 @@ export function ProductForm({ isProductEdit }) {
           <S.Image src={imagePreview} />
         </S.ImageLabel>
         <S.ImageInput
-          {...register('itemImage', {
+          {...register('imageFile', {
             required: true,
-            validate: (fileList) => !!imageURL || fileList.length > 0,
-            onChange: (e) => handleImageUpload(e),
+            validate: (fileList) => fileList.length > 0,
+            onChange: (e) => handleImagePreview(e),
           })}
         />
         <S.TextLabel htmlFor='itemName'>상품명</S.TextLabel>

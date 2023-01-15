@@ -10,3 +10,6 @@ export { getFollowers } from './follow/getFollowers';
 export { getFollowings } from './follow/getFollowings';
 export { addFollow } from './follow/addFollow';
 export { deleteFollow } from './follow/deleteFollow';
+export { addProduct } from './product/addProduct';
+export { updateProduct } from './product/updateProduct';
+export { getProductDetail } from './product/getProductDetail';
