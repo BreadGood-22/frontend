@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { deleteProduct } from '../../../api';
 import { axiosPrivate } from '../../../api/apiController';
 import * as S from './style';
 
@@ -106,17 +107,15 @@ export function MyPostModal({ setIsVisibleModal, postId, setPosts, setIsLoading,
   );
 }
 
-export function MyProductModal({ setIsVisibleModal, getProducts, product }) {
+export function MyProductModal({ setIsVisibleModal, handleProducts, product }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
   const { productId, link } = product;
 
   const handleDelete = async () => {
-    const {
-      data: { message, status },
-    } = await axiosPrivate.delete(`/product/${productId}`);
+    const { message, status } = await deleteProduct(productId);
 
     if (message === '삭제되었습니다.' && status === '200') {
-      getProducts();
+      handleProducts();
       setIsVisibleModal(false);
     }
   };

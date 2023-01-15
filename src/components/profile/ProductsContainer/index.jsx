@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { axiosPrivate } from '../../../api/apiController';
 import { MyProductModal } from '../../../components';
+import { getProducts } from '../../../api';
 import * as S from './style';
 
 export function ProductsContainer() {
@@ -15,17 +15,11 @@ export function ProductsContainer() {
 
   const { accountname } = useParams();
 
-  const getProducts = async () => {
+  const handleProducts = async () => {
     setIsLoading(true);
-    try {
-      const {
-        data: { product },
-      } = await axiosPrivate.get(`/product/${accountname}`);
+    const product = await getProducts(accountname);
 
-      setProducts(product);
-    } catch (e) {
-      console.log(e);
-    }
+    setProducts(product);
     setIsLoading(false);
   };
 
@@ -42,7 +36,7 @@ export function ProductsContainer() {
   };
 
   useEffect(() => {
-    getProducts();
+    handleProducts();
   }, [accountname]);
 
   return (
@@ -64,7 +58,7 @@ export function ProductsContainer() {
         </S.Container>
       )}
       {isVisibleModal && (
-        <MyProductModal setIsVisibleModal={setIsVisibleModal} getProducts={getProducts} product={product} />
+        <MyProductModal setIsVisibleModal={setIsVisibleModal} handleProducts={handleProducts} product={product} />
       )}
     </>
   );
