@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addImage, addProduct } from '../../../api';
+import { addImage, addProduct, updateProduct } from '../../../api';
 import { axiosPrivate } from '../../../api/apiController';
 import { HeaderSave } from '../../index';
 import * as S from './style';
@@ -67,14 +67,7 @@ export function ProductForm({ isProductEdit }) {
     if (!isProductEdit) {
       await addProduct({ itemName, price, link, itemImage });
     } else {
-      const res = await axiosPrivate.put(`/product/${productId}`, {
-        product: {
-          itemName,
-          price,
-          link,
-          itemImage,
-        },
-      });
+      await updateProduct({ productId, itemName, price, link, itemImage });
     }
 
     navigate(`/profile/${accountname}`);

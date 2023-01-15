@@ -3,3 +3,4 @@ export { addAccountNameValid } from './signup/addAccountNameValid';
 export { addUserInfo } from './signup/addUserInfo';
 export { addEmailValid } from './signup/addEmailValid';
 export { addProduct } from './product/addProduct';
+export { updateProduct } from './product/updateProduct';
