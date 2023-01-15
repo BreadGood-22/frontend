@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addImage, addProduct, updateProduct } from '../../../api';
+import { addImage, addProduct, getProductDetail, updateProduct } from '../../../api';
 import { axiosPrivate } from '../../../api/apiController';
 import { HeaderSave } from '../../index';
 import * as S from './style';
@@ -25,21 +25,14 @@ export function ProductForm({ isProductEdit }) {
   const getProductContent = async () => {
     setIsLoading(true);
 
-    try {
-      const {
-        data: {
-          product: { itemName, price, link, itemImage },
-        },
-      } = await axiosPrivate.get(`/product/detail/${productId}`);
-
+    await getProductDetail({ productId }).then(({ itemName, price, link, itemImage }) => {
       setValue('itemName', itemName);
       setValue('price', `${price}`);
       setValue('link', link);
       setValue('imageFile', itemImage, { shouldValidate: true });
       setImagePreview(itemImage);
-    } catch (e) {
-      console.log(e);
-    }
+    });
+
     setIsLoading(false);
   };
 
