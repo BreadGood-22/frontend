@@ -1,6 +1,6 @@
 import axios from '../apiController';
 
-export async function addUserInfo({ email, password, username, accountname, intro, image }) {
+export async function addUserInfo(email, password, username, accountname, intro, image) {
   try {
     const { data } = await axios.post('/user', {
       user: {

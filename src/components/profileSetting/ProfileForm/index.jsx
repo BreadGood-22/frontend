@@ -22,11 +22,13 @@ export function ProfileForm() {
 
   const handleAccountNameValidation = async (e) => {
     setIsLoading(true);
-    await addAccountNameValid(e).then((res) => {
-      if (res === '이미 가입된 계정ID 입니다.') {
-        setError('accountname', { message: `*${res}` }, { shouldFocus: true });
-      }
-    });
+
+    const response = await addAccountNameValid(e);
+
+    if (response === '이미 가입된 계정ID 입니다.') {
+      setError('accountname', { message: `*${response}` }, { shouldFocus: true });
+    }
+
     setIsLoading(false);
   };
 
@@ -35,16 +37,15 @@ export function ProfileForm() {
 
     const { email, password } = location.state;
     const { username, accountname, intro, imageFile } = data;
-
     const image =
       imageFile.length > 0 ? await addImage(imageFile[0]) : 'https://mandarin.api.weniv.co.kr/1673585016866.png';
 
     if (isValid) {
-      await addUserInfo({ email, password, username, accountname, intro, image }).then((res) => {
-        if (res === '회원가입 성공') {
-          navigate('/start');
-        }
-      });
+      const response = await addUserInfo(email, password, username, accountname, intro, image);
+
+      if (response === '회원가입 성공') {
+        navigate('/start');
+      }
     }
 
     setIsLoading(false);
