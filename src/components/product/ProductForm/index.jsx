@@ -24,13 +24,13 @@ export function ProductForm({ isProductEdit }) {
   const getProductContent = async () => {
     setIsLoading(true);
 
-    await getProductDetail({ productId }).then(({ itemName, price, link, itemImage }) => {
-      setValue('itemName', itemName);
-      setValue('price', `${price}`);
-      setValue('link', link);
-      setValue('imageFile', itemImage, { shouldValidate: true });
-      setImagePreview(itemImage);
-    });
+    const { itemName, price, link, itemImage } = await getProductDetail(productId);
+
+    setValue('itemName', itemName);
+    setValue('price', `${price}`);
+    setValue('link', link);
+    setValue('imageFile', itemImage, { shouldValidate: true });
+    setImagePreview(itemImage);
 
     setIsLoading(false);
   };
@@ -56,9 +56,9 @@ export function ProductForm({ isProductEdit }) {
     const itemImage = imageFile.length === 1 ? await addImage(imageFile[0]) : imageFile;
 
     if (!isProductEdit) {
-      await addProduct({ itemName, price, link, itemImage });
+      await addProduct(itemName, price, link, itemImage);
     } else {
-      await updateProduct({ productId, itemName, price, link, itemImage });
+      await updateProduct(productId, itemName, price, link, itemImage);
     }
 
     navigate(`/profile/${accountname}`);

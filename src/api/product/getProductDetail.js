@@ -1,6 +1,6 @@
 import { axiosPrivate } from '../apiController';
 
-export async function getProductDetail({ productId }) {
+export async function getProductDetail(productId) {
   try {
     const {
       data: {

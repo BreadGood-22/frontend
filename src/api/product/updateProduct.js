@@ -1,6 +1,6 @@
 import { axiosPrivate } from '../apiController';
 
-export async function updateProduct({ productId, itemName, price, link, itemImage }) {
+export async function updateProduct(productId, itemName, price, link, itemImage) {
   try {
     const res = await axiosPrivate.put(`/product/${productId}`, {
       product: {
