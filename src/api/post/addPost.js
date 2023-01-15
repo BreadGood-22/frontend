@@ -1,6 +1,6 @@
 import { axiosPrivate } from '../apiController';
 
-export async function addPost({ text, images }) {
+export async function addPost(text, images) {
   try {
     const { data } = await axiosPrivate.post('/post', {
       post: {

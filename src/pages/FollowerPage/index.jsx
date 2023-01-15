@@ -13,7 +13,7 @@ export function FollowerPage() {
   const getFollwer = async () => {
     setIsLoading(true);
 
-    const { data } = await getFollowers({ accountname });
+    const { data } = await getFollowers(accountname);
 
     setUserInfo(data);
     setIsLoading(false);

@@ -1,6 +1,6 @@
 import { axiosPrivate } from '../apiController';
 
-export async function getUserInfo({ accountname }) {
+export async function getUserInfo(accountname) {
   try {
     const {
       data: {

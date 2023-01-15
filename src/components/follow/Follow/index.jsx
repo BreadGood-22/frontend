@@ -15,10 +15,10 @@ export function Follow({ accountname, username, intro, image, isfollow }) {
     setIsLoading(true);
 
     if (isFollowed) {
-      await deleteFollow({ accountname });
+      await deleteFollow(accountname);
       setIsFollowed(false);
     } else {
-      await addFollow({ accountname });
+      await addFollow(accountname);
       setIsFollowed(true);
     }
 

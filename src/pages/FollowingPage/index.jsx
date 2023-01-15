@@ -13,7 +13,7 @@ export function FollowingPage() {
   const getFollwing = async () => {
     setIsLoading(true);
 
-    const { data } = await getFollowings({ accountname });
+    const { data } = await getFollowings(accountname);
 
     setUserInfo(data);
     setIsLoading(false);

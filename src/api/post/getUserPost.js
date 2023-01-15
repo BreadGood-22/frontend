@@ -1,6 +1,6 @@
 import { axiosPrivate } from '../apiController';
 
-export async function getUserPost({ postId }) {
+export async function getUserPost(postId) {
   try {
     const {
       data: {

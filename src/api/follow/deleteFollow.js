@@ -1,6 +1,6 @@
 import { axiosPrivate } from '../apiController';
 
-export async function deleteFollow({ accountname }) {
+export async function deleteFollow(accountname) {
   try {
     const { data } = await axiosPrivate.delete(`/profile/${accountname}/unfollow`);
 

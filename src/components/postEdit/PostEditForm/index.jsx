@@ -24,20 +24,19 @@ export function PostEditForm() {
   const getProfile = async () => {
     setIsLoading(true);
 
-    await getUserInfo({ accountname }).then(({ image }) => {
-      setProfile(image);
-    });
+    const { image } = await getUserInfo(accountname);
 
+    setProfile(image);
     setIsLoading(false);
   };
 
   const getPostContent = async () => {
     setIsLoading(true);
 
-    await getUserPost({ postId }).then(({ content, image }) => {
-      setText(content);
-      setPostImg(image.split(','));
-    });
+    const { content, image } = await getUserPost(postId);
+
+    setText(content);
+    setPostImg(image.split(','));
 
     setIsLoading(false);
   };
@@ -80,9 +79,8 @@ export function PostEditForm() {
 
     setIsLoading(true);
 
-    await updatePost({ postId, text, images }).then(() => {
-      navigate(`/profile/${accountname}`);
-    });
+    await updatePost(postId, text, images);
+    navigate(`/profile/${accountname}`);
 
     setIsLoading(false);
   };

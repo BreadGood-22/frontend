@@ -22,9 +22,9 @@ export function PostUploadForm() {
   const getProfile = async () => {
     setIsLoading(true);
 
-    await getUserInfo({ accountname }).then(({ image }) => {
-      setProfile(image);
-    });
+    const { image } = await getUserInfo(accountname);
+
+    setProfile(image);
 
     setIsLoading(false);
   };
@@ -70,7 +70,8 @@ export function PostUploadForm() {
 
     setIsLoading(true);
 
-    await addPost({ text, images }).then(() => navigate(`/profile/${accountname}`));
+    await addPost(text, images);
+    navigate(`/profile/${accountname}`);
 
     setIsLoading(false);
   };

@@ -1,10 +1,8 @@
 import { axiosPrivate } from '../apiController';
 
-export async function addFollow({ accountname }) {
+export async function addFollow(accountname) {
   try {
-    const { data } = await axiosPrivate.post(`/profile/${accountname}/follow`);
-
-    return data.message;
+    await axiosPrivate.post(`/profile/${accountname}/follow`);
   } catch (e) {
     console.log(e);
   }
