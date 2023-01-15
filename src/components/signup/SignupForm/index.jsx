@@ -23,19 +23,18 @@ export function SignupForm() {
 
     const { email, password } = data;
 
-    await addEmailValid(email).then((res) => {
-      if (res === '사용 가능한 이메일 입니다.') {
-        navigate('/profile/setting', {
-          state: {
-            email,
-            password,
-          },
-        });
-      } else {
-        setError('email', { message: `*${res}` }, { shouldFocus: true });
-      }
-    });
+    const response = await addEmailValid(email);
 
+    if (response === '사용 가능한 이메일 입니다.') {
+      navigate('/profile/setting', {
+        state: {
+          email,
+          password,
+        },
+      });
+    } else {
+      setError('email', { message: `*${response}` }, { shouldFocus: true });
+    }
     setIsLoading(false);
   };
 
