@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { deleteProduct } from '../../../api';
+import { deleteProduct, deletePost, getPosts } from '../../../api';
 import { axiosPrivate } from '../../../api/apiController';
 import * as S from './style';
 
@@ -63,25 +63,17 @@ export function MyPostModal({ setIsVisibleModal, postId, setPosts, setIsLoading,
   const accountname = JSON.parse(localStorage.getItem('accountname'));
 
   const handleDelete = async () => {
-    const {
-      data: { message, status },
-    } = await axiosPrivate.delete(`/post/${postId}`);
+    const { message, status } = await deletePost(postId);
 
     if (message === '삭제되었습니다.' && status === '200') {
       setIsVisibleModal(false);
       if (pathname.split('/')[1] === 'profile') {
         setIsLoading(true);
-        try {
-          const {
-            data: { post },
-          } = await axiosPrivate.get(`/post/${accountname}/userpost/?limit=10&skip=0`);
+        const post = await getPosts(accountname);
 
-          setPosts([...post]);
-          setHasNextPage(post.length === 10);
-          page.current += 1;
-        } catch (e) {
-          console.log(e);
-        }
+        setPosts([...post]);
+        setHasNextPage(post.length === 10);
+        page.current += 1;
         setIsLoading(false);
         return;
       }
