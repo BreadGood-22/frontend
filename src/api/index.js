@@ -15,3 +15,4 @@ export { updateProduct } from './product/updateProduct';
 export { getProductDetail } from './product/getProductDetail';
 export { addLogin } from './login/addLogin';
 export { getSearchResult } from './search/getSearchResult';
+export { getHomeFeeds } from './post/getHomeFeeds';

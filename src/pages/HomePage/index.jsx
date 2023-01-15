@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { PostList, NoFollowings, HeaderMain, OthersPostCommentModal } from '../../components';
-import { axiosPrivate } from '../../api/apiController';
+import { getHomeFeeds } from '../../api';
 import useIntersect from '../../hooks/useIntersect';
 
 export function HomePage() {
@@ -8,7 +8,7 @@ export function HomePage() {
   const [postId, setPostId] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
-  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(true);
   const page = useRef(0);
 
   const [posts, setPosts] = useState([]);
@@ -21,26 +21,22 @@ export function HomePage() {
   });
 
   useEffect(() => {
+    if (!hasNextPage) return;
     getFollowingPosts();
   }, []);
 
   const getFollowingPosts = async () => {
     setIsLoading(true);
-    try {
-      const {
-        data: { posts },
-      } = await axiosPrivate.get(`/post/feed/?limit=10&skip=${page.current * 10}`);
+    const posts = await getHomeFeeds(page.current);
 
-      setHasNextPage(posts.length === 10);
-      page.current += 1;
-      setPosts((prev) => [...prev, ...posts]);
-    } catch (e) {
-      console.log(e);
-    }
+    setHasNextPage(posts.length === 10);
+    page.current += 1;
+    setPosts((prev) => [...prev, ...posts]);
     setIsLoading(false);
   };
 
   if (isLoading) return <div>로딩중...</div>;
+
   return (
     <section>
       <h2 className='sr-only'>빵굿빵굿 피드</h2>
