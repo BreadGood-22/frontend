@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addImage } from '../../../api';
+import { addImage, addProduct } from '../../../api';
 import { axiosPrivate } from '../../../api/apiController';
 import { HeaderSave } from '../../index';
 import * as S from './style';
@@ -16,6 +16,7 @@ export function ProductForm({ isProductEdit }) {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
@@ -57,37 +58,27 @@ export function ProductForm({ isProductEdit }) {
   const handleItemData = async (data) => {
     setIsLoading(true);
 
-    const { itemName, price, link, imageFile } = data;
+    const { itemName, link, imageFile } = data;
+    const inputPrice = getValues('price');
+    const price = typeof inputPrice === 'number' ? inputPrice : parseInt(inputPrice.replace(/,/g, ''), 10);
 
     const itemImage = await addImage(imageFile[0]);
 
-    try {
-      const numberPrice = typeof price === 'number' ? price : parseInt(price.replace(/,/g, ''), 10);
-
-      if (!isProductEdit) {
-        const res = await axiosPrivate.post('/product', {
-          product: {
-            itemName,
-            price: numberPrice,
-            link,
-            itemImage,
-          },
-        });
-      } else {
-        const res = await axiosPrivate.put(`/product/${productId}`, {
-          product: {
-            itemName,
-            price: numberPrice,
-            link,
-            itemImage,
-          },
-        });
-      }
-
-      navigate(`/profile/${accountname}`);
-    } catch (e) {
-      console.log(e);
+    if (!isProductEdit) {
+      await addProduct({ itemName, price, link, itemImage });
+    } else {
+      const res = await axiosPrivate.put(`/product/${productId}`, {
+        product: {
+          itemName,
+          price,
+          link,
+          itemImage,
+        },
+      });
     }
+
+    navigate(`/profile/${accountname}`);
+
     setIsLoading(false);
   };
 
