@@ -4,7 +4,7 @@ import * as S from './style';
 import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
 import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
 import { BASE_URL } from '../../../api/apiController';
-import { addImage, getUserInfo, getUserPost, updatePost } from '../../../api';
+import { addImage, getUserInfo, getPost, updatePost } from '../../../api';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function PostEditForm() {
@@ -33,7 +33,7 @@ export function PostEditForm() {
   const getPostContent = async () => {
     setIsLoading(true);
 
-    const { content, image } = await getUserPost(postId);
+    const { content, image } = await getPost(postId);
 
     setText(content);
     setPostImg(image.split(','));

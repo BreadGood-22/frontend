@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { deleteProduct, deletePost, getPosts } from '../../../api';
+import { deleteProduct, deletePost, getPosts, addCommentReport, addPostReport } from '../../../api';
 import { axiosPrivate } from '../../../api/apiController';
 import * as S from './style';
 
@@ -181,12 +181,11 @@ export function MyCommentModal({
 export function OthersPostCommentModal({ setIsVisibleModal, postId, commentId }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
 
-  const handleReport = async () => {
+  const handleReport = () => {
     if (commentId) {
-      // 댓글 신고
-      await axiosPrivate.post(`/post/${postId}/comments/${commentId}/report`);
+      addCommentReport(postId, commentId);
     } else {
-      await axiosPrivate.post(`/post/${postId}/report`);
+      addPostReport(postId);
     }
     setIsVisibleModal(false);
   };

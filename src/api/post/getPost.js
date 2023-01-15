@@ -1,14 +1,12 @@
 import { axiosPrivate } from '../apiController';
 
-export async function getUserPost(postId) {
+export async function getPost(postId) {
   try {
     const {
-      data: {
-        post: { content, image },
-      },
+      data: { post },
     } = await axiosPrivate.get(`/post/${postId}`);
 
-    return { content, image };
+    return post;
   } catch (e) {
     console.log(e);
   }

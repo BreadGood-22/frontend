@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import { getPost } from '../../api';
 import { axiosPrivate } from '../../api/apiController';
 import { HeaderBasic, HeaderBasicModal, PostContainer, CommentList, CommentInput } from '../../components';
 import useIntersect from '../../hooks/useIntersect';
@@ -40,15 +41,9 @@ export function PostPage() {
 
   const getUserPost = async () => {
     setIsLoading(true);
-    try {
-      const {
-        data: { post },
-      } = await axiosPrivate.get(`/post/${postId}`);
+    const post = await getPost(postId);
 
-      setPost(post);
-    } catch (e) {
-      console.log(e);
-    }
+    setPost(post);
     setIsLoading(false);
   };
 
