@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { getPost } from '../../api';
-import { axiosPrivate } from '../../api/apiController';
+import { getPost, getAllComment } from '../../api';
 import { HeaderBasic, HeaderBasicModal, PostContainer, CommentList, CommentInput } from '../../components';
 import useIntersect from '../../hooks/useIntersect';
 
@@ -25,17 +24,11 @@ export function PostPage() {
 
   const getComments = async () => {
     setIsLoading(true);
-    try {
-      const {
-        data: { comments },
-      } = await axiosPrivate.get(`/post/${id}/comments/?limit=10&skip=${page.current * 10}`);
+    const comments = await getAllComment(id, page.current);
 
-      setComments((prev) => [...prev, ...comments]);
-      setHasNextPage(comments.length === 10);
-      page.current += 1;
-    } catch (e) {
-      console.log(e);
-    }
+    setComments((prev) => [...prev, ...comments]);
+    setHasNextPage(comments.length === 10);
+    page.current += 1;
     setIsLoading(false);
   };
 

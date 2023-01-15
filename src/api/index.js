@@ -24,3 +24,5 @@ export { getProducts } from './product/getProducts';
 export { addLogin } from './login/addLogin';
 export { getSearchResult } from './search/getSearchResult';
 export { addCommentReport } from './comment/addCommentReport';
+export { deleteComment } from './comment/deleteComment';
+export { getAllComment } from './comment/getAllComment';

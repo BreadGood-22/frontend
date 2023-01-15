@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { deleteProduct, deletePost, getPosts, addCommentReport, addPostReport } from '../../../api';
-import { axiosPrivate } from '../../../api/apiController';
+import { deleteProduct, deletePost, getPosts, addCommentReport, addPostReport, deleteComment } from '../../../api';
 import * as S from './style';
 
 export function ModalLayout({ children, setIsVisibleModal }) {
@@ -149,9 +148,7 @@ export function MyCommentModal({
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
 
   const handleDelete = async () => {
-    const {
-      data: { message, status },
-    } = await axiosPrivate.delete(`/post/${postId}/comments/${commentId}`);
+    const { message, status } = await deleteComment(postId, commentId);
 
     if (message === '댓글이 삭제되었습니다.' && status === '200') {
       setComments([]);
