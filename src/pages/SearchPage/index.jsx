@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { axiosPrivate } from '../../api/apiController';
+import { getSearchResult } from '../../api';
 import { HeaderSearch, SearchCard } from '../../components';
 import useDebounce from '../../hooks/useDebounce';
 import * as S from './style';
@@ -20,21 +20,16 @@ export function SearchPage() {
     [keyword],
   );
 
-  const getSearchResult = async () => {
-    setIsLoading(true);
-    try {
-      const { data } = await axiosPrivate.get(`/user/searchuser/?keyword=${debouncedValue}`);
-
-      setSearchResult(data);
-    } catch (e) {
-      console.error(e);
-    }
-    setIsLoading(false);
-  };
-
   useEffect(() => {
     if (!debouncedValue.length) return;
-    getSearchResult();
+    (async () => {
+      setIsLoading(true);
+
+      const data = await getSearchResult(debouncedValue);
+
+      setSearchResult(data);
+      setIsLoading(false);
+    })();
   }, [debouncedValue]);
 
   useEffect(() => {
@@ -46,7 +41,7 @@ export function SearchPage() {
     <>
       <HeaderSearch handleSearch={handleSearch} keyword={keyword} />
       {isLoading ? (
-        <p>Loading...</p>
+        <p>로딩중...</p>
       ) : (
         <S.Container ref={searchListCont} height={height}>
           {searchResult.map((info) => (
