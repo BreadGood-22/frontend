@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addImage, addProduct, getProductDetail, updateProduct } from '../../../api';
-import { axiosPrivate } from '../../../api/apiController';
 import { HeaderSave } from '../../index';
 import * as S from './style';
 
@@ -54,8 +53,7 @@ export function ProductForm({ isProductEdit }) {
     const { itemName, link, imageFile } = data;
     const inputPrice = getValues('price');
     const price = typeof inputPrice === 'number' ? inputPrice : parseInt(inputPrice.replace(/,/g, ''), 10);
-
-    const itemImage = await addImage(imageFile[0]);
+    const itemImage = imageFile.length === 1 ? await addImage(imageFile[0]) : imageFile;
 
     if (!isProductEdit) {
       await addProduct({ itemName, price, link, itemImage });
