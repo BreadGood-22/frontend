@@ -1,30 +1,19 @@
 import React, { useState } from 'react';
 import * as S from './style';
-import { axiosPrivate } from '../../../api/apiController';
+import { addHeart, deleteHeart } from '../../../api';
 
 export function LikeButton({ hearted, heartCount, postId }) {
   const [isHeart, setIsHeart] = useState(hearted);
   const [count, setCount] = useState(heartCount);
 
   const handleLike = async () => {
-    // 좋아요 취소
     if (isHeart) {
-      const {
-        data: {
-          post: { hearted, heartCount },
-        },
-      } = await axiosPrivate.delete(`/post/${postId}/unheart`);
+      const { hearted, heartCount } = await deleteHeart(postId);
 
       setIsHeart(hearted);
       setCount(heartCount);
-    }
-    // 좋아요
-    else {
-      const {
-        data: {
-          post: { hearted, heartCount },
-        },
-      } = await axiosPrivate.post(`/post/${postId}/heart`);
+    } else {
+      const { hearted, heartCount } = await addHeart(postId);
 
       setIsHeart(hearted);
       setCount(heartCount);

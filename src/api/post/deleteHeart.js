@@ -1,10 +1,10 @@
 import { axiosPrivate } from '../apiController';
 
-export async function getPosts(accountname, page = 0) {
+export async function deleteHeart(postId) {
   try {
     const {
       data: { post },
-    } = await axiosPrivate(`/post/${accountname}/userpost/?limit=10&skip=${page * 10}`);
+    } = await axiosPrivate.delete(`/post/${postId}/unheart`);
 
     return post;
   } catch (e) {

@@ -16,7 +16,7 @@ export function PostGallery({ posts }) {
             data.image && (
               <S.GalleryItem key={data.id}>
                 <Link to={`/post/${data.id}`}>
-                  <S.Img src={data.image} />
+                  <S.Img src={data.image.split(',')[0]} />
                 </Link>
               </S.GalleryItem>
             ),

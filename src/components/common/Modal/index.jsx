@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { axiosPrivate } from '../../../api/apiController';
+import { deleteProduct, deletePost, getPosts, addCommentReport, addPostReport, deleteComment } from '../../../api';
 import * as S from './style';
 
 export function ModalLayout({ children, setIsVisibleModal }) {
@@ -62,25 +62,17 @@ export function MyPostModal({ setIsVisibleModal, postId, setPosts, setIsLoading,
   const accountname = JSON.parse(localStorage.getItem('accountname'));
 
   const handleDelete = async () => {
-    const {
-      data: { message, status },
-    } = await axiosPrivate.delete(`/post/${postId}`);
+    const { message, status } = await deletePost(postId);
 
     if (message === '삭제되었습니다.' && status === '200') {
       setIsVisibleModal(false);
       if (pathname.split('/')[1] === 'profile') {
         setIsLoading(true);
-        try {
-          const {
-            data: { post },
-          } = await axiosPrivate.get(`/post/${accountname}/userpost/?limit=10&skip=0`);
+        const post = await getPosts(accountname);
 
-          setPosts([...post]);
-          setHasNextPage(post.length === 10);
-          page.current += 1;
-        } catch (e) {
-          console.log(e);
-        }
+        setPosts([...post]);
+        setHasNextPage(post.length === 10);
+        page.current += 1;
         setIsLoading(false);
         return;
       }
@@ -106,17 +98,15 @@ export function MyPostModal({ setIsVisibleModal, postId, setPosts, setIsLoading,
   );
 }
 
-export function MyProductModal({ setIsVisibleModal, getProducts, product }) {
+export function MyProductModal({ setIsVisibleModal, handleProducts, product }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
   const { productId, link } = product;
 
   const handleDelete = async () => {
-    const {
-      data: { message, status },
-    } = await axiosPrivate.delete(`/product/${productId}`);
+    const { message, status } = await deleteProduct(productId);
 
     if (message === '삭제되었습니다.' && status === '200') {
-      getProducts();
+      handleProducts();
       setIsVisibleModal(false);
     }
   };
@@ -158,9 +148,7 @@ export function MyCommentModal({
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
 
   const handleDelete = async () => {
-    const {
-      data: { message, status },
-    } = await axiosPrivate.delete(`/post/${postId}/comments/${commentId}`);
+    const { message, status } = await deleteComment(postId, commentId);
 
     if (message === '댓글이 삭제되었습니다.' && status === '200') {
       setComments([]);
@@ -190,12 +178,11 @@ export function MyCommentModal({
 export function OthersPostCommentModal({ setIsVisibleModal, postId, commentId }) {
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
 
-  const handleReport = async () => {
+  const handleReport = () => {
     if (commentId) {
-      // 댓글 신고
-      await axiosPrivate.post(`/post/${postId}/comments/${commentId}/report`);
+      addCommentReport(postId, commentId);
     } else {
-      await axiosPrivate.post(`/post/${postId}/report`);
+      addPostReport(postId);
     }
     setIsVisibleModal(false);
   };

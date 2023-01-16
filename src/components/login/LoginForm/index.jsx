@@ -1,45 +1,29 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import axios from '../../../api/apiController';
 import * as S from './style';
 import { Label, EmailInput, PasswordInput, LargeButton } from '../../index';
+import { addLogin } from '../../../api';
 
 export function LoginForm() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
-    watch,
     setError,
     formState: { isValid, isSubmitting, errors },
   } = useForm({ mode: 'onSubmit' });
 
-  const handleLogin = async (e) => {
-    setIsLoading(true);
-    try {
-      const { email, password } = watch();
+  const handleLogin = async (inputs) => {
+    const data = await addLogin(inputs);
 
-      const { data } = await axios.post('/user/login', {
-        user: {
-          email,
-          password,
-        },
-      });
-
-      if (data.status === 422) {
-        return setError('password', { message: `*${data.message}` });
-      }
-
-      localStorage.setItem('token', JSON.stringify(data.user?.token));
-      localStorage.setItem('accountname', JSON.stringify(data.user?.accountname));
-      navigate('/', { replace: true });
-    } catch (e) {
-      console.log(e);
+    if (data.status === 422) {
+      return setError('password', { message: `*${data.message}` });
     }
-    setIsLoading(false);
+
+    localStorage.setItem('token', JSON.stringify(data.user?.token));
+    localStorage.setItem('accountname', JSON.stringify(data.user?.accountname));
+    navigate('/', { replace: true });
   };
 
   return (

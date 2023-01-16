@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './style';
-import { axiosPrivate } from '../../../api/apiController';
+import { getPosts } from '../../../api';
 import { PostList, PostGallery, MyPostModal, OthersPostCommentModal } from '../../../components';
 import useIntersect from '../../../hooks/useIntersect';
 
@@ -27,17 +27,11 @@ export function PostsContainer() {
 
   const getUserPost = async () => {
     setIsLoading(true);
-    try {
-      const {
-        data: { post },
-      } = await axiosPrivate(`/post/${accountname}/userpost/?limit=10&skip=${page.current * 10}`);
+    const post = await getPosts(accountname, page.current);
 
-      setPosts((prev) => [...prev, ...post]);
-      setHasNextPage(post.length === 10);
-      page.current += 1;
-    } catch (e) {
-      console.log(e);
-    }
+    setPosts((prev) => [...prev, ...post]);
+    setHasNextPage(post.length === 10);
+    page.current += 1;
     setIsLoading(false);
   };
 

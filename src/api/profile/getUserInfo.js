@@ -3,34 +3,10 @@ import { axiosPrivate } from '../apiController';
 export async function getUserInfo(accountname) {
   try {
     const {
-      data: {
-        profile: {
-          _id,
-          username,
-          accountname: _accountname,
-          intro,
-          followerCount,
-          followingCount,
-          image,
-          isfollow,
-          following,
-          follower,
-        },
-      },
+      data: { profile },
     } = await axiosPrivate.get(`/profile/${accountname}`);
 
-    return {
-      _id,
-      username,
-      accountname: _accountname,
-      intro,
-      followerCount,
-      followingCount,
-      image,
-      isfollow,
-      following,
-      follower,
-    };
+    return profile;
   } catch (e) {
     console.log(e);
   }

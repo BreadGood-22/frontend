@@ -4,8 +4,7 @@ import * as S from './style';
 import { MediumButton } from '../../common/Button';
 import { ReactComponent as ShareIcon } from '../../../assets/icons/icon-share.svg';
 import { ReactComponent as ChatIcon } from '../../../assets/icons/icon-chat.svg';
-import { axiosPrivate, BASE_URL } from '../../../api/apiController';
-import basicProfile from '../../../assets/images/basic-profile-img.png';
+import { getUserInfo, deleteFollow, addFollow } from '../../../api';
 
 export function UserInfoContainer() {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,61 +14,32 @@ export function UserInfoContainer() {
   const localAccountName = JSON.parse(localStorage.getItem('accountname'));
 
   useEffect(() => {
-    const getUserInfo = async () => {
+    (async () => {
       setIsLoading(true);
-      try {
-        const {
-          data: { profile },
-        } = await axiosPrivate.get(`/profile/${accountname}`);
+      const profile = await getUserInfo(accountname);
 
-        setUserInfo(profile);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    getUserInfo();
+      setUserInfo(profile);
+      setIsLoading(false);
+    })();
   }, [accountname]);
 
   const { username, accountname: _accountname, intro, followerCount, followingCount, image, isfollow } = userInfo;
 
   const handleClick = async () => {
-    setIsLoading(true);
-    try {
-      if (isfollow) {
-        const {
-          data: {
-            profile: { isfollow, followerCount },
-          },
-        } = await axiosPrivate.delete(`/profile/${accountname}/unfollow`);
+    if (isfollow) {
+      const { isfollow, followerCount } = await deleteFollow(accountname);
 
-        setUserInfo((prev) => ({ ...prev, isfollow, followerCount }));
-      } else {
-        const {
-          data: {
-            profile: { isfollow, followerCount },
-          },
-        } = await axiosPrivate.post(`/profile/${accountname}/follow`);
+      setUserInfo((prev) => ({ ...prev, isfollow, followerCount }));
+    } else {
+      const { isfollow, followerCount } = await addFollow(accountname);
 
-        setUserInfo((prev) => ({ ...prev, isfollow, followerCount }));
-      }
-    } catch (e) {
-      console.log(e);
+      setUserInfo((prev) => ({ ...prev, isfollow, followerCount }));
     }
-    setIsLoading(false);
-  };
-
-  const renderProfileImage = () => {
-    let profileImage = basicProfile;
-
-    if (image !== `${BASE_URL}/Ellipse.png`) profileImage = image;
-
-    return <S.ProfileImage src={profileImage} />;
   };
 
   return (
     <S.Container>
-      {renderProfileImage()}
+      <S.ProfileImage src={image} />
       <S.AccountName>{username}</S.AccountName>
       <S.AccountId>@{_accountname}</S.AccountId>
       <S.Intro>{intro}</S.Intro>
@@ -83,7 +53,6 @@ export function UserInfoContainer() {
       </S.StyledLink>
       {localAccountName === _accountname ? (
         <div>
-          {/* path 수정하기 */}
           <S.ProfileEditButton to='edit'>프로필 수정</S.ProfileEditButton>
           <S.RegisterButton to='/product'>상품 등록</S.RegisterButton>
         </div>
