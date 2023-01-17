@@ -36,7 +36,12 @@ export function PostEditForm() {
     const { content, image } = await getPost(postId);
 
     setText(content);
-    setPostImg(image.split(','));
+
+    if (!image) {
+      setPostImg([]);
+    } else {
+      setPostImg(image.split(','));
+    }
 
     setIsLoading(false);
   };
@@ -114,7 +119,7 @@ export function PostEditForm() {
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
             </S.ImgUploadButton>
-            {postImg.length === 0 ? null : <PhotoUploadList imgSrc={postImg} setPostImg={setPostImg} />}
+            {postImg.length === 0 ? <></> : <PhotoUploadList imgSrc={postImg} setPostImg={setPostImg} />}
           </S.Form>
         </S.PostWrite>
       </S.Container>
