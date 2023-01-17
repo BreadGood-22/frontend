@@ -9,7 +9,7 @@ export async function addPost(text, images) {
       },
     });
 
-    return data.message;
+    return data;
   } catch (e) {
     console.log(e);
   }
