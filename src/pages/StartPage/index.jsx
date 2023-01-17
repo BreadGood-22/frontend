@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './style';
-import logo from '../../assets/images/symbol-logo.png';
+import logo from '../../assets/images/symbol-logo.webp';
 import { LoginButtons, Splash } from '../../components';
 
 export function StartPage() {
