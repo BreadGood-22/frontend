@@ -1,12 +1,17 @@
+import { useEffect } from 'react';
 import { chatData } from '../ChatData';
 import * as S from './style';
 
-export function ChatContents() {
+export function ChatContents({ updatedChatData, setUpdatedChatData }) {
+  useEffect(() => {
+    setUpdatedChatData(chatData);
+  }, []);
+
   return (
     <main>
       <h2 className='sr-only'>대화 본문</h2>
       <S.ChatContents>
-        {chatData.map((item) =>
+        {updatedChatData.map((item) =>
           item.author === 'me' ? (
             <S.MyMessageItem key={item.date}>
               {item.textMessage && <S.MyTextMessage>{item.textMessage}</S.MyTextMessage>}
