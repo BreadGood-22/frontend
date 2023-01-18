@@ -36,7 +36,12 @@ export function PostEditForm() {
     const { content, image } = await getPost(postId);
 
     setText(content);
-    setPostImg(image.split(','));
+
+    if (!image) {
+      setPostImg([]);
+    } else {
+      setPostImg(image.split(','));
+    }
 
     setIsLoading(false);
   };
@@ -54,11 +59,18 @@ export function PostEditForm() {
     return <S.ProfileImg src={profileImage} />;
   };
 
-  const handleTextArea = (e) => {
-    textRef.current.style.height = 'auto';
-    textRef.current.style.height = `${textRef.current.scrollHeight}px`;
+  const handleText = (e) => {
     setText(e.target.value);
   };
+
+  const handleTextArea = () => {
+    textRef.current.style.height = 'auto';
+    textRef.current.style.height = `${textRef.current.scrollHeight}px`;
+  };
+
+  useEffect(() => {
+    handleTextArea();
+  }, [text]);
 
   const handleGetImageUrl = async (e) => {
     if (postImg.length < MAX_UPLOAD) {
@@ -102,12 +114,12 @@ export function PostEditForm() {
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
-            <S.ContentInput onInput={handleTextArea} ref={textRef} defaultValue={text} />
+            <S.ContentInput onInput={handleText} ref={textRef} defaultValue={text} />
             <S.ImgUploadButton onChange={handleGetImageUrl}>
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
             </S.ImgUploadButton>
-            {postImg.length === 0 ? null : <PhotoUploadList imgSrc={postImg} setPostImg={setPostImg} />}
+            {postImg.length === 0 ? <></> : <PhotoUploadList imgSrc={postImg} setPostImg={setPostImg} />}
           </S.Form>
         </S.PostWrite>
       </S.Container>
