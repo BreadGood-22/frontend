@@ -65,7 +65,7 @@ export const ImageMessage = styled.img.attrs({
   background: ${({ theme }) => theme.palette.white};
 `;
 
-export const Date = styled.strong`
+export const Time = styled.strong`
   font-size: 10px;
   line-height: 13px;
   margin-top: auto;

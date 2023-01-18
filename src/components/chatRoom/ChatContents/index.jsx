@@ -8,17 +8,17 @@ export function ChatContents() {
       <S.ChatContents>
         {chatData.map((item) =>
           item.author === 'me' ? (
-            <S.MyMessageItem>
+            <S.MyMessageItem key={item.date}>
               {item.textMessage && <S.MyTextMessage>{item.textMessage}</S.MyTextMessage>}
               {item.imageMessage && <S.ImageMessage />}
-              <S.Date>{item.date}</S.Date>
+              <S.Time>{item.time}</S.Time>
             </S.MyMessageItem>
           ) : (
-            <S.YourMessageItem>
+            <S.YourMessageItem key={item.date}>
               <S.YourProfileImage />
               {item.textMessage && <S.YourTextMessage>{item.textMessage}</S.YourTextMessage>}
               {item.imageMessage && <S.ImageMessage />}
-              <S.Date>{item.date}</S.Date>
+              <S.Time>{item.time}</S.Time>
             </S.YourMessageItem>
           ),
         )}
