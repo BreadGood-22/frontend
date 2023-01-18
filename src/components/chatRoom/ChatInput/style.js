@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { SmallImgButtonLabel, SmallImgButtonInput } from '../../common/Button/style';
 
-export const Container = styled.footer`
+export const Form = styled.form`
   position: fixed;
   bottom: 0;
   z-index: 10;
