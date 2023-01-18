@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { chatData } from '../ChatData';
+import { chatData } from '../chatData';
 import * as S from './style';
 
 export function ChatContents({ updatedChatData, setUpdatedChatData }) {
