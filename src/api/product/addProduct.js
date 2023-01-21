@@ -2,7 +2,7 @@ import { axiosPrivate } from '../apiController';
 
 export async function addProduct(itemName, price, link, itemImage) {
   try {
-    await axiosPrivate.post('/product', {
+    const { data } = await axiosPrivate.post('/product', {
       product: {
         itemName,
         price,
@@ -10,6 +10,8 @@ export async function addProduct(itemName, price, link, itemImage) {
         itemImage,
       },
     });
+
+    return data;
   } catch (e) {
     console.log(e);
   }
