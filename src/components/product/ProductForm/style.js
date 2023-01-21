@@ -43,6 +43,7 @@ export const Image = styled.img.attrs({
   width: 100%;
   height: 100%;
   object-fit: cover;
+  background-color: ${({ theme }) => theme.palette.white};
 `;
 
 export const ImageInput = styled(SmallImgButtonInput)``;
