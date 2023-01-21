@@ -30,7 +30,7 @@ export { PostUploadForm } from './postUpload/PostUploadForm';
 export { UserInfoContainer } from './profile/UserInfoContainer';
 export { ProductsContainer } from './profile/ProductsContainer';
 export { PostsContainer } from './profile/PostsContainer';
-export { PostList } from './common/PostList';
+export { PostList } from './post/PostList';
 export { PostGallery } from './profile/PostGallery';
 export {
   HeaderBasicModal,
@@ -41,7 +41,7 @@ export {
   ChatRoomModal,
   PostAlertModal,
 } from './common/Modal';
-export { Post } from './common/Post';
+export { Post } from './post/Post';
 export { Comment } from './comment/Comment';
 export { CommentInput } from './comment/CommentInput';
 export { PostContainer } from './post/PostContainer';
@@ -53,3 +53,4 @@ export { ChatInput } from './chatRoom/ChatInput';
 export { ChatContents } from './chatRoom/ChatContents';
 export { SearchCard } from './search/SearchCard';
 export { ProductForm } from './product/ProductForm';
+export { LikeButton } from './common/LikeButton';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
-import { LikeButton } from '../LikeButton';
+import { LikeButton } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 import { BASE_URL } from '../../../api/apiController';
 
