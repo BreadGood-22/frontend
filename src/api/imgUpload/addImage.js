@@ -1,11 +1,14 @@
 import { axiosImg, BASE_URL } from '../apiController';
+import { imageResize } from './imageResize';
 
 export async function addImage(file) {
-  const formData = new FormData();
-
-  formData.append('image', file);
-
   try {
+    const newFile = await imageResize(file);
+
+    const formData = new FormData();
+
+    formData.append('image', newFile);
+
     const {
       data: { filename },
     } = await axiosImg.post('/image/uploadfile', formData);
