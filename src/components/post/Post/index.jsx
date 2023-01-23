@@ -4,6 +4,7 @@ import * as S from './style';
 import { LikeButton } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 import { BASE_URL } from '../../../api/apiController';
+import { ImageSlider } from '../ImageSlider';
 
 export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
   const accountname = JSON.parse(localStorage.getItem('accountname'));
@@ -46,7 +47,8 @@ export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
       <S.PostInfo>
         <h4 className='sr-only'>게시글 정보</h4>
         <S.Content>{data.content}</S.Content>
-        {data.image && <S.Img src={data.image.split(',')[0]} />}
+        {/* {data.image && <S.Img src={data.image.split(',')[0]} />} */}
+        {data.image && <ImageSlider image={data.image} />}
         <S.LikeComment>
           <LikeButton hearted={data.hearted} heartCount={data.heartCount} postId={data.id} />
           <S.StyledLink to={`/post/${data.id}`}>
