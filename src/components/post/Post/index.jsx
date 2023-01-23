@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
-import { LikeButton } from '../LikeButton';
-import basicProfile from '../../../assets/images/basic-profile-img.png';
-import { BASE_URL } from '../../../api/apiController';
+import { LikeButton } from '../../index';
+import { ImageSlider } from '../ImageSlider';
 
 export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
   const accountname = JSON.parse(localStorage.getItem('accountname'));
@@ -22,21 +21,13 @@ export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
     }
   };
 
-  const renderProfileImage = () => {
-    let profileImage = basicProfile;
-
-    if (data.author.image !== `${BASE_URL}/Ellipse.png`) profileImage = data.author.image;
-
-    return <S.ProfileImg src={profileImage} />;
-  };
-
   return (
     <S.Post key={data.id}>
       <h3 className='sr-only'>게시글</h3>
       <Link to={userURL}>
         <S.AuthorInfo>
           <h4 className='sr-only'>게시글 작성자 정보</h4>
-          {renderProfileImage()}
+          <S.ProfileImg src={data.author.image} />
           <S.TextContainer>
             <S.UserName>{data.author.username}</S.UserName>
             <S.AccountName>@{data.author.accountname}</S.AccountName>
@@ -46,7 +37,7 @@ export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
       <S.PostInfo>
         <h4 className='sr-only'>게시글 정보</h4>
         <S.Content>{data.content}</S.Content>
-        {data.image && <S.Img src={data.image.split(',')[0]} />}
+        {data.image && <ImageSlider image={data.image} />}
         <S.LikeComment>
           <LikeButton hearted={data.hearted} heartCount={data.heartCount} postId={data.id} />
           <S.StyledLink to={`/post/${data.id}`}>
