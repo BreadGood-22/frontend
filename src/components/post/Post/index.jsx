@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
 import { LikeButton } from '../../index';
-import basicProfile from '../../../assets/images/basic-profile-img.png';
-import { BASE_URL } from '../../../api/apiController';
 import { ImageSlider } from '../ImageSlider';
 
 export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
@@ -23,21 +21,13 @@ export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
     }
   };
 
-  const renderProfileImage = () => {
-    let profileImage = basicProfile;
-
-    if (data.author.image !== `${BASE_URL}/Ellipse.png`) profileImage = data.author.image;
-
-    return <S.ProfileImg src={profileImage} />;
-  };
-
   return (
     <S.Post key={data.id}>
       <h3 className='sr-only'>게시글</h3>
       <Link to={userURL}>
         <S.AuthorInfo>
           <h4 className='sr-only'>게시글 작성자 정보</h4>
-          {renderProfileImage()}
+          <S.ProfileImg src={data.author.image} />
           <S.TextContainer>
             <S.UserName>{data.author.username}</S.UserName>
             <S.AccountName>@{data.author.accountname}</S.AccountName>
