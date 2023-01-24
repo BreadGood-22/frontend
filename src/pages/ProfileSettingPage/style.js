@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 
 export const Container = styled.section`
-  width: 322px;
-  height: auto;
-  text-align: center;
+  width: calc(100% - 68px);
   margin: 0 auto;
+  padding-top: 30px;
+  text-align: center;
 `;
 
 export const H2 = styled.h2`
   font-weight: 500;
   font-size: 24px;
   line-height: 30px;
-  margin: 30px 0 12px;
+  margin-bottom: 12px;
 `;
 
 export const Notice = styled.p`
