@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { addImage, addAccountNameValid, addUserInfo, getUserInfo } from '../../../api';
+import { addImage, addAccountNameValid, addUserInfo, getUserInfo, updateUserInfo } from '../../../api';
 import * as S from './style';
 import { Label, NameInput, IDInput, IntroduceInput } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
@@ -56,19 +56,29 @@ export function ProfileForm({ setIsValid, isProfileEdit }) {
     }
   };
 
-  const handleSignup = async (data) => {
+  const handleUserInfo = async (data) => {
     setIsLoading(true);
 
-    const { email, password } = location.state;
     const { username, accountname, intro, imageFile } = data;
-    const image =
-      imageFile.length > 0 ? await addImage(imageFile[0]) : 'https://mandarin.api.weniv.co.kr/1673585016866.png';
 
     if (isValid) {
-      const response = await addUserInfo(email, password, username, accountname, intro, image);
+      if (!isProfileEdit) {
+        const { email, password } = location.state;
+        const image =
+          imageFile.length > 0 ? await addImage(imageFile[0]) : 'https://mandarin.api.weniv.co.kr/1673585016866.png';
 
-      if (response === '회원가입 성공') {
-        navigate('/start');
+        const response = await addUserInfo(email, password, username, accountname, intro, image);
+
+        if (response === '회원가입 성공') {
+          navigate('/start');
+        }
+      } else {
+        const image = imageFile.length === 1 ? await addImage(imageFile[0]) : imageFile;
+
+        await updateUserInfo(username, accountname, intro, image);
+
+        localStorage.setItem('accountname', JSON.stringify(accountname));
+        navigate(`/profile/${accountname}`);
       }
     }
 
@@ -92,7 +102,7 @@ export function ProfileForm({ setIsValid, isProfileEdit }) {
   });
 
   return (
-    <S.Form id='profile-form' onSubmit={handleSubmit(handleSignup)}>
+    <S.Form id='profile-form' onSubmit={handleSubmit(handleUserInfo)}>
       <S.ImageLabel color='brown'>
         <S.Image src={imagePreview} />
       </S.ImageLabel>
