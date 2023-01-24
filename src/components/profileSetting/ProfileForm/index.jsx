@@ -1,14 +1,15 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { addImage, addAccountNameValid, addUserInfo } from '../../../api';
+import { addImage, addAccountNameValid, addUserInfo, getUserInfo } from '../../../api';
 import * as S from './style';
 import { Label, NameInput, IDInput, IntroduceInput } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 
-export function ProfileForm() {
+export function ProfileForm({ setIsValid, isProfileEdit }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { accountname } = useParams();
   const [imagePreview, setImagePreview] = useState(basicProfile);
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -16,9 +17,30 @@ export function ProfileForm() {
     handleSubmit,
     formState: { errors, isValid },
     setError,
+    setValue,
   } = useForm({
     mode: 'onBlur',
   });
+
+  const getProfileContent = async () => {
+    setIsLoading(true);
+
+    const { username, intro, image } = await getUserInfo(accountname);
+
+    setValue('username', username);
+    setValue('accountname', accountname);
+    setValue('intro', intro);
+    setValue('imageFile', image, { shouldValidate: true });
+    setImagePreview(image);
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    if (isProfileEdit) {
+      getProfileContent();
+    }
+  }, []);
 
   const handleAccountNameValidation = async (e) => {
     setIsLoading(true);
@@ -58,13 +80,13 @@ export function ProfileForm() {
   };
 
   useEffect(() => {
-    if (!location.state) {
+    if (!isProfileEdit && !location.state) {
       navigate('/signup');
     }
   }, []);
 
   return (
-    <S.Form onSubmit={handleSubmit(handleSignup)}>
+    <S.Form id='profile-form' onSubmit={handleSubmit(handleSignup)}>
       <S.ImageLabel color='brown'>
         <S.Image src={imagePreview} />
       </S.ImageLabel>
