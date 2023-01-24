@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { LargeButton } from '../../components/common/Button/style';
 
 export const Container = styled.section`
   padding-top: 30px;
@@ -17,4 +18,8 @@ export const Notice = styled.p`
   font-size: 14px;
   line-height: 14px;
   color: ${({ theme }) => theme.palette.darkGray};
+`;
+
+export const Button = styled(LargeButton)`
+  width: calc(100% - 68px);
 `;

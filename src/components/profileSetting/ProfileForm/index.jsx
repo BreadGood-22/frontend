@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { addImage, addAccountNameValid, addUserInfo } from '../../../api';
 import * as S from './style';
-import { Label, NameInput, IDInput, IntroduceInput, LargeButton } from '../../index';
+import { Label, NameInput, IDInput, IntroduceInput } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 
 export function ProfileForm() {
@@ -109,7 +109,6 @@ export function ProfileForm() {
       {errors?.accountname && <S.WarningText>{errors?.accountname?.message}</S.WarningText>}
       <Label htmlFor='intro'>소개</Label>
       <IntroduceInput id='intro' {...register('intro')} />
-      <LargeButton disabled={!isValid}>빵굿빵굿 시작하기</LargeButton>
     </S.Form>
   );
 }

@@ -12,9 +12,6 @@ export const Form = styled.form`
   & label {
     margin-top: 22px;
   }
-  & button {
-    margin-top: 30px;
-  }
   & label[for='small-img-button'] {
     margin-top: 30px;
   }
