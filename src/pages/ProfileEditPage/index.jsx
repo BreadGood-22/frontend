@@ -9,7 +9,7 @@ export function ProfileEditPage() {
     <section>
       <h2 className='sr-only'>프로필 수정</h2>
       <HeaderSave disabled={!isValid} formId='profile-form' />
-      <ProfileForm setIsValid={isValid} isProfileEdit={isProfileEdit} />
+      <ProfileForm setIsValid={setIsValid} isProfileEdit={isProfileEdit} />
     </section>
   );
 }

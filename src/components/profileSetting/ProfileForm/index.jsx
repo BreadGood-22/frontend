@@ -85,6 +85,10 @@ export function ProfileForm({ setIsValid, isProfileEdit }) {
     }
   }, []);
 
+  useEffect(() => {
+    setIsValid(isValid);
+  });
+
   return (
     <S.Form id='profile-form' onSubmit={handleSubmit(handleSignup)}>
       <S.ImageLabel color='brown'>
