@@ -43,15 +43,17 @@ export function ProfileForm({ setIsValid, isProfileEdit }) {
   }, []);
 
   const handleAccountNameValidation = async (e) => {
-    setIsLoading(true);
+    if (e.target.value !== accountname) {
+      setIsLoading(true);
 
-    const response = await addAccountNameValid(e);
+      const response = await addAccountNameValid(e);
 
-    if (response === '이미 가입된 계정ID 입니다.') {
-      setError('accountname', { message: `*${response}` }, { shouldFocus: true });
+      if (response === '이미 가입된 계정ID 입니다.') {
+        setError('accountname', { message: `*${response}` }, { shouldFocus: true });
+      }
+
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const handleSignup = async (data) => {
