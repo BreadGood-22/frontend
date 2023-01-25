@@ -1,14 +1,15 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { addImage, addAccountNameValid, addUserInfo } from '../../../api';
+import { addImage, addAccountNameValid, addUserInfo, getUserInfo, updateUserInfo } from '../../../api';
 import * as S from './style';
-import { Label, NameInput, IDInput, IntroduceInput, LargeButton } from '../../index';
+import { Label, NameInput, IDInput, IntroduceInput } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 
-export function ProfileForm() {
+export function ProfileForm({ setIsValid, isProfileEdit }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { accountname } = useParams();
   const [imagePreview, setImagePreview] = useState(basicProfile);
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -16,35 +17,68 @@ export function ProfileForm() {
     handleSubmit,
     formState: { errors, isValid },
     setError,
+    setValue,
   } = useForm({
     mode: 'onBlur',
   });
 
-  const handleAccountNameValidation = async (e) => {
+  const getProfileContent = async () => {
     setIsLoading(true);
 
-    const response = await addAccountNameValid(e);
+    const { username, intro, image } = await getUserInfo(accountname);
 
-    if (response === '이미 가입된 계정ID 입니다.') {
-      setError('accountname', { message: `*${response}` }, { shouldFocus: true });
-    }
+    setValue('username', username);
+    setValue('accountname', accountname);
+    setValue('intro', intro);
+    setValue('imageFile', image, { shouldValidate: true });
+    setImagePreview(image);
 
     setIsLoading(false);
   };
 
-  const handleSignup = async (data) => {
+  useEffect(() => {
+    if (isProfileEdit) {
+      getProfileContent();
+    }
+  }, []);
+
+  const handleAccountNameValidation = async (e) => {
+    if (e.target.value !== accountname) {
+      setIsLoading(true);
+
+      const response = await addAccountNameValid(e);
+
+      if (response === '이미 가입된 계정ID 입니다.') {
+        setError('accountname', { message: `*${response}` }, { shouldFocus: true });
+      }
+
+      setIsLoading(false);
+    }
+  };
+
+  const handleUserInfo = async (data) => {
     setIsLoading(true);
 
-    const { email, password } = location.state;
     const { username, accountname, intro, imageFile } = data;
-    const image =
-      imageFile.length > 0 ? await addImage(imageFile[0]) : 'https://mandarin.api.weniv.co.kr/1673585016866.png';
 
     if (isValid) {
-      const response = await addUserInfo(email, password, username, accountname, intro, image);
+      if (!isProfileEdit) {
+        const { email, password } = location.state;
+        const image =
+          imageFile.length > 0 ? await addImage(imageFile[0]) : 'https://mandarin.api.weniv.co.kr/1673585016866.png';
 
-      if (response === '회원가입 성공') {
-        navigate('/start');
+        const response = await addUserInfo(email, password, username, accountname, intro, image);
+
+        if (response === '회원가입 성공') {
+          navigate('/start');
+        }
+      } else {
+        const image = imageFile.length === 1 ? await addImage(imageFile[0]) : imageFile;
+
+        await updateUserInfo(username, accountname, intro, image);
+
+        localStorage.setItem('accountname', JSON.stringify(accountname));
+        navigate(`/profile/${accountname}`);
       }
     }
 
@@ -58,13 +92,17 @@ export function ProfileForm() {
   };
 
   useEffect(() => {
-    if (!location.state) {
+    if (!isProfileEdit && !location.state) {
       navigate('/signup');
     }
   }, []);
 
+  useEffect(() => {
+    setIsValid(isValid);
+  });
+
   return (
-    <S.Form onSubmit={handleSubmit(handleSignup)}>
+    <S.Form id='profile-form' onSubmit={handleSubmit(handleUserInfo)}>
       <S.ImageLabel color='brown'>
         <S.Image src={imagePreview} />
       </S.ImageLabel>
@@ -109,7 +147,6 @@ export function ProfileForm() {
       {errors?.accountname && <S.WarningText>{errors?.accountname?.message}</S.WarningText>}
       <Label htmlFor='intro'>소개</Label>
       <IntroduceInput id='intro' {...register('intro')} />
-      <LargeButton disabled={!isValid}>빵굿빵굿 시작하기</LargeButton>
     </S.Form>
   );
 }

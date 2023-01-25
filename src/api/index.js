@@ -26,3 +26,4 @@ export { getSearchResult } from './search/getSearchResult';
 export { addCommentReport } from './comment/addCommentReport';
 export { deleteComment } from './comment/deleteComment';
 export { getAllComment } from './comment/getAllComment';
+export { updateUserInfo } from './profile/updateUserInfo';

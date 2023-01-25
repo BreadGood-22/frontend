@@ -1,51 +1,20 @@
 import styled from 'styled-components';
 import { SmallImgButtonLabel, SmallImgButtonInput } from '../../index';
 
-export const WarningText = styled.strong`
-  display: block;
-  position: absolute;
-  color: ${({ theme }) => theme.palette.brown};
-  font-size: 11px;
-  line-height: 14px;
-  text-align: left;
-  margin-top: 2px;
-`;
-
 export const Form = styled.form`
-  & label[for='small-img-button'] {
-    margin-top: 0;
-  }
+  width: calc(100% - 68px);
+  margin: 0 auto;
+  text-align: center;
+
   & label[for='username'] {
-    margin-top: 16px;
+    margin-top: 30px;
   }
   & label {
     margin-top: 22px;
   }
-  & button {
+  & label[for='small-img-button'] {
     margin-top: 30px;
   }
-`;
-
-export const Container = styled.section`
-  width: 322px;
-  height: auto;
-  text-align: center;
-  margin: 0 auto;
-`;
-
-export const H2 = styled.h2`
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 30px;
-  margin: 30px 0 12px;
-`;
-
-export const Notice = styled.p`
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 14px;
-  margin: 12px 0 30px;
-  color: ${({ theme }) => theme.palette.darkGray};
 `;
 
 export const ImageInput = styled(SmallImgButtonInput)``;
@@ -65,4 +34,14 @@ export const Image = styled.img`
   height: 100%;
   border-radius: 70px;
   object-fit: cover;
+`;
+
+export const WarningText = styled.strong`
+  display: block;
+  position: absolute;
+  color: ${({ theme }) => theme.palette.brown};
+  font-size: 11px;
+  line-height: 14px;
+  text-align: left;
+  margin-top: 2px;
 `;
