@@ -1,5 +1,5 @@
 import * as S from './style';
-import { Post } from '../Post';
+import { Post, MemoizedPost } from '../Post';
 import useHeight from '../../../hooks/useHeight';
 
 export function PostList({ posts, setIsVisibleModal, setPostId }) {
@@ -8,7 +8,7 @@ export function PostList({ posts, setIsVisibleModal, setPostId }) {
   return (
     <S.Container ref={container} height={height}>
       {posts.map((data) => (
-        <Post key={data.id} data={data} setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} />
+        <MemoizedPost key={data.id} data={data} setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} />
       ))}
     </S.Container>
   );

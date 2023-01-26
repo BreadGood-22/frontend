@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { PostList, NoFollowings, HeaderMain, OthersPostCommentModal } from '../../components';
+import { PostList, NoFollowings, HeaderMain, OthersPostCommentModal, Loading } from '../../components';
 import { getHomeFeeds } from '../../api';
 import useIntersect from '../../hooks/useIntersect';
 
@@ -32,20 +32,21 @@ export function HomePage() {
     setHasNextPage(posts.length === 10);
     page.current += 1;
     setPosts((prev) => [...prev, ...posts]);
+
     setIsLoading(false);
   };
-
-  if (isLoading) return <div>로딩중...</div>;
 
   return (
     <section>
       <h2 className='sr-only'>빵굿빵굿 피드</h2>
       <HeaderMain />
-      {!posts.length ? (
+      {isLoading && <Loading />}
+      {!isLoading && !posts.length ? (
         <NoFollowings />
       ) : (
         <PostList posts={posts} setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} />
       )}
+
       <div ref={ref}></div>
       {isVisibleModal && <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} postId={postId} />}
     </section>
