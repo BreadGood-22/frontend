@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import basicProfileImage from '../../../assets/images/basic-profile-img.png';
 
-export const Contents = styled.section`
+export const Contents = styled(Link)`
   height: 42px;
   margin: 26px 16px 25px;
   display: flex;

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { chatData } from '../chatData';
 import * as S from './style';
 
@@ -9,7 +10,7 @@ export function ChatList({ updatedChatData, setUpdatedChatData }) {
 
   return (
     <>
-      <S.Contents>
+      <S.Contents to='/chat/room'>
         <h2 className='sr-only'>채팅 리스트</h2>
         <S.YourProfileImage />
         <S.MessageContents>
