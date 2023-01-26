@@ -1,5 +1,13 @@
-import React from 'react';
+import { useState } from 'react';
+import { ChatList, HeaderBasic } from '../../components';
 
 export function ChatListPage() {
-  return <div>Chat</div>;
+  const [updatedChatData, setUpdatedChatData] = useState([]);
+
+  return (
+    <>
+      <HeaderBasic />
+      <ChatList updatedChatData={updatedChatData} setUpdatedChatData={setUpdatedChatData} />
+    </>
+  );
 }

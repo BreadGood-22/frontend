@@ -13,13 +13,13 @@ export function ChatContents({ updatedChatData, setUpdatedChatData }) {
       <S.ChatContents>
         {updatedChatData.map((item) =>
           item.author === 'me' ? (
-            <S.MyMessageItem key={item.date}>
+            <S.MyMessageItem key={crypto.randomUUID()}>
               {item.textMessage && <S.MyTextMessage>{item.textMessage}</S.MyTextMessage>}
               {item.imageMessage && <S.ImageMessage />}
               <S.Time>{item.time}</S.Time>
             </S.MyMessageItem>
           ) : (
-            <S.YourMessageItem key={item.date}>
+            <S.YourMessageItem key={crypto.randomUUID()}>
               <S.YourProfileImage />
               {item.textMessage && <S.YourTextMessage>{item.textMessage}</S.YourTextMessage>}
               {item.imageMessage && <S.ImageMessage />}
