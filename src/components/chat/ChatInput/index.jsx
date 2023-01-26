@@ -19,7 +19,7 @@ export function ChatInput({ setUpdatedChatData, updatedChatData }) {
 
     const handleDate = () => {
       const now = new Date();
-      const date = now.toLocaleString();
+      const date = now.toLocaleDateString();
       const time = now.toLocaleTimeString().slice(0, -3);
 
       return { date, time };
