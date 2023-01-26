@@ -21,6 +21,7 @@ export {
   HeaderFollowings,
 } from './common/Header';
 export { Navbar } from './common/Navbar';
+export { Loading } from './common/Loading';
 export { LoginButtons } from './start/LoginButtons';
 export { LoginForm } from './login/LoginForm';
 export { SignupForm } from './signup/SignupForm';
