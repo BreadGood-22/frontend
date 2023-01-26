@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { chatData } from '../chatData';
 import * as S from './style';
 
