@@ -53,3 +53,5 @@ export function Post({ data, setIsVisibleModal, setPostId, setIsMyPost }) {
     </S.Post>
   );
 }
+
+export const MemoizedPost = React.memo(Post);
