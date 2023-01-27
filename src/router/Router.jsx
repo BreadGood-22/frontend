@@ -11,7 +11,7 @@ import {
   ProfileSettingPage,
   LoginPage,
   StartPage,
-  ErrorPage,
+  NotFoundPage,
   FollowingPage,
   FollowerPage,
   AddProductPage,
@@ -55,7 +55,7 @@ export default function Router() {
             <Route path='profile/setting' element={<ProfileSettingPage />} />
           </Route>
 
-          <Route path='*' element={<ErrorPage />} />
+          <Route path='*' element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
