@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getFollowings } from '../../api';
-import { Follow, HeaderFollowings } from '../../components';
+import { Follow, HeaderFollowings, Loading } from '../../components';
 import * as S from './style';
 
 export function FollowingPage() {
@@ -26,11 +26,14 @@ export function FollowingPage() {
   return (
     <>
       <HeaderFollowings />
-      <S.Container>
-        {userInfo.map((userInfo) => (
-          <Follow key={userInfo._id} {...userInfo} />
-        ))}
-      </S.Container>
+      {isLoading && <Loading />}
+      {!isLoading && (
+        <S.Container>
+          {userInfo.map((userInfo) => (
+            <Follow key={userInfo._id} {...userInfo} />
+          ))}
+        </S.Container>
+      )}
     </>
   );
 }
