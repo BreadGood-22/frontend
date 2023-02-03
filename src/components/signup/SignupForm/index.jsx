@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { addEmailValid } from '../../../api';
@@ -6,21 +5,18 @@ import { EmailInput, PasswordInput, LargeButton, Label } from '../../index';
 import * as S from './style';
 
 export function SignupForm() {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
     setError,
   } = useForm({
     mode: 'onBlur',
   });
 
   const handleEmailValidation = async (data) => {
-    setIsLoading(true);
-
     const { email, password } = data;
 
     const response = await addEmailValid(email);
@@ -35,7 +31,6 @@ export function SignupForm() {
     } else {
       setError('email', { message: `*${response}` }, { shouldFocus: true });
     }
-    setIsLoading(false);
   };
 
   return (
@@ -66,7 +61,7 @@ export function SignupForm() {
         })}
       />
       {errors?.password && <S.WarningText>{errors?.password?.message}</S.WarningText>}
-      <LargeButton disabled={!isValid}>다음</LargeButton>
+      <LargeButton disabled={isSubmitting || !isValid}>다음</LargeButton>
     </S.Form>
   );
 }

@@ -6,12 +6,12 @@ import * as S from './style';
 import { Label, NameInput, IDInput, IntroduceInput } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
 
-export function ProfileForm({ setIsValid, isProfileEdit }) {
+export function ProfileForm({ setIsValid, isProfileEdit, setIsLoading }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { accountname } = useParams();
   const [imagePreview, setImagePreview] = useState(basicProfile);
-  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -23,8 +23,6 @@ export function ProfileForm({ setIsValid, isProfileEdit }) {
   });
 
   const getProfileContent = async () => {
-    setIsLoading(true);
-
     const { username, intro, image } = await getUserInfo(accountname);
 
     setValue('username', username);
@@ -32,8 +30,6 @@ export function ProfileForm({ setIsValid, isProfileEdit }) {
     setValue('intro', intro);
     setValue('imageFile', image, { shouldValidate: true });
     setImagePreview(image);
-
-    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -44,15 +40,11 @@ export function ProfileForm({ setIsValid, isProfileEdit }) {
 
   const handleAccountNameValidation = async (e) => {
     if (e.target.value !== accountname) {
-      setIsLoading(true);
-
       const response = await addAccountNameValid(e);
 
       if (response === '이미 가입된 계정ID 입니다.') {
         setError('accountname', { message: `*${response}` }, { shouldFocus: true });
       }
-
-      setIsLoading(false);
     }
   };
 
