@@ -1,16 +1,20 @@
-# 집빵족의 이야기를 굽다, 빵굿빵굿 🍞
+# 집빵족을 위한 베이킹 SNS, 빵굿빵굿 🍞
+
+![UIdesign9](https://user-images.githubusercontent.com/106213724/223716077-485fe9c8-660f-468e-b402-761836f1d05c.jpg)
 
 - 배포 URL: https://breadgood-22.github.io/frontend
 - 테스트 계정
   - `ID`: breadg00d@breadgood.com
   - `PassWord`: breadgood
 
+
+
 <br />
 
 ## 1. 프로젝트 소개
 
 - 빵굿빵굿(BreadGood)은 집콕 트렌드와 맞물려 성장한 <b>집빵족을 위한 베이킹 커뮤니티 마켓 서비스</b>입니다.  
-- '빵을 좋아한다'란 의미의 서비스명으로 더 간편한, 더 맛있는 빵을 만들고 싶은 홈베이커들이 <b>정보를 공유하고 집에서 구운 빵을 자랑하는 SNS</b>로 기획했습니다.
+- '빵을 좋아한다'란 의미의 서비스명으로 더 간편한, 더 맛있는 빵을 만들고 싶은 홈베이커들이 <b>정보를 공유하고 집에서 구운 빵을 자랑하는 SNS</b>로 기획했습니다.   
 - 사용자는 <b>나만의 베이킹 꿀팁과 사진을 공유</b>하거나, 직접 만든 빵과 사용하지 않는 베이킹 관련 물품을 <b>판매 및 구매</b>할 수 있습니다.  
 - <b>사용자 검색 기능</b>을 통해 다른 사용자를 찾을 수 있고, 홈에서 <b>팔로우</b>하는 사용자의 게시글을 보고 <b>좋아요와 댓글</b>을 주고 받을 수 있습니다.
 
@@ -18,13 +22,15 @@
 
 ## 2. 팀원 소개 및 역할 분담
 
-|                                      **팀장 & 프론트엔드**                                       |                                      **프론트엔드 & 디자인**                                      |                                     **프론트엔드 & 문서화**                                     |                                     **프론트엔드 & 문서화**                                      |
+|                                      **팀장 & 프론트엔드**                                       |                                      **디자인 & 프론트엔드**                                      |                                     **문서화 & 프론트엔드**                                     |                                     **문서화 & 프론트엔드**                                      |
 | :----------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |
 | <img width="180" alt="프로필 이미지" src="https://avatars.githubusercontent.com/u/79586634?v=4"> | <img width="180" alt="프로필 이미지" src="https://avatars.githubusercontent.com/u/106213724?v=4"> | <img width="180" alt="프로필 이미지" src="https://avatars.githubusercontent.com/u/9082385?v=4"> | <img width="180" alt="프로필 이미지" src="https://avatars.githubusercontent.com/u/96907832?v=4"> |
 |                                            **서현주**                                            |                                            **방선아**                                             |                                           **김종인**                                            |                                            **임하연**                                            |
 |                             [**GitHub**](https://github.com/sandwe)                              |                           [**GitHub**](https://github.com/sit-or-seona)                           |                           [**GitHub**](https://github.com/kim-jongin)                           |                            [**GitHub**](https://github.com/hayeonii)                             |
 
-<img width="700" alt="22팀🐱" src="https://user-images.githubusercontent.com/79586634/216609186-b2c46846-41c9-4ff7-9cca-fca1c7b51b8b.png">
+<br />
+
+&nbsp;&nbsp;&nbsp;<img alt="22팀🐱" src="https://user-images.githubusercontent.com/106213724/223716109-7d36b90d-3e6f-4d1c-b95c-f1a5b31c75ec.png">
 
 <br />
 
