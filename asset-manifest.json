@@ -1,10 +1,11 @@
 {
   "files": {
     "main.css": "/frontend/static/css/main.3c87d8e7.css",
-    "main.js": "/frontend/static/js/main.350c6ece.js",
+    "main.js": "/frontend/static/js/main.518b294e.js",
     "static/media/chat-example-img.png": "/frontend/static/media/chat-example-img.88f2e12259d40379f655.png",
-    "static/media/symbol-logo.png": "/frontend/static/media/symbol-logo.4c5fb94c7b324a08a35b.png",
     "static/media/full-logo.png": "/frontend/static/media/full-logo.2e4284c073e530f87788.png",
+    "static/media/symbol-logo.webp": "/frontend/static/media/symbol-logo.c1c68fd0cd89a6065b0f.webp",
+    "static/media/404.webp": "/frontend/static/media/404.4c6b6e699b93d0d3a66a.webp",
     "static/media/basic-profile-img.png": "/frontend/static/media/basic-profile-img.cfee3b37f457fa14c322.png",
     "static/media/icon-img-remove.svg": "/frontend/static/media/icon-img-remove.c8b9d9ad24c75d0fd7b80b71500437fd.svg",
     "index.html": "/frontend/index.html",
@@ -25,10 +26,10 @@
     "static/media/icon-post-list-on.svg": "/frontend/static/media/icon-post-list-on.c4083124a8ff6aff8690ff5c42da5858.svg",
     "static/media/icon-arrow-left.svg": "/frontend/static/media/icon-arrow-left.547269f75bb05dbbda45f314e9983988.svg",
     "static/media/icon-facebook.svg": "/frontend/static/media/icon-facebook.77ae97dd7f69084f5dbc9304d7bb3da3.svg",
-    "main.350c6ece.js.map": "/frontend/static/js/main.350c6ece.js.map"
+    "main.518b294e.js.map": "/frontend/static/js/main.518b294e.js.map"
   },
   "entrypoints": [
     "static/css/main.3c87d8e7.css",
-    "static/js/main.350c6ece.js"
+    "static/js/main.518b294e.js"
   ]
 }
