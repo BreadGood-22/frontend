@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../../../api/apiController';
 import { addImage, getUserInfo, addPost } from '../../../api';
@@ -6,6 +6,7 @@ import * as S from './style';
 import { PhotoUploadList } from '../PhotoUploadList';
 import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
+import useTextareaHeight from '../../../hooks/useTextareaHeight';
 
 export function PostUploadForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,10 +15,11 @@ export function PostUploadForm() {
   const [profile, setProfile] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
-  const textRef = useRef();
   const navigate = useNavigate();
   const accountname = JSON.parse(localStorage.getItem('accountname'));
   const MAX_UPLOAD = 3;
+
+  const ref = useTextareaHeight(text);
 
   const getProfile = async () => {
     setIsLoading(true);
@@ -39,12 +41,6 @@ export function PostUploadForm() {
     if (profile !== `${BASE_URL}/Ellipse.png`) profileImage = profile;
 
     return <S.ProfileImg src={profileImage} />;
-  };
-
-  const handleTextArea = (e) => {
-    textRef.current.style.height = 'auto';
-    textRef.current.style.height = `${textRef.current.scrollHeight}px`;
-    setText(e.target.value);
   };
 
   const handleGetImageUrl = async (e) => {
@@ -93,7 +89,12 @@ export function PostUploadForm() {
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
-            <S.ContentInput onInput={handleTextArea} ref={textRef} />
+            <S.ContentInput
+              onInput={(e) => {
+                setText(e.target.value);
+              }}
+              ref={ref}
+            />
             <S.ImgUploadButton onChange={handleGetImageUrl}>
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />

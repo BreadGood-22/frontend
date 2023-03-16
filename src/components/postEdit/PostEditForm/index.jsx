@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as S from './style';
 import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
@@ -6,6 +6,7 @@ import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
 import { BASE_URL } from '../../../api/apiController';
 import { addImage, getUserInfo, getPost, updatePost } from '../../../api';
 import basicProfile from '../../../assets/images/basic-profile-img.png';
+import useTextareaHeight from '../../../hooks/useTextareaHeight';
 
 export function PostEditForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,11 +16,12 @@ export function PostEditForm() {
   const [postImg, setPostImg] = useState([]);
   const [isVisibleAlert, setIsVisibleAlert] = useState(false);
   const location = useLocation();
-  const textRef = useRef();
   const navigate = useNavigate();
   const postId = location.pathname.split('/')[2];
   const accountname = JSON.parse(localStorage.getItem('accountname'));
   const MAX_UPLOAD = 3;
+
+  const ref = useTextareaHeight(text);
 
   const getProfile = async () => {
     setIsLoading(true);
@@ -58,19 +60,6 @@ export function PostEditForm() {
 
     return <S.ProfileImg src={profileImage} />;
   };
-
-  const handleText = (e) => {
-    setText(e.target.value);
-  };
-
-  const handleTextArea = () => {
-    textRef.current.style.height = 'auto';
-    textRef.current.style.height = `${textRef.current.scrollHeight}px`;
-  };
-
-  useEffect(() => {
-    handleTextArea();
-  }, [text]);
 
   const handleGetImageUrl = async (e) => {
     if (postImg.length < MAX_UPLOAD) {
@@ -114,7 +103,13 @@ export function PostEditForm() {
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
-            <S.ContentInput onInput={handleText} ref={textRef} defaultValue={text} />
+            <S.ContentInput
+              onInput={(e) => {
+                setText(e.target.value);
+              }}
+              ref={ref}
+              defaultValue={text}
+            />
             <S.ImgUploadButton onChange={handleGetImageUrl}>
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
