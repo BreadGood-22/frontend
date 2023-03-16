@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as S from './style';
 import { axiosPrivate } from '../../../api/apiController';
 import { renderProfile } from '../../../utils/renderProfile';
+import { getUserInfo } from '../../../api';
 
 export function CommentInput({ getComments, post, setPost, postId, setComments, setHasNextPage, page }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,17 +14,10 @@ export function CommentInput({ getComments, post, setPost, postId, setComments, 
 
   const getProfile = async () => {
     setIsLoading(true);
-    try {
-      const {
-        data: {
-          profile: { image },
-        },
-      } = await axiosPrivate.get(`/profile/${accountname}`);
 
-      setProfile(image);
-    } catch (e) {
-      console.log(e);
-    }
+    const { image } = await getUserInfo(accountname);
+
+    setProfile(image);
     setIsLoading(false);
   };
 
@@ -50,6 +44,7 @@ export function CommentInput({ getComments, post, setPost, postId, setComments, 
     } catch (e) {
       console.log(e);
     }
+
     setIsLoading(false);
   };
 
