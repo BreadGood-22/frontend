@@ -1,22 +1,14 @@
 import React from 'react';
 import * as S from './style';
-import basicProfile from '../../../assets/images/basic-profile-img.png';
+import { renderProfile } from '../../../utils/renderProfile';
 
 export function SearchCard({ info }) {
-  const BASIC_PROFILE_URL = `${process.env.REACT_APP_SERVER_URL}/Ellipse.png`;
-
-  const renderProfileImage = () => {
-    let profileImage = basicProfile;
-
-    if (info.image !== BASIC_PROFILE_URL) profileImage = info.image;
-
-    return <S.ProfileImg src={profileImage} />;
-  };
+  const profileImage = renderProfile(info.image);
 
   return (
     <li>
       <S.StyledLink to={`/profile/${info.accountname}`}>
-        {renderProfileImage()}
+        <S.ProfileImg src={profileImage} />
         <S.UserInfo>
           <S.UserName>{info.username}</S.UserName>
           <S.AccountName>@ {info.accountname}</S.AccountName>

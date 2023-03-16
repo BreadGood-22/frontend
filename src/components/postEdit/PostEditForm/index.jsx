@@ -3,9 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as S from './style';
 import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
 import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
-import { BASE_URL } from '../../../api/apiController';
 import { addImage, getUserInfo, getPost, updatePost } from '../../../api';
-import basicProfile from '../../../assets/images/basic-profile-img.png';
+import { renderProfile } from '../../../utils/renderProfile';
 import useTextareaHeight from '../../../hooks/useTextareaHeight';
 
 export function PostEditForm() {
@@ -22,6 +21,7 @@ export function PostEditForm() {
   const MAX_UPLOAD = 3;
 
   const ref = useTextareaHeight(text);
+  const profileImage = renderProfile(profile);
 
   const getProfile = async () => {
     setIsLoading(true);
@@ -52,14 +52,6 @@ export function PostEditForm() {
     getPostContent();
     getProfile();
   }, []);
-
-  const renderProfileImage = () => {
-    let profileImage = basicProfile;
-
-    if (profile !== `${BASE_URL}/Ellipse.png`) profileImage = profile;
-
-    return <S.ProfileImg src={profileImage} />;
-  };
 
   const handleGetImageUrl = async (e) => {
     if (postImg.length < MAX_UPLOAD) {
@@ -99,7 +91,7 @@ export function PostEditForm() {
       <HeaderUpload isDisabled={isDisabled} handlePostUpload={handlePostUpload} setIsVisibleAlert={setIsVisibleAlert} />
       <S.Container>
         <h2 className='sr-only'>게시글 작성</h2>
-        {renderProfileImage()}
+        <S.ProfileImg src={profileImage} />
         <S.PostWrite>
           <h3 className='sr-only'>게시글 작성 form</h3>
           <S.Form>
