@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { getSearchResult } from '../../api';
-import { HeaderSearch, SearchCard } from '../../components';
+import { HeaderSearch, Loading, SearchCard } from '../../components';
 import useDebounce from '../../hooks/useDebounce';
 import * as S from './style';
 
@@ -41,7 +41,7 @@ export function SearchPage() {
     <>
       <HeaderSearch handleSearch={handleSearch} keyword={keyword} />
       {isLoading ? (
-        <p>로딩중...</p>
+        <Loading />
       ) : (
         <S.Container ref={searchListCont} height={height}>
           {searchResult.map((info) => (
