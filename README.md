@@ -7,15 +7,13 @@
   - `ID`: breadg00d@breadgood.com
   - `PassWord`: breadgood
 
-
-
 <br />
 
 ## 1. 프로젝트 소개
 
-- 빵굿빵굿(BreadGood)은 집콕 트렌드와 맞물려 성장한 <b>집빵족을 위한 베이킹 커뮤니티 마켓 서비스</b>입니다.  
-- '빵을 좋아한다'란 의미의 서비스명으로 더 간편한, 더 맛있는 빵을 만들고 싶은 홈베이커들이 <b>정보를 공유하고 집에서 구운 빵을 자랑하는 SNS</b>로 기획했습니다.   
-- 사용자는 <b>나만의 베이킹 꿀팁과 사진을 공유</b>하거나, 직접 만든 빵과 사용하지 않는 베이킹 관련 물품을 <b>판매 및 구매</b>할 수 있습니다.  
+- 빵굿빵굿(BreadGood)은 집콕 트렌드와 맞물려 성장한 <b>집빵족을 위한 베이킹 커뮤니티 마켓 서비스</b>입니다.
+- '빵을 좋아한다'란 의미의 서비스명으로 더 간편한, 더 맛있는 빵을 만들고 싶은 홈베이커들이 <b>정보를 공유하고 집에서 구운 빵을 자랑하는 SNS</b>로 기획했습니다.
+- 사용자는 <b>나만의 베이킹 꿀팁과 사진을 공유</b>하거나, 직접 만든 빵과 사용하지 않는 베이킹 관련 물품을 <b>판매 및 구매</b>할 수 있습니다.
 - <b>사용자 검색 기능</b>을 통해 다른 사용자를 찾을 수 있고, 홈에서 <b>팔로우</b>하는 사용자의 게시글을 보고 <b>좋아요와 댓글</b>을 주고 받을 수 있습니다.
 
 <br />
@@ -91,8 +89,8 @@
 
 - 각자 작업 시작 전 테스크 파악을 위해 GitHub Issues를 사용해 이슈를 작성했습니다.
 - 각자의 진행상황을 한눈에 파악하기 위해 GitHub Issues와 GitHub Projects를 사용했습니다.
-<img width="640" alt="스크린샷 2023-01-16 오후 1 58 47" src="https://user-images.githubusercontent.com/79586634/212621653-e1db5e98-f32b-432c-9efd-118743b4e59d.png">
-<img width="640" alt="스크린샷 2023-01-16 오후 1 58 47" src="https://user-images.githubusercontent.com/79586634/212621822-efbd5760-5179-4cd8-ab96-b29275ad99e8.png">
+  <img width="640" alt="스크린샷 2023-01-16 오후 1 58 47" src="https://user-images.githubusercontent.com/79586634/212621653-e1db5e98-f32b-432c-9efd-118743b4e59d.png">
+  <img width="640" alt="스크린샷 2023-01-16 오후 1 58 47" src="https://user-images.githubusercontent.com/79586634/212621822-efbd5760-5179-4cd8-ab96-b29275ad99e8.png">
 
 <br />
 
@@ -349,6 +347,7 @@
 <br />
 
 ## 6. 구현 기능
+
 <div align="center">
 
 |                                                          1. 스플래시                                                           |                                                          2. 회원가입                                                           |
@@ -387,25 +386,367 @@
 
 <br />
 
-## 7. 트러블 슈팅
+## 7. v1.0.0 이후 개선사항
 
-## 8. v1.0.0 이후 개선사항
 ### API 로직 분리
+
 컴포넌트에서 비즈니스 로직을 분리하여 경직성을 낮추고 유지 보수성을 높이고자 합니다.
 
-- [x] 전체 API 로직 분리
+[문제 상황]
+
+- 컴포넌트 내에 뷰와 비즈니스 로직이 함께 존재해 응집도가 낮고 코드가 복잡해지는 문제가 발생
+
+[해결]
+
+- 기능별로 모듈화한 API 호출 로직을 컴포넌트에서 호출하도록 리팩토링 진행
+- 컴포넌트 내 코드의 양을 평균 20% 줄여 관심사 분리 및 코드의 가독성 개선
+
+  <details><summary>변경 전 코드</summary>
+
+  ```js
+  import { useEffect, useRef, useState } from 'react';
+  import { useLocation, useNavigate } from 'react-router-dom';
+  import * as S from './style';
+  import { PhotoUploadList } from '../../postUpload/PhotoUploadList';
+  import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
+  import { axiosPrivate, axiosImg, BASE_URL } from '../../../api/apiController';
+  import basicProfile from '../../../assets/images/basic-profile-img.png';
+
+  export function PostEditForm() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(true);
+    const [profile, setProfile] = useState('');
+    const [text, setText] = useState('');
+    const [postImg, setPostImg] = useState([]);
+    const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+    const location = useLocation();
+    const textRef = useRef();
+    const navigate = useNavigate();
+    const postId = location.pathname.split('/')[2];
+    const accountname = JSON.parse(localStorage.getItem('accountname'));
+    const MAX_UPLOAD = 3;
+
+    // 게시글 콘텐츠 및 이미지 가져오기
+    const getPostContent = async () => {
+      setIsLoading(true);
+      try {
+        const {
+          data: {
+            post: { content, image },
+          },
+        } = await axiosPrivate.get(`/post/${postId}`);
+
+        const postImg = image.split(',');
+
+        setText(content);
+        setPostImg(postImg);
+      } catch (e) {
+        console.log(e);
+      }
+      setIsLoading(false);
+    };
+
+    // 프로필 이미지 가져오기
+    const getProfile = async () => {
+      setIsLoading(true);
+      try {
+        const {
+          data: {
+            profile: { image },
+          },
+        } = await axiosPrivate.get(`/profile/${accountname}`);
+
+        setProfile(image);
+      } catch (e) {
+        console.log(e);
+      }
+      setIsLoading(false);
+    };
+
+    useEffect(() => {
+      getPostContent();
+      getProfile();
+    }, []);
+
+    // profile image 렌더링
+    const renderProfileImage = () => {
+      let profileImage = basicProfile;
+
+      if (profile !== `${BASE_URL}/Ellipse.png`) profileImage = profile;
+
+      return <S.ProfileImg src={profileImage} />;
+    };
+
+    const handleTextArea = (e) => {
+      textRef.current.style.height = 'auto';
+      textRef.current.style.height = `${textRef.current.scrollHeight}px`;
+      setText(e.target.value);
+    };
+
+    // 이미지 업로드
+    const handleFileUpload = async (file) => {
+      setIsLoading(true);
+
+      try {
+        const formData = new FormData();
+
+        formData.append('image', file);
+
+        const { data } = await axiosImg.post('/image/uploadfile', formData);
+
+        return `${BASE_URL}/${data.filename}`;
+      } catch (e) {
+        console.log(e);
+      }
+
+      setIsLoading(false);
+    };
+
+    const handleGetImageUrl = async (e) => {
+      if (postImg.length < MAX_UPLOAD) {
+        const file = e.target.files[0];
+        const imgUrl = await handleFileUpload(file);
+        const copyPostImg = [...postImg];
+
+        copyPostImg.push(imgUrl);
+        setPostImg(copyPostImg);
+        e.target.value = '';
+      } else {
+        alert('이미지는 3장까지 업로드 가능합니다');
+      }
+    };
+
+    // 포스트 수정 업로드
+    const handlePostUpload = async () => {
+      setIsLoading(true);
+      try {
+        const res = await axiosPrivate.put(`/post/${postId}`, {
+          post: {
+            content: text,
+            image: postImg.join(','),
+          },
+        });
+
+        navigate(`/profile/${accountname}`);
+      } catch (e) {
+        console.log(e);
+      }
+      setIsLoading(false);
+    };
+
+    // 업로드 버튼 컨트롤
+    useEffect(() => {
+      if (text || postImg.length) {
+        setIsDisabled(false);
+      } else {
+        setIsDisabled(true);
+      }
+    }, [text, postImg]);
+
+    return (
+      <>
+        <HeaderUpload
+          isDisabled={isDisabled}
+          handlePostUpload={handlePostUpload}
+          setIsVisibleAlert={setIsVisibleAlert}
+        />
+        <S.Container>
+          <h2 className='sr-only'>게시글 작성</h2>
+          {renderProfileImage()}
+          <S.PostWrite>
+            <h3 className='sr-only'>게시글 작성 form</h3>
+            <S.Form>
+              <S.ContentInput onInput={handleTextArea} ref={textRef} defaultValue={text} />
+              <S.ImgUploadButton onChange={handleGetImageUrl}>
+                <h4 className='sr-only'>이미지 업로드 버튼</h4>
+                <MediumImgButton />
+              </S.ImgUploadButton>
+              {postImg.length === 0 ? null : <PhotoUploadList imgSrc={postImg} setPostImg={setPostImg} />}
+            </S.Form>
+          </S.PostWrite>
+        </S.Container>
+        {isVisibleAlert && <PostAlertModal setIsVisibleAlert={setIsVisibleAlert} />}
+      </>
+    );
+  }
+  ```
+
+  </details>
+
+  <details><summary>변경 후 코드</summary>
+
+  ```js
+  import React, { useEffect, useRef, useState } from 'react';
+  import { useNavigate } from 'react-router-dom';
+  import { BASE_URL } from '../../../api/apiController';
+  import { addImage, getUserInfo, addPost } from '../../../api';
+  import * as S from './style';
+  import { PhotoUploadList } from '../PhotoUploadList';
+  import { MediumImgButton, HeaderUpload, PostAlertModal } from '../../index';
+  import basicProfile from '../../../assets/images/basic-profile-img.png';
+
+  export function PostUploadForm() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [text, setText] = useState('');
+    const [postImg, setPostImg] = useState([]);
+    const [profile, setProfile] = useState('');
+    const [isDisabled, setIsDisabled] = useState(true);
+    const [isVisibleAlert, setIsVisibleAlert] = useState(false);
+    const textRef = useRef();
+    const navigate = useNavigate();
+    const accountname = JSON.parse(localStorage.getItem('accountname'));
+    const MAX_UPLOAD = 3;
+
+    const getProfile = async () => {
+      setIsLoading(true);
+
+      const { image } = await getUserInfo(accountname);
+
+      setProfile(image);
+
+      setIsLoading(false);
+    };
+
+    useEffect(() => {
+      getProfile();
+    }, []);
+
+    const renderProfileImage = () => {
+      let profileImage = basicProfile;
+
+      if (profile !== `${BASE_URL}/Ellipse.png`) profileImage = profile;
+
+      return <S.ProfileImg src={profileImage} />;
+    };
+
+    const handleTextArea = (e) => {
+      textRef.current.style.height = 'auto';
+      textRef.current.style.height = `${textRef.current.scrollHeight}px`;
+      setText(e.target.value);
+    };
+
+    const handleGetImageUrl = async (e) => {
+      setIsLoading(true);
+
+      if (postImg.length < MAX_UPLOAD) {
+        const file = e.target.files[0];
+        const imgUrl = await addImage(file);
+        const copyPostImg = [...postImg];
+
+        copyPostImg.push(imgUrl);
+        setPostImg(copyPostImg);
+        e.target.value = '';
+      } else {
+        alert('이미지는 3장까지 업로드 가능합니다');
+      }
+
+      setIsLoading(false);
+    };
+
+    const handlePostUpload = async () => {
+      const images = postImg.join(',');
+
+      setIsLoading(true);
+
+      await addPost(text, images);
+      navigate(`/profile/${accountname}`);
+
+      setIsLoading(false);
+    };
+
+    useEffect(() => {
+      if (text || postImg.length) {
+        setIsDisabled(false);
+      } else {
+        setIsDisabled(true);
+      }
+    }, [text, postImg]);
+
+    return (
+      <>
+        <HeaderUpload
+          isDisabled={isDisabled}
+          handlePostUpload={handlePostUpload}
+          setIsVisibleAlert={setIsVisibleAlert}
+        />
+        <S.Container>
+          <h2 className='sr-only'>게시글 작성</h2>
+          {renderProfileImage()}
+          <S.PostWrite>
+            <h3 className='sr-only'>게시글 작성 form</h3>
+            <S.Form>
+              <S.ContentInput onInput={handleTextArea} ref={textRef} />
+              <S.ImgUploadButton onChange={handleGetImageUrl}>
+                <h4 className='sr-only'>이미지 업로드 버튼</h4>
+                <MediumImgButton />
+              </S.ImgUploadButton>
+              {postImg.length === 0 ? null : <PhotoUploadList imgSrc={postImg} setPostImg={setPostImg} />}
+            </S.Form>
+          </S.PostWrite>
+        </S.Container>
+        {isVisibleAlert && <PostAlertModal setIsVisibleAlert={setIsVisibleAlert} />}
+      </>
+    );
+  }
+  ```
+
+  </details>
 
 <br />
 
 ### 성능 최적화
+
 빵굿빵굿 사이트의 성능 분석 점수를 높이기 위해 성능 개선을 위한 최적화 작업을 진행하고자 합니다.
 
-- [x] 이미지 포맷을 `png`에서 `WebP`로 변경
-- [x] `browser-image-compression`라이브러리를 사용한 업로드되는 이미지 크기 압축
+[문제 상황]
+
+- 스타트 페이지에서 로고 이미지의 크기가 커서 늦게 렌더링되는 현상 발생
+
+[해결]
+
+- 이미지 포맷을 `png`에서 `WebP`로 변경
+- 이미지 크기가 400 KB에서 16.7 KB로 줄어 로드 시간 단축
+
+<br />
+
+[문제 상황]
+
+- 사용자가 용량이 큰 이미지를 업로드 시 미리보기 이미지가 화면에 느리게 보여지고 게시글 업로드 시 서버와의 통신 시간이 지연되는 문제 발생
+
+[해결]
+
+- `browser-image-compression`라이브러리를 사용해 이미지 압축 API에 추가
+- 1개의 이미지 파일 실행 결과, 파일 용량이 216.8 KB에서 147.1 KB로 약 32% 감소
+  ![image](https://user-images.githubusercontent.com/106213724/225494752-93929ddb-254e-47f3-a81e-6ec783f222a6.png)
+  ![image](https://user-images.githubusercontent.com/106213724/225494797-556727fc-3095-4632-9cbc-effa162b9698.png)
+
+  ```js
+  import imageCompression from 'browser-image-compression';
+
+  export async function imageResize(file) {
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+
+    try {
+      const compressedFile = await imageCompression(file, options);
+      const newFile = new File([compressedFile], `${compressedFile.name}`, {
+        type: compressedFile.type,
+      });
+
+      return newFile;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  ```
 
 <br />
 
 ### 추가 기능 구현
+
 일부 남은 기능 및 추가 기능을 구현해 프로젝트의 완성도를 높이고자 합니다.
 
 - [x] 프로필 수정 페이지
@@ -413,4 +754,3 @@
 - [x] 이미지 슬라이드
 - [x] 채팅방 리스트
 - [x] 404 및 로딩 컴포넌트
-
