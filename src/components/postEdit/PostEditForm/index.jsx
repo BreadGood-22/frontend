@@ -114,7 +114,7 @@ export function PostEditForm() {
               <h4 className='sr-only'>이미지 업로드 버튼</h4>
               <MediumImgButton />
             </S.ImgUploadButton>
-            {postImg.length === 0 ? <></> : <PhotoUploadList imgSrc={postImg} setPostImg={setPostImg} />}
+            {postImg.length > 0 && <PhotoUploadList imgSrc={postImg} setPostImg={setPostImg} />}
           </S.Form>
         </S.PostWrite>
       </S.Container>
