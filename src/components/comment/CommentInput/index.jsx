@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './style';
-import { axiosPrivate, BASE_URL } from '../../../api/apiController';
-import basicProfile from '../../../assets/images/basic-profile-img.png';
+import { axiosPrivate } from '../../../api/apiController';
+import { renderProfile } from '../../../utils/renderProfile';
+import { getUserInfo } from '../../../api';
 
 export function CommentInput({ getComments, post, setPost, postId, setComments, setHasNextPage, page }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -9,34 +10,20 @@ export function CommentInput({ getComments, post, setPost, postId, setComments, 
   const [input, setInput] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const accountname = JSON.parse(localStorage.getItem('accountname'));
+  const profileImage = renderProfile(profile);
 
   const getProfile = async () => {
     setIsLoading(true);
-    try {
-      const {
-        data: {
-          profile: { image },
-        },
-      } = await axiosPrivate.get(`/profile/${accountname}`);
 
-      setProfile(image);
-    } catch (e) {
-      console.log(e);
-    }
+    const { image } = await getUserInfo(accountname);
+
+    setProfile(image);
     setIsLoading(false);
   };
 
   useEffect(() => {
     getProfile();
   }, []);
-
-  const renderProfileImage = () => {
-    let profileImage = basicProfile;
-
-    if (profile !== `${BASE_URL}/Ellipse.png`) profileImage = profile;
-
-    return <S.ProfileImage src={profileImage} />;
-  };
 
   const handleUpload = async () => {
     setIsLoading(true);
@@ -57,6 +44,7 @@ export function CommentInput({ getComments, post, setPost, postId, setComments, 
     } catch (e) {
       console.log(e);
     }
+
     setIsLoading(false);
   };
 
@@ -70,7 +58,7 @@ export function CommentInput({ getComments, post, setPost, postId, setComments, 
 
   return (
     <S.Container>
-      {renderProfileImage()}
+      <S.ProfileImage src={profileImage} />
       <S.Input value={input} onChange={(e) => setInput(e.target.value)} />
       <S.Button disabled={isDisabled} onClick={handleUpload}>
         게시

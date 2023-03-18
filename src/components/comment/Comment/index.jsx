@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
 import { timeForToday } from '../../../utils/timeForToday';
-import { BASE_URL } from '../../../api/apiController';
-import basicProfile from '../../../assets/images/basic-profile-img.png';
+import { renderProfile } from '../../../utils/renderProfile';
 
 export function Comment({ comment, setIsVisibleModal, setIsMyComment, setCommentId }) {
   const accountname = JSON.parse(localStorage.getItem('accountname'));
   const userURL = `/profile/${comment.author.accountname}`;
+  const profileImage = renderProfile(comment.author.image);
 
   const handleMoreBtn = (commentId) => {
     setIsVisibleModal(true);
@@ -20,19 +20,13 @@ export function Comment({ comment, setIsVisibleModal, setIsMyComment, setComment
     }
   };
 
-  const renderProfileImage = () => {
-    let profileImage = basicProfile;
-
-    if (comment.author.image !== `${BASE_URL}/Ellipse.png`) profileImage = comment.author.image;
-
-    return <S.ProfileImg src={profileImage} />;
-  };
-
   return (
     <S.CommentItem>
       <S.AuthorInfo>
         <h4 className='sr-only'>게시글 작성자 정보</h4>
-        <Link to={userURL}>{renderProfileImage()}</Link>
+        <Link to={userURL}>
+          <S.ProfileImg src={profileImage} />
+        </Link>
         <S.TextContainer>
           <Link to={userURL}>
             <S.UserName>{comment.author.username}</S.UserName>
