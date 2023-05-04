@@ -46,7 +46,6 @@ export function HomePage() {
       ) : (
         <PostList posts={posts} setIsVisibleModal={setIsVisibleModal} setPostId={setPostId} />
       )}
-
       <div ref={ref}></div>
       {isVisibleModal && <OthersPostCommentModal setIsVisibleModal={setIsVisibleModal} postId={postId} />}
     </section>
